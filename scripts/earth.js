@@ -1,5 +1,5 @@
 $(document).ready(() => {
-    var rotationDelay = 3000
+var rotationDelay = 3000
 var scaleFactor = 0.6
 var degPerSec = 6
 var angles = { x: -20, y: 40, z: 0}
@@ -55,8 +55,10 @@ function setAngles() {
 }
 
 function scale() {
-  width = document.documentElement.clientWidth
-  height = document.documentElement.clientHeight
+//   width = document.documentElement.clientWidth
+//   height = document.documentElement.clientHeight
+  width = 500;
+  height = 400;
   canvas.attr('width', width).attr('height', height)
   projection
     .scale((scaleFactor * Math.min(width, height)) / 2)
