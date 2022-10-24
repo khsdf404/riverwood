@@ -1,0 +1,11 @@
+@font-face {
+font-family: 'Poppins';
+src: url('Fonts/Poppins/Poppins-Regular.ttf');
+font-weight: normal;
+font-style: normal; }
+@font-face {
+font-family: 'Neris';
+src: url('Fonts/Neris/Neris-Thin.ttf'); }
+@font-face {
+font-family: 'Certege';
+src: url('Fonts/Certege/10648.ttf'); }
