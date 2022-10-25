@@ -1,6 +1,6 @@
 $(document).ready(() => {
 var rotationDelay = 3000
-var scaleFactor = 0.6
+var scaleFactor = 0.8
 var degPerSec = 6
 var angles = { x: -20, y: 40, z: 0}
 var colorWater = '#181236'
@@ -11,8 +11,9 @@ var colorCountry = '#F6C1BC'
 
 function enter(country) {
   var country = countryList.find(function(c) {
-    return c.id === country.id
+    return parseInt(c.id) == parseInt(country.id)
   })
+  
   current.text(country && country.name || '')
 }
 
@@ -57,8 +58,8 @@ function setAngles() {
 function scale() {
 //   width = document.documentElement.clientWidth
 //   height = document.documentElement.clientHeight
-  width = 500;
-  height = 400;
+  width = 700;
+  height = 580;
   canvas.attr('width', width).attr('height', height)
   projection
     .scale((scaleFactor * Math.min(width, height)) / 2)
@@ -202,6 +203,7 @@ canvas
 loadData(function(world, cList, airports) {
   land = topojson.feature(world, world.objects.land)
   countries = topojson.feature(world, world.objects.countries)
+
   countryList = cList
   
   window.addEventListener('resize', scale)
