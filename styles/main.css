@@ -10,7 +10,10 @@ html, body, main, .earth-wrapper {
     position: relative;
 }
 
-
+.country {
+    stroke: black;
+    stroke-width: 0.1;
+}
 
 
 header {

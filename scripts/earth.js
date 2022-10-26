@@ -19,9 +19,8 @@ $(document).ready(() => {
     var countryName = d3.select('#countryName')
     var canvas = d3.select('#globe')
     var context = canvas.node().getContext('2d')
-    var water = { type: 'Sphere' }
-    var projection = d3.geoOrthographic().precision(0.1)
-    var graticule = d3.geoGraticule10()
+    var globe, land, countries, borders;
+    var projection = d3.geoOrthographic().precision(0.1) 
     var path = d3.geoPath(projection).context(context)
 
 
@@ -31,18 +30,25 @@ $(document).ready(() => {
     var lastTime = d3.now()
     var degPerMs = degPerSec / 1000
     var width, height
-    var land, countries
     var countryList
     var autorotate, now, diff, rotation
     var currentCountry
 
+    d3.queue()
+        .defer(d3.json, "/src/countriesInfo.json")
+        .defer(d3.tsv, "/src/countriesInfo.tsv")
+        .await(LoadData);
 
 
-    function LoadData() { 
-        let foo = (world, cList) => {
-            land = topojson.feature(world, world.objects.land)
-            countries = topojson.feature(world, world.objects.countries)
-            countryList = cList
+
+    function LoadData(error, world, names) {  
+            globe = { type: 'Sphere' }
+            land = topojson.feature(world, world.objects.land);
+            countries = topojson.feature(world, world.objects.countries);
+            borders = topojson.mesh(world, world.objects.countries, function(a, b) { return a != b; }),
+  
+            countryList = names;
+
 
             ScaleGlobe()
             autorotate = d3.timer((elapsed) => {
@@ -55,21 +61,7 @@ $(document).ready(() => {
                     RenderGlobe()
                 }
                 lastTime = now
-            });
-        }
-        d3.json('/src/countriesInfo.json', (error, world) => { 
-            if (error) {
-                console.log('why error');
-                throw error
-            }
-            d3.tsv('/src/countriesInfo.tsv', function(error, countries) {
-                if (error) {
-                    console.log('sdf');
-                    throw error
-                } 
-                foo(world, countries);  
-            })
-        }) 
+            }); 
     }
     function RenderGlobe() {
         function fill(obj, color) {
@@ -78,18 +70,21 @@ $(document).ready(() => {
             context.fillStyle = color
             context.fill()
         }
-        function stroke(obj, color) {
+        function stroke(obj, color, width) {
             context.beginPath()
             path(obj)
-            context.strokeStyle = color
+            context.strokeStyle = color 
+            context.lineWidth = width
             context.stroke()
         }
 
         context.clearRect(0, 0, width, height)
-        fill(water, colorWater)
-        stroke(graticule, colorGraticule)
-
+        fill(globe, colorWater)
         fill(land, colorLand)
+
+        stroke(borders, "#000", 0.5)
+        stroke(globe, '#000', 2)
+
         if (currentCountry) {
             fill(currentCountry, colorCountry)
     }
@@ -206,11 +201,11 @@ $(document).ready(() => {
     }
 
   
-  
- 
-    LoadData();
+   
     setAngles();
     CanvasListeners();
+
+     
  
     
     $(window).resize(() => {
