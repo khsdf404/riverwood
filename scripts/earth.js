@@ -2,7 +2,7 @@ import { REGIONS } from '/scripts/mainlands.js';
 $(document).ready(() => { 
     var rotationDelay =     5000
     var scaleFactor =       0.6
-    var degPerSec =         0
+    var degPerSec =         -10
     var angles =            { x: 50, y: -20, z: 0}
     var colorWater =        '#0000FF33' //'#18123600' 
     var colorLand =         '#30cd60'   //'#F19BFE'
@@ -27,7 +27,8 @@ $(document).ready(() => {
     var r0 // Projection rotation as Euler angles at start.
     var q0 // Projection rotation as versor at start.
     var lastTime = d3.now()
-    var degPerMs = degPerSec / 1000
+    var xRotationSpeed = degPerSec / 1000
+    var yzRotationSpeed = xRotationSpeed * 5;
     var autorotate, now, diff, rotation
 
     var width, height
@@ -55,6 +56,35 @@ $(document).ready(() => {
             return parseInt(e.id) == parseInt(countryObj.id)
         })
     }
+    const timerTick = (elapsed) => {
+        now = d3.now()
+        diff = now - lastTime
+        if (diff < elapsed) {
+            rotation = projection.rotate()
+
+            let xSpeed = diff * xRotationSpeed;
+            let yzSpeed = Math.abs(diff * yzRotationSpeed);
+            let yCoord = Math.round(rotation[1]);
+            let zCoord = Math.round(rotation[2]);
+
+            let yEquation = angles.y - yCoord;
+            let zEquation = angles.z - zCoord;
+
+            console.log(`${yEquation}, ${zEquation}, ${yzSpeed}`);
+            console.log(`${yzSpeed * Math.abs(yEquation)/(yEquation)}`);
+
+            rotation[0] += xSpeed
+            if (Math.abs(yEquation) > yzSpeed && yEquation != 0)
+                rotation[1] += yzSpeed * Math.abs(yEquation)/(yEquation)
+            if (Math.abs(zEquation) > yzSpeed && zEquation != 0)
+                rotation[2] += yzSpeed * Math.abs(zEquation)/(zEquation)
+
+            projection.rotate(rotation);            
+            RenderGlobe()
+        }
+        lastTime = now
+    }
+
 
     function LoadData(error, world, names) {  
         if (error) throw error;
@@ -67,17 +97,7 @@ $(document).ready(() => {
 
 
         ScaleGlobe()
-        autorotate = d3.timer((elapsed) => {
-            now = d3.now()
-            diff = now - lastTime
-            if (diff < elapsed) {
-                rotation = projection.rotate()
-                rotation[0] += diff * degPerMs
-                projection.rotate(rotation)
-                RenderGlobe()
-            }
-            lastTime = now
-        }); 
+        autorotate = d3.timer(timerTick, rotationDelay); 
     }
     function RenderGlobe() {
         function fill(obj, color) {
@@ -133,12 +153,10 @@ $(document).ready(() => {
     }
 
 
-    function CanvasListeners() {
+    function setHoverListeners() {
         function CountryHover() { 
             let setCountry = () => {
-                let countryPolygon = (getPolygon(this)) 
-                // console.log(countryPolygon);
-                // console.log(getObj(countryPolygon));
+                let countryPolygon = (getPolygon(this))
                 // water hover 
                 if (!countryPolygon) { 
                     if (currentPolygon) {
@@ -252,12 +270,15 @@ $(document).ready(() => {
             RenderGlobe()
             setName();
         }
-
+        canvas.on('mousemove', CountryHover)
+    }
+    function setDragListeners() {
         function dragstarted() {
             v0 = versor.cartesian(projection.invert(d3.mouse(this)))
             r0 = projection.rotate()
             q0 = versor(r0)
             autorotate.stop();
+                
         }
         function dragged() {
             let v1 = versor.cartesian(projection.rotate(r0).invert(d3.mouse(this)))
@@ -266,50 +287,27 @@ $(document).ready(() => {
             projection.rotate(r1)
             RenderGlobe()
         }
-        function dragended() {
-            setTimeout(() => { 
-                autorotate = null;
-                autorotate = d3.timer((elapsed) => {
-                    now = d3.now()
-                    diff = now - lastTime
-                    if (diff < elapsed) {
-                        rotation = projection.rotate()
-
-
-                        rotation[0] += diff * degPerMs
-                        if (Math.round(rotation[1]) < angles.y)
-                            rotation[1] -= diff * degPerMs * 10
-                        else if (Math.round(rotation[1]) > angles.y)
-                            rotation[1] += diff * degPerMs* 10
-                        if (Math.round(rotation[2]) < angles.z)
-                            rotation[2] -= diff * degPerMs* 10
-                        else if (Math.round(rotation[2]) > angles.z)
-                            rotation[2] += diff * degPerMs* 10
-
-
-
-                        projection.rotate(rotation);            
-                        RenderGlobe()
-                    }
-                    lastTime = now
-                });
-            }, rotationDelay); 
+        function dragended() { 
+            let interval = setInterval(() => {
+                console.log('Waiting');
+                if (!(currentPolygon || currentRegion)) {
+                    autorotate.restart(timerTick, rotationDelay);  
+                    clearInterval(interval);
+                }
+            }, 1000); 
         }
-
-        canvas
-        .call(
+        canvas.call(
             d3.drag()
                 .on('start', dragstarted)
                 .on('drag', dragged)
-                .on('end', dragended))
-        .on('mousemove', CountryHover)
+                .on('end', dragended)
+        )
     }
-
   
    
     setAngles();
-    CanvasListeners();
-
+    setDragListeners();
+    setHoverListeners();
      
  
     
