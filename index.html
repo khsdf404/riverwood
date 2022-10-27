@@ -6,6 +6,8 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+    <title>Riverwood</title>
+
 	<link href="styles/main.css" rel="stylesheet" type="text/css">
 	<link href="styles/fonts.css" rel="stylesheet" type="text/css"/>
     <link href="styles/all.min.css" rel="stylesheet" type="text/css"/>
@@ -25,9 +27,26 @@
 
 <body>
 	<header>
-        <img    class="header-logo" src="" alt="">
-        <span   class="header-theme"></span>
-        <span   class="header-language"></span>
+        <section>
+            <img    class="header-logo" src="src/wave.png" alt="">
+            <h1>RIVERWOOD</h1>
+        </section>
+        <div>
+            <wrap>
+                <span   class="header-language">
+                    <button id="ruBtn">Ru</button>
+                    <button id="enBtn">En</button>
+                </span>
+                <span   class="header-theme">
+                    <button id="lightBtn"></button>
+                    <button id="darkBtn"></button>
+                    <button id="dynamicBtn"></button>
+                </span>
+            </wrap>
+            <span class="header-info">
+                <button id="infoBtn"></button>
+            </span>
+        </div>
     </header>
 
     <main>

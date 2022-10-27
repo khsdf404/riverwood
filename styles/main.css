@@ -1,3 +1,8 @@
+:root {
+    --header-height: 65px;
+  }
+
+
 html, body {
     min-height: 100%;
     height: 100%;
@@ -10,16 +15,100 @@ html, body, main, .earth-wrapper {
     position: relative;
 }
 
-.country {
-    stroke: black;
-    stroke-width: 0.1;
+body {
+    background: linear-gradient(138deg, #2092e382, #ccff0000);
 }
 
 
 header {
-    height: 100px;
-    background: red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
     width: 100%;
+    /* padding: 0px 7% 0 10%; */
+    height: var(--header-height);
+    background: #3c3c3c;
+    /* margin: 0 auto;
+    border-bottom-right-radius: 9px;
+    border-bottom-left-radius: 9px;  */
+    height: auto;
+    /* height: 500px; */
+    /* padding: 20px 0; */
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+}
+header section {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex: 10;
+    align-self: flex-start; 
+}
+header img {
+    height: 48px;
+    margin-right: 21px;
+}
+header h1 {
+    color: #fff;
+    font-size: 32px;
+    letter-spacing: 5px;
+    font-weight: 100;
+    display: flex;
+}
+
+
+
+header > div { 
+    display: flex;
+    flex-direction: row;
+    flex: 6;
+    width: 100%;
+    align-items: center;
+    justify-content: space-evenly;
+    /* max-width: 500px; */
+    min-width: 330px;
+    margin: 10px 5px 10px 20px;
+}
+header > div > wrap {
+    display: flex;
+    flex-direction: row;
+}
+
+header span {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    position: relative;
+    border: 1px solid #fff;
+    margin: 0 4px;
+    border-radius: 3px;
+    overflow: hidden;
+    height: 30px;
+}
+header span button {
+    width: 35px;
+    height: 22px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: #fff;
+    border-right: 1px solid #ccc;
+}
+span button:last-child {
+    border: none;
+}
+header span.header-info {
+    border-radius: 50%; 
+    width: 28px;
+    height: 28px;
+    font-size: 20px;
+}
+header span.header-info button {
+    font-size: 16px;
 }
 
 
@@ -28,15 +117,18 @@ main {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    height: calc(100% - 100px);
+    height: calc(100% - var(--header-height));
 }
 main div {
-    width: 100%;
     display: flex;
-    justify-content: flex-start;
-    align-items: center; 
-    height: 100%;
-    overflow: hidden;
+    justify-content: center;
+    align-items: flex-start;
+    max-width: 90%;
+    max-height: calc(90% - var(--header-height) - 30px);
+    height: 600px;
+    width: 600px;
+    border-radius: 1000px; 
+    overflow: hidden; 
 }
 
 h2#countryName { 
@@ -44,17 +136,4 @@ h2#countryName {
         font-family: Verdana; 
         text-align: center; 
         min-height: 30px;
-}
-.clouds {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
- .earth-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    width: calc(100% - 100px);
- }
+} 

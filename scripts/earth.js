@@ -1,18 +1,22 @@
 import { REGIONS } from '/scripts/mainlands.js';
 var rotationDelay =     2000
-var scaleFactor =       0.6
+var scaleFactor =       0.95
 var degPerSec =         -10
 var angles =            { x: 50, y: -20, z: 0}
 var colorWater =        '#0000FF33' //'#18123600' 
 var colorLand =         '#30cd60'   //'#F19BFE'
 var colorCountry =      '#de2545'          //'#F6C1BC'
-var styleBorders =      { 'color': '#000a', 'thickness':     0.3  };
-var styleGlobeBorder =  { 'color': '#000', 'thickness':     2  };
+var styleBorders =      { 'color': '#000a', 'thickness': 0.3  };
+var styleGlobeBorder =  { 'color': '#000',  'thickness': 2  };
+var LAND__MODE = true;
+var HELPER;
 
+// all we need to work with
+var width, height
+var globe, land, countries, borders;
+var polygonList, objList, currentPolygon, currentRegion = null;
 
-
-
-
+// canvas & d3 variables
 var countryName =   d3.select('#countryName')
 var canvas =        d3.select('#globe')
 var canvasDOM =     document.getElementById('globe');
@@ -21,29 +25,15 @@ var projection =    d3.geoOrthographic().precision(0.1)
 var path =          d3.geoPath(projection).context(context)
 
 
-
-
+// rotation part
 var v0 // Mouse position in Cartesian coordinates at start of drag gesture.
 var r0 // Projection rotation as Euler angles at start.
 var q0 // Projection rotation as versor at start.
 var lastTime = d3.now()
 var xRotationSpeed = degPerSec / 1000
 var yzRotationSpeed = xRotationSpeed * 5;
-var autorotate, now, diff, rotation
-
-var width, height
-var globe, land, countries, borders;
-var polygonList, objList, currentPolygon, currentRegion = null;
-
-
-// mainland == true, countries = false; 
-var LAND__MODE = true;
-
-
-
-var HELPER;
-
-
+var autorotate, now, diff, rotation, timeout;
+ 
 
 
 
@@ -59,7 +49,10 @@ const getPolygon = (countryObj) => {
 }
 
 
-
+const logCoord = (rotation) => {
+    return;
+    console.log(`{ x: ${Math.round(rotation[0])}, y: ${Math.round(rotation[1])}, z: ${Math.round(rotation[2])} }`);
+}
 
 class d3Helper {
     QueueData() {
@@ -119,8 +112,13 @@ class d3Helper {
 
 
     setScale = () => {
-        width = $(`main div`).outerWidth();
-        height =  $(`main div`).outerHeight(); 
+        width = $(`main div`).outerWidth() - 30;
+        height =  $(`main div`).outerHeight() - 30;
+
+        console.log(`w: ${width}, h: ${$(`main div`).outerHeight()}`);
+
+        width = Math.min(width, height);
+        height = width;
 
         canvas.attr('width', width).attr('height', height)
         projection
@@ -135,8 +133,11 @@ class d3Helper {
         projection.rotate(rotation)
     }
     setTimer() {
-        if (autorotate)
-            autorotate.restart(this.timerTick, rotationDelay); 
+        if (autorotate) {
+            timeout = setTimeout(() => {
+                autorotate.restart(this.timerTick, 0);  
+            }, rotationDelay);
+        }
         else
             autorotate = d3.timer(this.timerTick, rotationDelay); 
     }
@@ -144,10 +145,15 @@ class d3Helper {
         now = d3.now()
         diff = now - lastTime
         if (diff < elapsed) {
+            
             rotation = projection.rotate()
-    
+            logCoord(rotation);
+
+
             let xSpeed = diff * xRotationSpeed;
             let yzSpeed = Math.abs(diff * yzRotationSpeed);
+
+            let xCoord = Math.round(rotation[0]);
             let yCoord = Math.round(rotation[1]);
             let zCoord = Math.round(rotation[2]);
     
@@ -301,24 +307,26 @@ class d3Drag {
     }
 
 
-    Start() {
+    Start() { 
         v0 = versor.cartesian(projection.invert(d3.mouse(canvasDOM)))
         r0 = projection.rotate()
         q0 = versor(r0)
         autorotate.stop();
-            
     }
     Drag() {
+        autorotate.stop();
         let v1 = versor.cartesian(projection.rotate(r0).invert(d3.mouse(canvasDOM)))
         let q1 = versor.multiply(q0, versor.delta(v0, v1))
         let r1 = versor.rotation(q1)
         projection.rotate(r1)
-        HELPER.RenderGlobe()
+        HELPER.RenderGlobe();
+        logCoord( projection.rotate());
     }
     End() { 
         let interval = setInterval(() => {
             console.log('Waiting');
-            if (!(currentPolygon || currentRegion)) {
+            if (!(currentPolygon || currentRegion)) { 
+                autorotate.stop();
                 HELPER.setTimer();
                 clearInterval(interval);
             }
@@ -338,4 +346,9 @@ $(document).ready(() => {
     $(window).resize(() => {
         HELPER.setScale();
     })
+
+    $(`main div`).mouseleave(() => {
+        currentPolygon = null;
+        currentRegion = null;
+    }) 
 })
