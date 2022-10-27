@@ -1,8 +1,5 @@
-// import * as D3__LIB from "/scripts/d3/d3.js";
-// import * as D3MIN__LIB from "/scripts/d3/d3.min.js";
-
-$(document).ready(() => {
-
+import { REGIONS } from '/scripts/mainlands.js';
+$(document).ready(() => { 
     var rotationDelay =     5000
     var scaleFactor =       0.6
     var degPerSec =         -3
@@ -22,7 +19,7 @@ $(document).ready(() => {
     var context =       canvas.node().getContext('2d')
     var projection =    d3.geoOrthographic().precision(0.1) 
     var path =          d3.geoPath(projection).context(context)
-    var globe, land, countries, borders;
+    
     
 
 
@@ -31,26 +28,39 @@ $(document).ready(() => {
     var q0 // Projection rotation as versor at start.
     var lastTime = d3.now()
     var degPerMs = degPerSec / 1000
-    var width, height
-    var countryList
     var autorotate, now, diff, rotation
-    var currentCountry
+
+    var width, height
+    var polygonList, objList, currentPolygon;
+    var globe, land, countries, borders;
+
+    // mainland == true, countries = false; 
+    var currentRegion = null;
+    var LAND__MODE = true;
+
+   
 
     d3.queue()
         .defer(d3.json, "/src/countriesInfo.json")
         .defer(d3.tsv, "/src/countriesInfo.tsv")
         .await(LoadData);
 
-
+    const getObj = (countryPolygon) => {
+        return objList.find(function(e) {
+            return parseInt(e.id) == parseInt(countryPolygon.id)
+        })
+    }
 
     function LoadData(error, world, names) {  
         if (error) throw error;
         globe = { type: 'Sphere' }
         land = topojson.feature(world, world.objects.land);
         countries = topojson.feature(world, world.objects.countries);
+        polygonList = countries.features;
+        objList = names;
         borders = topojson.mesh(world, world.objects.countries, function(a, b) { return a != b; }),
 
-        countryList = names;
+        
 
 
         ScaleGlobe()
@@ -73,6 +83,11 @@ $(document).ready(() => {
             context.fillStyle = color
             context.fill()
         }
+        function Fill_All(objList, color) {
+            objList.forEach(obj => {
+                fill(obj, color)
+            });
+        }
         function stroke(obj, color, width) {
             context.beginPath()
             path(obj)
@@ -80,6 +95,7 @@ $(document).ready(() => {
             context.lineWidth = width
             context.stroke()
         }
+        
 
         context.clearRect(0, 0, width, height)
 
@@ -89,8 +105,10 @@ $(document).ready(() => {
         stroke(borders, styleBorders.color, styleBorders.thickness)
         stroke(globe, styleGlobeBorder.color, styleGlobeBorder.thickness)
 
-        if (currentCountry) {
-            fill(currentCountry, colorCountry)
+        // if (LAND__MODE && currentRegion)
+        //     return Fill_All(currentRegion, colorCountry) 
+        if (currentPolygon) {
+            fill(currentPolygon, colorCountry)
     }
     }
     function setAngles() {
@@ -114,13 +132,56 @@ $(document).ready(() => {
 
     function CanvasListeners() {
         function CountryHover() { 
-            function setCountryName() {
-                var countryObj = countryList.find(function(e) {
-                    return parseInt(e.id) == parseInt(currentCountry.id)
-                })
-                countryName.text(countryObj && countryObj.name || '')
+            let setCountry = () => {
+                let countryPolygon = (getPolygon(this)) 
+               
+                // water hover 
+                if (!countryPolygon) { 
+                    if (currentPolygon) {
+                        countryName.text('');
+                        currentPolygon = undefined
+                        RenderGlobe()
+                    } 
+                    return false;
+                }
+                // hover one country twice
+                if (countryPolygon === currentPolygon) { 
+                    return false;
+                } 
+                currentPolygon = countryPolygon;
+                return true;
             }
-            function getCountry(event) {
+            let setRegion = () => {
+                let polygon = getPolygon(this);
+                if (!polygon) { 
+                    if (currentRegion) {
+                        countryName.text('');
+                        currentRegion = undefined
+                        currentPolygon = undefined
+                        RenderGlobe()
+                    }
+                    return null;
+                }
+                let obj = getObj(polygon);
+                let output = false;
+                REGIONS.forEach(region => {
+                    region.forEach(country => { 
+                        if (parseInt(country.id) == parseInt(obj.id)) {
+                            if (currentRegion == region) { 
+                                output = false;
+                                return;
+                            } 
+                            currentRegion = region;
+                            output = true;
+                            return;
+                        }
+                        if (output) return output;
+                    });
+                    if (output) return output;
+                }); 
+                return output;
+            }
+            function getPolygon(event) {
                 function polygonContains(polygon, point) {
                     let n = polygon.length
                     let p = polygon[n - 1]
@@ -146,26 +207,46 @@ $(document).ready(() => {
                     })
                 })
             }
-            let checkCountry = () => {
-                let countryObj = getCountry(this)
-                if (!countryObj) {
-                    if (currentCountry) {
-                        countryName.text('');
-                        currentCountry = undefined
-                        RenderGlobe()
-                    }
-                    return null;
+            function setName() {
+                if (LAND__MODE) {
+                    let regionName = '';
+                    if (currentRegion == REGIONS[0])
+                        regionName = 'Africa';
+                    else if (currentRegion == REGIONS[1])
+                        regionName = 'North America';
+                    else if (currentRegion == REGIONS[2])
+                        regionName = 'Central America';
+                    else if (currentRegion == REGIONS[3])
+                        regionName = 'South America';
+                    else if (currentRegion == REGIONS[4])
+                        regionName = 'Asia';
+                    else if (currentRegion == REGIONS[5])
+                        regionName = 'Europe';
+                    else if (currentRegion == REGIONS[6])
+                        regionName = 'Australia';
+                    else if (currentRegion == REGIONS[7])
+                        regionName = 'Oceania & Icelands';
+                    countryName.text(regionName)
+                    return;
                 }
-                if (countryObj === currentCountry) {
-                    return null
-                }
-                return countryObj;
+                // console.log(currentPolygon);
+                let countryObj = getObj(currentPolygon);
+                
+                countryName.text(countryObj && countryObj.name || '')
+            }
+            
+
+            if (LAND__MODE) {
+                if (!setRegion()) 
+                    return;
+            }
+            else { 
+                if (!setCountry()) 
+                    return;
             }
 
-            if (!checkCountry()) return;
-            currentCountry = checkCountry()
             RenderGlobe()
-            setCountryName();
+            setName();
         }
 
         function dragstarted() {
@@ -203,15 +284,7 @@ $(document).ready(() => {
 
 
 
-                        projection.rotate(rotation) 
-
-                        console.log(`
-                            x: ${rotation[0]}, ${angles.x}
-                            y: ${rotation[1]}, ${angles.y}
-                            z: ${rotation[2]}, ${angles.z}
-                            diff: ${diff}
-                        `);
-                            
+                        projection.rotate(rotation);            
                         RenderGlobe()
                     }
                     lastTime = now
