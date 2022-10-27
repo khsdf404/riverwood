@@ -1,11 +1,11 @@
-// export * from "/scripts/d3/d3.js";
-// export * from "/scripts/d3/d3.min.js";
+// import * as D3__LIB from "/scripts/d3/d3.js";
+// import * as D3MIN__LIB from "/scripts/d3/d3.min.js";
 
 $(document).ready(() => {
 
     var rotationDelay =     5000
     var scaleFactor =       0.6
-    var degPerSec =         -2
+    var degPerSec =         -3
     var angles =            { x: 0, y: -20, z: 0}
     var colorWater =        '#0000FF33' //'#18123600' 
     var colorLand =         '#30cd60'   //'#F19BFE'
@@ -17,12 +17,13 @@ $(document).ready(() => {
 
 
 
-    var countryName = d3.select('#countryName')
-    var canvas = d3.select('#globe')
-    var context = canvas.node().getContext('2d')
+    var countryName =   d3.select('#countryName')
+    var canvas =        d3.select('#globe')
+    var context =       canvas.node().getContext('2d')
+    var projection =    d3.geoOrthographic().precision(0.1) 
+    var path =          d3.geoPath(projection).context(context)
     var globe, land, countries, borders;
-    var projection = d3.geoOrthographic().precision(0.1) 
-    var path = d3.geoPath(projection).context(context)
+    
 
 
     var v0 // Mouse position in Cartesian coordinates at start of drag gesture.
@@ -174,9 +175,9 @@ $(document).ready(() => {
             autorotate.stop();
         }
         function dragged() {
-            var v1 = versor.cartesian(projection.rotate(r0).invert(d3.mouse(this)))
-            var q1 = versor.multiply(q0, versor.delta(v0, v1))
-            var r1 = versor.rotation(q1)
+            let v1 = versor.cartesian(projection.rotate(r0).invert(d3.mouse(this)))
+            let q1 = versor.multiply(q0, versor.delta(v0, v1))
+            let r1 = versor.rotation(q1)
             projection.rotate(r1)
             RenderGlobe()
         }
