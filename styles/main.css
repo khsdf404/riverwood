@@ -2,7 +2,6 @@
     --header-height: 65px;
   }
 
-
 html, body {
     min-height: 100%;
     height: 100%;
@@ -47,11 +46,11 @@ header section {
     flex: 10;
     align-self: flex-start; 
 }
-header img {
+header section img {
     height: 48px;
     margin-right: 21px;
 }
-header h1 {
+header section h1 {
     color: #fff;
     font-size: 32px;
     letter-spacing: 5px;
@@ -87,10 +86,12 @@ header span {
     border-radius: 3px;
     overflow: hidden;
     height: 30px;
+    z-index: 2;
 }
 header span button {
+    position: relative;
     width: 35px;
-    height: 22px;
+    height: 24px;
     margin: 0;
     padding: 0;
     border: 0;
@@ -102,14 +103,37 @@ span button:last-child {
     border: none;
 }
 header span.header-info {
-    border-radius: 50%; 
-    width: 28px;
-    height: 28px;
+    display: flex;
+    height: 38px;
+    align-items: flex-start;
     font-size: 20px;
+    border: none;
+    overflow: visible;
+    height: auto;
+    width: auto;
 }
-header span.header-info button {
-    font-size: 16px;
+header span.header-info img {
+    width: 34px;
+    height: 34px;
 }
+
+
+header button:hover {
+    color: #000;
+}
+header button:hover::before {
+    background: white;
+}
+header button::before {
+    content: '';
+    height: 32px;
+    width: 35px; 
+    position: absolute;
+    top: -4px;
+    left: 0;
+    z-index: -1;
+}
+
 
 
 main {
