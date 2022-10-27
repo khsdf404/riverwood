@@ -3,14 +3,15 @@
 
 $(document).ready(() => {
 
-    var rotationDelay = 10000
-    var scaleFactor = 0.6
-    var degPerSec = 4
-    var angles = { x: 40, y: -20, z: 0}
-    var colorWater = '#181236cc'
-    var colorGraticule = '#0004'
-    var colorLand = '#F19BFE'
-    var colorCountry = '#F6C1BC'
+    var rotationDelay =     5000
+    var scaleFactor =       0.6
+    var degPerSec =         -2
+    var angles =            { x: 0, y: -20, z: 0}
+    var colorWater =        '#0000FF33' //'#18123600' 
+    var colorLand =         '#30cd60'   //'#F19BFE'
+    var colorCountry =      '#de2545'          //'#F6C1BC'
+    var styleBorders =      { 'color': '#000a', 'thickness':     0.3  };
+    var styleGlobeBorder =  { 'color': '#000', 'thickness':     2  };
 
 
 
@@ -42,26 +43,27 @@ $(document).ready(() => {
 
 
     function LoadData(error, world, names) {  
-            globe = { type: 'Sphere' }
-            land = topojson.feature(world, world.objects.land);
-            countries = topojson.feature(world, world.objects.countries);
-            borders = topojson.mesh(world, world.objects.countries, function(a, b) { return a != b; }),
-  
-            countryList = names;
+        if (error) throw error;
+        globe = { type: 'Sphere' }
+        land = topojson.feature(world, world.objects.land);
+        countries = topojson.feature(world, world.objects.countries);
+        borders = topojson.mesh(world, world.objects.countries, function(a, b) { return a != b; }),
+
+        countryList = names;
 
 
-            ScaleGlobe()
-            autorotate = d3.timer((elapsed) => {
-                now = d3.now()
-                diff = now - lastTime
-                if (diff < elapsed) {
-                    rotation = projection.rotate()
-                    rotation[0] += diff * degPerMs
-                    projection.rotate(rotation)
-                    RenderGlobe()
-                }
-                lastTime = now
-            }); 
+        ScaleGlobe()
+        autorotate = d3.timer((elapsed) => {
+            now = d3.now()
+            diff = now - lastTime
+            if (diff < elapsed) {
+                rotation = projection.rotate()
+                rotation[0] += diff * degPerMs
+                projection.rotate(rotation)
+                RenderGlobe()
+            }
+            lastTime = now
+        }); 
     }
     function RenderGlobe() {
         function fill(obj, color) {
@@ -79,11 +81,12 @@ $(document).ready(() => {
         }
 
         context.clearRect(0, 0, width, height)
+
         fill(globe, colorWater)
         fill(land, colorLand)
 
-        stroke(borders, "#000", 0.5)
-        stroke(globe, '#000', 2)
+        stroke(borders, styleBorders.color, styleBorders.thickness)
+        stroke(globe, styleGlobeBorder.color, styleGlobeBorder.thickness)
 
         if (currentCountry) {
             fill(currentCountry, colorCountry)
@@ -178,17 +181,41 @@ $(document).ready(() => {
             RenderGlobe()
         }
         function dragended() {
-            autorotate.restart((elapsed) => {
-                now = d3.now()
-                diff = now - lastTime
-                if (diff < elapsed) {
-                    rotation = projection.rotate()
-                    rotation[0] += diff * degPerMs
-                    projection.rotate(rotation)
-                    RenderGlobe()
-                }
-                lastTime = now
-            }, rotationDelay || 0)
+            setTimeout(() => { 
+                autorotate = null;
+                autorotate = d3.timer((elapsed) => {
+                    now = d3.now()
+                    diff = now - lastTime
+                    if (diff < elapsed) {
+                        rotation = projection.rotate()
+
+
+                        rotation[0] += diff * degPerMs
+                        if (Math.round(rotation[1]) < angles.y)
+                            rotation[1] -= diff * degPerMs * 10
+                        else if (Math.round(rotation[1]) > angles.y)
+                            rotation[1] += diff * degPerMs* 10
+                        if (Math.round(rotation[2]) < angles.z)
+                            rotation[2] -= diff * degPerMs* 10
+                        else if (Math.round(rotation[2]) > angles.z)
+                            rotation[2] += diff * degPerMs* 10
+
+
+
+                        projection.rotate(rotation) 
+
+                        console.log(`
+                            x: ${rotation[0]}, ${angles.x}
+                            y: ${rotation[1]}, ${angles.y}
+                            z: ${rotation[2]}, ${angles.z}
+                            diff: ${diff}
+                        `);
+                            
+                        RenderGlobe()
+                    }
+                    lastTime = now
+                });
+            }, rotationDelay); 
         }
 
         canvas
