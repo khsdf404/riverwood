@@ -1,24 +1,3 @@
-:root {
-    --header-height: 65px;
-  }
-
-html, body {
-    min-height: 100%;
-    height: 100%;
-}
-html, body, main, .earth-wrapper {
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    position: relative;
-}
-
-body {
-    background: linear-gradient(138deg, #2092e382, #ccff0000);
-}
-
-
 header {
     display: flex;
     justify-content: center;
@@ -38,6 +17,8 @@ header {
     justify-content: flex-start;
     align-items: center;
 }
+
+
 header section {
     display: flex;
     flex-direction: row;
@@ -88,76 +69,29 @@ header span {
     height: 30px;
     z-index: 2;
 }
+
+
 header span button {
     position: relative;
-    width: 35px;
-    height: 24px;
+    width: auto;
+    height: 100%;
     margin: 0;
-    padding: 0;
+    padding: 0 10px;
     border: 0;
     background: none;
+    color: #fff; 
+} 
+header button:hover {
     color: #fff;
-    border-right: 1px solid #ccc;
+    background: #fff3;
 }
 span button:last-child {
     border: none;
-}
-header span.header-info {
-    display: flex;
-    height: 38px;
-    align-items: flex-start;
-    font-size: 20px;
-    border: none;
-    overflow: visible;
-    height: auto;
-    width: auto;
-}
-header span.header-info img {
-    width: 34px;
-    height: 34px;
-}
-
-
-header button:hover {
-    color: #000;
-}
-header button:hover::before {
-    background: white;
-}
-header button::before {
-    content: '';
-    height: 32px;
-    width: 35px; 
-    position: absolute;
-    top: -4px;
-    left: 0;
-    z-index: -1;
-}
-
-
-
-main {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    height: calc(100% - var(--header-height));
-}
-main div {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    max-width: 90%;
-    max-height: calc(90% - var(--header-height) - 30px);
-    height: 600px;
-    width: 600px;
-    border-radius: 1000px; 
-    overflow: hidden; 
-}
-
-h2#countryName { 
-        color: #4e3e3d;
-        font-family: Verdana; 
-        text-align: center; 
-        min-height: 30px;
 } 
+
+header button.active-btn {
+    background: #fff;
+    color: #000;
+} 
+
+

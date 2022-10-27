@@ -1,0 +1,26 @@
+
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: calc(100% - var(--header-height));
+}
+main div {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    max-width: 90%;
+    max-height: calc(90% - var(--header-height) - 30px);
+    height: 600px;
+    width: 600px;
+    border-radius: 1000px; 
+    overflow: hidden; 
+}
+
+h2#countryName { 
+        color: #4e3e3d;
+        font-family: Verdana; 
+        text-align: center; 
+        min-height: 30px;
+} 

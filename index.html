@@ -8,7 +8,9 @@
 
     <title>Riverwood</title>
 
-	<link href="styles/main.css" rel="stylesheet" type="text/css">
+	<link href="styles/index.css" rel="stylesheet" type="text/css">
+    <link href="styles/header.css" rel="stylesheet" type="text/css">
+    <link href="styles/earth.css" rel="stylesheet" type="text/css">
 	<link href="styles/fonts.css" rel="stylesheet" type="text/css"/>
     <link href="styles/all.min.css" rel="stylesheet" type="text/css"/>
 
@@ -34,28 +36,33 @@
         <div>
             <wrap>
                 <span   class="header-language">
-                    <button id="ruBtn">Ru</button>
+                    <button id="ruBtn" class="active-btn">Ru</button>
                     <button id="enBtn">En</button>
                 </span>
                 <span   class="header-choosetype">
-                    <button id="countryBtn">Country</button>
+                    <button id="countryBtn" class="active-btn">Country</button>
                     <button id="regionBtn">Region</button>
                 </span>
             </wrap>
             <span class="header-theme">
                 <button id="lightBtn"></button>
                 <button id="darkBtn"></button>
-                <button id="dynamicBtn"></button>
+                <button id="dynamicBtn" class="active-btn"></button>
             </span> 
         </div>
     </header>
 
-    <main>
-        <h2 id="countryName"></h2>
-        <div> 
-            <canvas id="globe"></canvas>
-        </div> 
-    </main>
+    <content>
+        <sidebar>
+            <div></div>
+        </sidebar>
+        <main>
+            <h2 id="countryName"></h2>
+            <div> 
+                <canvas id="globe"></canvas>
+            </div> 
+        </main>
+    </content>
 </body>
 
 </html>
