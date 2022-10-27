@@ -2,8 +2,8 @@ import { REGIONS } from '/scripts/mainlands.js';
 $(document).ready(() => { 
     var rotationDelay =     5000
     var scaleFactor =       0.6
-    var degPerSec =         -3
-    var angles =            { x: 0, y: -20, z: 0}
+    var degPerSec =         0
+    var angles =            { x: 50, y: -20, z: 0}
     var colorWater =        '#0000FF33' //'#18123600' 
     var colorLand =         '#30cd60'   //'#F19BFE'
     var colorCountry =      '#de2545'          //'#F6C1BC'
@@ -50,6 +50,11 @@ $(document).ready(() => {
             return parseInt(e.id) == parseInt(countryPolygon.id)
         })
     }
+    const getPolygon = (countryObj) => {
+        return polygonList.find(function(e) {
+            return parseInt(e.id) == parseInt(countryObj.id)
+        })
+    }
 
     function LoadData(error, world, names) {  
         if (error) throw error;
@@ -59,8 +64,6 @@ $(document).ready(() => {
         polygonList = countries.features;
         objList = names;
         borders = topojson.mesh(world, world.objects.countries, function(a, b) { return a != b; }),
-
-        
 
 
         ScaleGlobe()
@@ -84,8 +87,8 @@ $(document).ready(() => {
             context.fill()
         }
         function Fill_All(objList, color) {
-            objList.forEach(obj => {
-                fill(obj, color)
+            objList.forEach(elem => {
+                fill(getPolygon(getObj(elem)), color)
             });
         }
         function stroke(obj, color, width) {
@@ -105,8 +108,8 @@ $(document).ready(() => {
         stroke(borders, styleBorders.color, styleBorders.thickness)
         stroke(globe, styleGlobeBorder.color, styleGlobeBorder.thickness)
 
-        // if (LAND__MODE && currentRegion)
-        //     return Fill_All(currentRegion, colorCountry) 
+        if (LAND__MODE && currentRegion)
+            return Fill_All(currentRegion, colorCountry) 
         if (currentPolygon) {
             fill(currentPolygon, colorCountry)
     }
@@ -134,7 +137,8 @@ $(document).ready(() => {
         function CountryHover() { 
             let setCountry = () => {
                 let countryPolygon = (getPolygon(this)) 
-               
+                // console.log(countryPolygon);
+                // console.log(getObj(countryPolygon));
                 // water hover 
                 if (!countryPolygon) { 
                     if (currentPolygon) {
@@ -244,7 +248,7 @@ $(document).ready(() => {
                 if (!setCountry()) 
                     return;
             }
-
+ 
             RenderGlobe()
             setName();
         }

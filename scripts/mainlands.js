@@ -41,19 +41,20 @@
         {'id': '690', 'name': 'Seychelles'},
         {'id': '694', 'name': 'Sierra Leone'},
         {'id': '706', 'name': 'Somalia'},
-        {'id': '900', 'name': 'Somalia'},
         {'id': '710', 'name': 'South Africa'},
         {'id': '716', 'name': 'Zimbabwe'},
         {'id': '728', 'name': 'South Sudan'},
         {'id': '729', 'name': 'Sudan'},
         {'id': '732', 'name': 'Western Sahara'},
+        {'id': '748', 'name': 'Swaziland'},
         {'id': '768', 'name': 'Togo'},
         {'id': '788', 'name': 'Tunisia'},
         {'id': '800', 'name': 'Uganda'},
         {'id': '818', 'name': 'Egypt'},
         {'id': '834', 'name': 'Tanzania'},
         {'id': '854', 'name': 'Burkina Faso'},
-        {'id': '894', 'name': 'Zambia'}    
+        {'id': '894', 'name': 'Zambia'}, 
+        {'id': '900', 'name': 'Somalia'}  
 ]
 export const NORTH__AMERICA = [
     {'id': '124', 'name': 'Canada'},
@@ -81,7 +82,8 @@ export const SOUTH__AMERICA = [
     {'id': '604', 'name': 'Peru'},
     {'id': '740', 'name': 'Suriname'},
     {'id': '858', 'name': 'Uruguay'},
-    {'id': '862', 'name': 'Venezuela'}
+    {'id': '862', 'name': 'Venezuela'},
+    {'id': '904', 'name': 'French Guiana'}
 ]
 export const ASIA = [
     {'id': '4', 'name': 'Afghanistan'},
@@ -176,7 +178,7 @@ export const EUROPE = [
     {'id': '804', 'name': 'Ukraine'},
     {'id': '807', 'name': 'Macedonia'},
     {'id': '826', 'name': 'United Kingdom'},
-
+    {'id': '901', 'name': 'Kosovo'}
 ]
 export const AUSTRALIA = [
     {'id': '36', 'name': 'Australia'},
@@ -252,7 +254,6 @@ export const OCEANIA =   [
     {'id': '670', 'name': 'Saint Vincent and the Grenadines'},
     {'id': '674', 'name': 'San Marino'},
     {'id': '744', 'name': 'Svalbard and Jan Mayen'},
-    {'id': '748', 'name': 'Swaziland'},
     {'id': '772', 'name': 'Tokelau'},
     {'id': '776', 'name': 'Tonga'},
     {'id': '780', 'name': 'Trinidad and Tobago'},
