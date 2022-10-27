@@ -15,6 +15,7 @@ var styleGlobeBorder =  { 'color': '#000', 'thickness':     2  };
 
 var countryName =   d3.select('#countryName')
 var canvas =        d3.select('#globe')
+var canvasDOM =     document.getElementById('globe');
 var context =       canvas.node().getContext('2d')
 var projection =    d3.geoOrthographic().precision(0.1) 
 var path =          d3.geoPath(projection).context(context)
@@ -31,16 +32,19 @@ var yzRotationSpeed = xRotationSpeed * 5;
 var autorotate, now, diff, rotation
 
 var width, height
-var polygonList, objList, currentPolygon;
 var globe, land, countries, borders;
+var polygonList, objList, currentPolygon, currentRegion = null;
+
 
 // mainland == true, countries = false; 
-var currentRegion = null;
-var LAND__MODE = false;
+var LAND__MODE = true;
 
 
 
 var HELPER;
+
+
+
 
 
 const getObj = (countryPolygon) => {
@@ -184,7 +188,9 @@ class d3Hover {
     }
 
     setCountry = () => { 
-        let countryPolygon = this.getPolygon(this)
+        console.log();
+        let countryPolygon = this.getPolygon(canvasDOM)
+      
         // water hover 
         if (!countryPolygon) { 
             if (currentPolygon) {
@@ -202,7 +208,7 @@ class d3Hover {
         return true;
     }
     setRegion = () => {
-        let polygon = getPolygon(this);
+        let polygon = this.getPolygon(canvasDOM);
         if (!polygon) { 
             if (currentRegion) {
                 countryName.text('');
@@ -296,14 +302,14 @@ class d3Drag {
 
 
     Start() {
-        v0 = versor.cartesian(projection.invert(d3.mouse(this)))
+        v0 = versor.cartesian(projection.invert(d3.mouse(canvasDOM)))
         r0 = projection.rotate()
         q0 = versor(r0)
         autorotate.stop();
             
     }
     Drag() {
-        let v1 = versor.cartesian(projection.rotate(r0).invert(d3.mouse(this)))
+        let v1 = versor.cartesian(projection.rotate(r0).invert(d3.mouse(canvasDOM)))
         let q1 = versor.multiply(q0, versor.delta(v0, v1))
         let r1 = versor.rotation(q1)
         projection.rotate(r1)
