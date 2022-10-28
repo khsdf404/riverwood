@@ -1,14 +1,18 @@
 import { REGIONS } from '/scripts/mainlands.js';
 var rotationDelay =     2000
-var scaleFactor =       .9
+var scaleFactor =       1
 var degPerSec =         -10
 var angles =            { x: 50, y: -20, z: 0}
 var colorWater =        '#0000FF33' //'#18123600' 
 var colorLand =         '#309d60'   //'#F19BFE'
-var colorActive =       '#993535'          //'#F6C1BC'
+var colorActive =       '#de2545'          //'#F6C1BC'
 var styleBorders =      { 'color': '#000', 'thickness': 0.5  };
 var styleGlobeBorder =  { 'color': '#000',  'thickness': 2  };
-var LAND__MODE = true;
+var LAND__MODE = false;
+var RU__LANG = false;
+var THEME = false;
+
+
 var HELPER;
 
 // all we need to work with
@@ -103,7 +107,7 @@ class d3Helper {
         fill(land, colorLand)
 
         if (!LAND__MODE)
-            stroke(borders, styleBorders.color, styleBorders.thickness)
+            stroke(borders, styleBorders.color, styleBorders.thickness) 
         stroke(globe, styleGlobeBorder.color, styleGlobeBorder.thickness)
 
         if (LAND__MODE && currentRegion)
@@ -116,8 +120,8 @@ class d3Helper {
 
 
     setScale = () => {
-        width = $(`main`).outerWidth() * .9; 
-        height = $(`main`).outerHeight() * .9; 
+        width = $(`main`).outerWidth() * .8; 
+        height = $(`main`).outerHeight() * .8; 
 
         width =  Math.min(width, height);
         height = width;
@@ -362,4 +366,18 @@ $(document).ready(() => {
         currentPolygon = null;
         currentRegion = null;
     }) 
+
+
+    $(`header settings button`).click(function() {
+        $(this).parent()
+            .find(`button.active-btn`)
+            .removeClass(`active-btn`);
+        $(this).addClass(`active-btn`);
+    });
+    $(`span.header-choosetype button`).click(function() {
+        if ($(this).attr('id') == 'regionBtn')
+            LAND__MODE = true;
+        else 
+            LAND__MODE = false;
+    })
 })

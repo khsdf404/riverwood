@@ -30,11 +30,11 @@
 
 <body>
 	<header>
-        <section>
+        <logo>
             <img    class="header-logo" src="src/wave.png" alt="">
             <h1>RIVERWOOD</h1>
-        </section>
-        <div>
+        </logo>
+        <settings>
             <wrap>
                 <span   class="header-language">
                     <button id="ruBtn" class="active-btn">Ru</button>
@@ -44,21 +44,26 @@
                     <button id="countryBtn" class="active-btn">Country</button>
                     <button id="regionBtn">Region</button>
                 </span>
+                <span class="header-theme">
+                    <button id="lightBtn">
+                        <img src="src/sun.png" alt="">
+                    </button>
+                    <button id="dynamicBtn" class="active-btn">
+                        <img src="src/globe.png" alt="">
+                    </button>
+                    <button id="darkBtn">
+                        <img src="src/moon.png" alt="">
+                    </button>
+                </span> 
             </wrap>
-            <span class="header-theme">
-                <button id="lightBtn"></button>
-                <button id="darkBtn"></button>
-                <button id="dynamicBtn" class="active-btn"></button>
-            </span> 
-        </div>
+        </settings>
     </header>
 
     <content>
         <sidebar>
             <wrap>
-                <div>
-                    <h1>welcum</h1>
-                    <input type="text"/>
+                <div> 
+                    <input placeholder="Find river!" type="text"/>
                 </div> 
                 <div>
                     <p>Africa</p>

@@ -17,9 +17,8 @@ header {
     justify-content: flex-start;
     align-items: center;
 }
-
-
-header section {
+ 
+header logo {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -28,11 +27,11 @@ header section {
     align-self: flex-start; 
     min-width: 320px;
 }
-header section img {
+header logo img {
     height: 48px;
     margin-right: 21px;
 }
-header section h1 {
+header logo h1 {
     color: #fff;
     font-size: 32px;
     letter-spacing: 5px;
@@ -42,25 +41,21 @@ header section h1 {
 
 
 
-header > div { 
+header settings { 
     display: flex;
     flex-direction: row;
-    flex: 16;
-    width: 100%;
+    flex: 16; 
     align-items: center;
     justify-content: center;
-    /* max-width: 500px; */
-    /* min-width: 330px;
-    margin: 10px 5px 10px 20px; */
-    margin: 0 54px;
-    min-width: calc(400px - 108px);
+    min-width: 400px;
+    margin: 15px 0px;
 }
-header > div > wrap {
+header settings wrap  {
     display: flex;
-    flex-direction: row;
-}
-
-header span {
+    width: 90%; 
+    justify-content: space-between;
+} 
+header settings span {
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -74,7 +69,10 @@ header span {
 }
 
 
-header span button {
+header settings button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: relative;
     width: auto;
     height: 100%;
@@ -84,17 +82,31 @@ header span button {
     background: none;
     color: #fff; 
 } 
-header button:hover {
+header settings button:hover {
     color: #fff;
     background: #fff3;
 }
-span button:last-child {
+header settings button:last-child {
     border: none;
 } 
 
-header button.active-btn {
+header settings button.active-btn {
     background: #fff;
     color: #000;
 } 
 
 
+
+
+
+header settings span.header-choosetype {
+    margin: 0 auto 0 4px;
+}
+header settings span.header-theme::after {
+    content: '';
+    width: 1px;
+    height: 90%;
+    top: 0;
+    left: 0;
+    background: #fff;
+}
