@@ -64,6 +64,7 @@ class d3Helper {
     LoadData = (error, world, names) => {
         if (error) throw error;
         globe = { type: 'Sphere' }
+        console.log(world);
         land = topojson.feature(world, world.objects.land);
         countries = topojson.feature(world, world.objects.countries);
         polygonList = countries.features;
@@ -82,10 +83,9 @@ class d3Helper {
             context.fillStyle = color
             context.fill()
         }
-        function Fill_All(objList, color) {
-            objList.forEach(elem => {
+        function Fill_All(arrayList, color) { 
+            arrayList.forEach(elem => {
                 fill(getPolygon(getObj(elem)), color)
-                // stroke(getPolygon(getObj(elem)), '#000', .5)
             }); 
         }
         function stroke(obj, color, width) {
@@ -102,11 +102,14 @@ class d3Helper {
         fill(globe, colorWater)
         fill(land, colorLand)
 
-        stroke(borders, styleBorders.color, styleBorders.thickness)
+        if (!LAND__MODE)
+            stroke(borders, styleBorders.color, styleBorders.thickness)
         stroke(globe, styleGlobeBorder.color, styleGlobeBorder.thickness)
 
         if (LAND__MODE && currentRegion)
-            return Fill_All(currentRegion, colorActive) 
+            return Fill_All(currentRegion, colorActive)
+            
+        
         if (currentPolygon) 
             fill(currentPolygon, colorActive)
     }
