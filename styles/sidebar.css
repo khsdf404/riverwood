@@ -7,12 +7,12 @@ sidebar input {
     font-size: 20px;
     outline: none;
     background: none;
-    border-bottom: 4px solid #fff;
+    border-bottom: 4px solid #000;
     color: #fff;
 }
 
 ::-webkit-input-placeholder {
-    color:#bbb;
+    color:#444;
 }
 
 
@@ -24,21 +24,18 @@ sidebar {
     align-items: center;
 
     /* padding: 0 40px; */
-    background: #6060607d;
+    background: #7c7c7c40;
     justify-content: center;
     min-width: 320px;
+    color: #444;
+    box-shadow: -11px 0px 18px 2px #000;
 }
 
 sidebar wrap {
-    width: 75%;
-    height: 100%;
-    padding: 0 10%;
-    background: #6060607d; 
+    width: 90%;
+    height: 100%;  
     display: flex;
-    flex-direction: column;
-    width: auto;
-    /* padding: 0 10%; */
-    width: 100%;
+    flex-direction: column; 
     align-items: center;
 }
 sidebar wrap > div {

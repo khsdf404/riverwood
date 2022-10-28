@@ -16,6 +16,7 @@ main div {
     /* width: 600px; */
     border-radius: 1000px;
     overflow: hidden;
+    background: linear-gradient(104deg, #74ace58f, transparent);
 }
 
 h2#countryName { 

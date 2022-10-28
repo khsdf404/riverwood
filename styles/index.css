@@ -1,6 +1,7 @@
 :root {
-    --header-height: 65px;
-  }
+    /*--bodyBgc: linear-gradient(138deg, #2092e382, #ccff0000); */
+    --bodyBgc: #f3e5d56b;
+}
 
 html, body, main {
     min-height: 100%;
@@ -17,7 +18,7 @@ html, body, main, .earth-wrapper {
 body {
     display: flex;
     flex-direction: column;
-    background: linear-gradient(138deg, #2092e382, #ccff0000);
+    background: var(--bodyBgc);
 }
 
 content {

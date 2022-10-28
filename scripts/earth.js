@@ -5,12 +5,56 @@ var degPerSec =         -10
 var angles =            { x: 50, y: -20, z: 0}
 var colorWater =        '#0000FF33' //'#18123600' 
 var colorLand =         '#309d60'   //'#F19BFE'
-var colorActive =       '#de2545'          //'#F6C1BC'
+var colorActive =       '#00000099'          //'#F6C1BC'
 var styleBorders =      { 'color': '#000', 'thickness': 0.5  };
 var styleGlobeBorder =  { 'color': '#000',  'thickness': 2  };
 var LAND__MODE = false;
 var RU__LANG = false;
-var THEME = false;
+
+var lightTheme = [
+    {
+        'name': '--headerBgc', 
+        'styles': '#3c3c3c'
+    },
+    {
+        'name': '--bodyBgc', 
+        'styles': 'linear-gradient(138deg, #2092e382, #ccff0000)'
+    }
+]
+var darkTheme = [
+    {
+        'name': '--headerBgc', 
+        'styles': '#fff'
+    },
+    {
+        'name': '--bodyBgc', 
+        'styles': 'linear-gradient(138deg, #000, #888)'
+    }
+];
+    
+    // 'headerBgc': '#3c3c3c',
+    // 'sidebarBgc': '#7c7c7c7c',
+    // 'sidebarColor': '#444',
+    // 'inputBorder': '#fff',
+    // 'headerStyle': '#fff'
+var THEME = darkTheme;
+const setTheme = (theme) => {
+    if (theme == THEME) return;
+    THEME = theme;
+    THEME.forEach(e => {
+        console.log(`${e.name}: ${e.styles}`);
+        document
+            .documentElement
+            .style
+            .setProperty(e.name, e.styles);
+    });
+}
+// setTheme(lightTheme)
+
+
+
+
+
 
 
 var HELPER;
@@ -57,6 +101,17 @@ const logCoord = (rotation) => {
     return;
     console.log(`{ x: ${Math.round(rotation[0])}, y: ${Math.round(rotation[1])}, z: ${Math.round(rotation[2])} }`);
 }
+const getUserTime = () => {
+    var currentdate = new Date(); 
+    return [
+        currentdate.getHours(),
+        currentdate.getMinutes()
+    ]
+} 
+
+
+
+
 
 class d3Helper {
     QueueData() {
@@ -379,5 +434,13 @@ $(document).ready(() => {
             LAND__MODE = true;
         else 
             LAND__MODE = false;
+    })
+    $(`span.header-theme button`).click(function() {
+        if ($(this).attr('id') == 'lightBtn')
+            setTheme(lightTheme)
+        else if ($(this).attr('id') == 'darkBtn')
+            setTheme(darkTheme)
+        else 
+            setTheme(dynamicTheme)
     })
 })

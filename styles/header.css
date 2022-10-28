@@ -1,12 +1,19 @@
+:root {
+    --headerBgc: #fff;
+    --headerBgcRevert: #3c3c3c;
+    --headerColor: #000;
+    --headerRevert: #fff;
+}
+
 header {
     display: flex;
     justify-content: center;
     align-items: center;
     position: relative;
     width: 100%;
-    /* padding: 0px 7% 0 10%; */
-    height: var(--header-height);
-    background: #3c3c3c;
+    /* padding: 0px 7% 0 10%; */ 
+    background: var(--headerBgc);
+    color: var(--headerColor);
     /* margin: 0 auto;
     border-bottom-right-radius: 9px;
     border-bottom-left-radius: 9px;  */
@@ -16,6 +23,7 @@ header {
     flex-wrap: wrap;
     justify-content: flex-start;
     align-items: center;
+    box-shadow: 0px 1px 14px -7px #000;
 }
  
 header logo {
@@ -32,7 +40,6 @@ header logo img {
     margin-right: 21px;
 }
 header logo h1 {
-    color: #fff;
     font-size: 32px;
     letter-spacing: 5px;
     font-weight: 100;
@@ -60,7 +67,7 @@ header settings span {
     justify-content: flex-start;
     align-items: center;
     position: relative;
-    border: 1px solid #fff;
+    border: 1px solid var(--headerColor);
     margin: 0 4px;
     border-radius: 3px;
     overflow: hidden;
@@ -80,21 +87,20 @@ header settings button {
     padding: 0 10px;
     border: 0;
     background: none;
-    color: #fff; 
 } 
 header settings button:hover {
-    color: #fff;
-    background: #fff3;
+    background: var(--headerBgcRevert);
+    color: var(--headerRevert);
+    opacity: .6;
 }
 header settings button:last-child {
     border: none;
 } 
 
 header settings button.active-btn {
-    background: #fff;
-    color: #000;
+    background: var(--headerBgcRevert);
+    color: var(--headerRevert);
 } 
-
 
 
 
@@ -102,11 +108,24 @@ header settings button.active-btn {
 header settings span.header-choosetype {
     margin: 0 auto 0 4px;
 }
-header settings span.header-theme::after {
+
+
+
+header settings span.header-theme img {
+    transform: scale(0.9);
+}
+header settings span.header-theme button::after {
+    position: absolute;
     content: '';
     width: 1px;
-    height: 90%;
-    top: 0;
-    left: 0;
-    background: #fff;
+    height: 80%; 
+    right: -1px;
+    background: var(--headerColor);
 }
+header settings span.header-theme button:last-child:after {
+    width: 0;
+}
+header settings span.header-theme button.active-btn:after {
+    width: 0;
+}
+
