@@ -1,12 +1,12 @@
 import { REGIONS } from '/scripts/mainlands.js';
 var rotationDelay =     2000
-var scaleFactor =       0.95
+var scaleFactor =       .9
 var degPerSec =         -10
 var angles =            { x: 50, y: -20, z: 0}
 var colorWater =        '#0000FF33' //'#18123600' 
-var colorLand =         '#30cd60'   //'#F19BFE'
-var colorCountry =      '#de2545'          //'#F6C1BC'
-var styleBorders =      { 'color': '#000a', 'thickness': 0.3  };
+var colorLand =         '#309d60'   //'#F19BFE'
+var colorActive =       '#993535'          //'#F6C1BC'
+var styleBorders =      { 'color': '#000', 'thickness': 0.5  };
 var styleGlobeBorder =  { 'color': '#000',  'thickness': 2  };
 var LAND__MODE = true;
 var HELPER;
@@ -32,7 +32,7 @@ var q0 // Projection rotation as versor at start.
 var lastTime = d3.now()
 var xRotationSpeed = degPerSec / 1000
 var yzRotationSpeed = xRotationSpeed * 5;
-var autorotate, now, diff, rotation, timeout;
+var autorotate, now, diff, rotation;
  
 
 
@@ -85,7 +85,8 @@ class d3Helper {
         function Fill_All(objList, color) {
             objList.forEach(elem => {
                 fill(getPolygon(getObj(elem)), color)
-            });
+                // stroke(getPolygon(getObj(elem)), '#000', .5)
+            }); 
         }
         function stroke(obj, color, width) {
             context.beginPath()
@@ -105,20 +106,23 @@ class d3Helper {
         stroke(globe, styleGlobeBorder.color, styleGlobeBorder.thickness)
 
         if (LAND__MODE && currentRegion)
-            return Fill_All(currentRegion, colorCountry) 
+            return Fill_All(currentRegion, colorActive) 
         if (currentPolygon) 
-            fill(currentPolygon, colorCountry)
+            fill(currentPolygon, colorActive)
     }
 
 
     setScale = () => {
-        width = $(`main div`).outerWidth() - 30;
-        height =  $(`main div`).outerHeight() - 30;
+        width = $(`main`).outerWidth() * .9; 
+        height = $(`main`).outerHeight() * .9; 
+
+        width =  Math.min(width, height);
+        height = width;
+
 
         console.log(`w: ${width}, h: ${$(`main div`).outerHeight()}`);
-
-        width = Math.min(width, height);
-        height = width;
+ 
+       
 
         canvas.attr('width', width).attr('height', height)
         projection
@@ -134,7 +138,7 @@ class d3Helper {
     }
     setTimer() {
         if (autorotate) {
-            timeout = setTimeout(() => {
+            setTimeout(() => {
                 autorotate.restart(this.timerTick, 0);  
             }, rotationDelay);
         }
@@ -323,8 +327,11 @@ class d3Drag {
         logCoord( projection.rotate());
     }
     End() { 
+        currentPolygon = null;
+        currentRegion = null;
         let interval = setInterval(() => {
             console.log('Waiting');
+            
             if (!(currentPolygon || currentRegion)) { 
                 autorotate.stop();
                 HELPER.setTimer();
@@ -345,6 +352,7 @@ $(document).ready(() => {
      
     $(window).resize(() => {
         HELPER.setScale();
+        HELPER.RenderGlobe();
     })
 
     $(`main div`).mouseleave(() => {

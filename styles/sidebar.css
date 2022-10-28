@@ -1,0 +1,47 @@
+sidebar input {
+    width: calc(100% - 8px);
+    height: 28px;
+    border-radius: 5px;
+    border: none;
+    padding: 4px;
+    font-size: 20px;
+}
+
+
+sidebar {
+    height: 100%;
+    flex: 10;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    /* padding: 0 40px; */
+    background: #6060607d;
+    justify-content: center;
+    min-width: 320px;
+}
+
+sidebar wrap {
+    width: 75%;
+    height: 100%;
+    padding: 0 10%;
+    background: #6060607d; 
+    display: flex;
+    flex-direction: column;
+    width: auto;
+    /* padding: 0 10%; */
+    width: 100%;
+    align-items: center;
+}
+sidebar wrap > div {
+    width: calc(80% - 10px);
+    margin-top: 40px;
+}
+sidebar wrap > div:first-child {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+    width: 80%;
+}

@@ -4,18 +4,18 @@ main {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    height: calc(100% - var(--header-height));
+    flex: 16;
+    min-width: 400px;
 }
 main div {
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    max-width: 90%;
-    max-height: calc(90% - var(--header-height) - 30px);
-    height: 600px;
-    width: 600px;
-    border-radius: 1000px; 
-    overflow: hidden; 
+    width: 90%;
+    /* height: 600px; */
+    /* width: 600px; */
+    border-radius: 1000px;
+    overflow: hidden;
 }
 
 h2#countryName { 

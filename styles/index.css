@@ -2,7 +2,7 @@
     --header-height: 65px;
   }
 
-html, body {
+html, body, main {
     min-height: 100%;
     height: 100%;
 }
@@ -15,5 +15,20 @@ html, body, main, .earth-wrapper {
 }
 
 body {
+    display: flex;
+    flex-direction: column;
     background: linear-gradient(138deg, #2092e382, #ccff0000);
+}
+
+content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    /* height: auto; */
+    flex: 1;
+    /* overflow: hidden; */
+    /* margin-top: auto; */
+    flex-wrap: wrap;
+    overflow: auto;
 }

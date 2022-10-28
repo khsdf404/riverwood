@@ -26,6 +26,7 @@ header section {
     align-items: center;
     flex: 10;
     align-self: flex-start; 
+    min-width: 320px;
 }
 header section img {
     height: 48px;
@@ -44,13 +45,15 @@ header section h1 {
 header > div { 
     display: flex;
     flex-direction: row;
-    flex: 6;
+    flex: 16;
     width: 100%;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: center;
     /* max-width: 500px; */
-    min-width: 330px;
-    margin: 10px 5px 10px 20px;
+    /* min-width: 330px;
+    margin: 10px 5px 10px 20px; */
+    margin: 0 54px;
+    min-width: calc(400px - 108px);
 }
 header > div > wrap {
     display: flex;
