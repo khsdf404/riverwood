@@ -11,43 +11,43 @@ var styleGlobeBorder =  { 'color': '#000',  'thickness': 2  };
 var LAND__MODE = false;
 var RU__LANG = false;
 
-var lightTheme = [
-    {
-        'name': '--headerBgc', 
-        'styles': '#3c3c3c'
-    },
-    {
-        'name': '--bodyBgc', 
-        'styles': 'linear-gradient(138deg, #2092e382, #ccff0000)'
-    }
-]
-var darkTheme = [
-    {
-        'name': '--headerBgc', 
-        'styles': '#fff'
-    },
-    {
-        'name': '--bodyBgc', 
-        'styles': 'linear-gradient(138deg, #000, #888)'
-    }
-];
+var lightTheme = {
+    '--mainBackground': '#f3e5d56b',
+    '--accentColor': '#444',
+    '--revertColor': '#fff',
+
+    '--headerBgc': '#fff', 
+    '--headerButtonBgc': '#6daeff',
+    '--headerHoverBcg': '#1e437261',
+
+    '--sdBackground': '#7c7c7c40',
+    '--sdPlaceholder': '#a0a0a0',
+}
+var darkTheme = {
+    '--mainBackground': 'linear-gradient(174deg, #3a3a3a, #15151e) ',
+    '--accentColor': '#fff',
+    '--revertColor': '#444',
+
+    '--headerBgc': '#2e2e2e', 
+    '--headerButtonBgc': '#6daeff',
+    '--headerHoverBcg': '#d5e6ff',
+
+    '--sdBackground': '#54545426',
+    '--sdPlaceholder': '#a0a0a0',
+}
     
-    // 'headerBgc': '#3c3c3c',
-    // 'sidebarBgc': '#7c7c7c7c',
-    // 'sidebarColor': '#444',
-    // 'inputBorder': '#fff',
-    // 'headerStyle': '#fff'
-var THEME = darkTheme;
+
+var THEME = lightTheme;
 const setTheme = (theme) => {
     if (theme == THEME) return;
     THEME = theme;
-    THEME.forEach(e => {
-        console.log(`${e.name}: ${e.styles}`);
+    let keys = Object.keys(THEME);
+    let styles =  Object.values(THEME);
+    for (let i = 0; i < keys.length; i++)
         document
             .documentElement
             .style
-            .setProperty(e.name, e.styles);
-    });
+            .setProperty(keys[i], styles[i]);
 }
 // setTheme(lightTheme)
 
@@ -188,7 +188,7 @@ class d3Helper {
 
         canvas.attr('width', width).attr('height', height)
         projection
-            .scale((scaleFactor * Math.min(width, height)) / 2)
+            .scale((scaleFactor * (Math.min(width, height)) / 2 - 1))
             .translate([width / 2, height / 2])
     }
     setAngles() {
@@ -441,6 +441,6 @@ $(document).ready(() => {
         else if ($(this).attr('id') == 'darkBtn')
             setTheme(darkTheme)
         else 
-            setTheme(dynamicTheme)
+           console.log('wtf');
     })
 })

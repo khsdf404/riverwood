@@ -19,9 +19,8 @@ main div {
     background: linear-gradient(104deg, #74ace58f, transparent);
 }
 
-h2#countryName { 
-        color: #4e3e3d;
-        font-family: Verdana; 
-        text-align: center; 
-        min-height: 30px;
+h2#countryName {  
+    font-family: Verdana; 
+    text-align: center; 
+    min-height: 30px;
 } 

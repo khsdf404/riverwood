@@ -1,3 +1,11 @@
+:root { 
+    --sdBackground: #7c7c7c40;
+    --sdPlaceholder: #a0a0a0;
+}
+
+
+
+
 sidebar input {
     width: calc(100% - 8px);
     height: 28px;
@@ -7,12 +15,12 @@ sidebar input {
     font-size: 20px;
     outline: none;
     background: none;
-    border-bottom: 4px solid #000;
-    color: #fff;
+    border-bottom: 4px solid var(--accentColor);
+    color: var(--accentColor);
 }
 
 ::-webkit-input-placeholder {
-    color:#444;
+    color:var(--sdPlaceholder);
 }
 
 
@@ -29,6 +37,8 @@ sidebar {
     min-width: 320px;
     color: #444;
     box-shadow: -11px 0px 18px 2px #000;
+    background: var(--sdBackground);
+    color: var(--accentColor);
 }
 
 sidebar wrap {
