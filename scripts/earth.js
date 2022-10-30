@@ -11,49 +11,6 @@ var styleGlobeBorder =  { 'color': '#000',  'thickness': 2  };
 var LAND__MODE = false;
 var RU__LANG = false;
 
-var lightTheme = {
-    '--mainBackground': '#f3e5d56b',
-    '--accentColor': '#444',
-    '--revertColor': '#fff',
-
-    '--headerBgc': '#fff', 
-    '--headerButtonBgc': '#6daeff',
-    '--headerHoverBcg': '#1e437261',
-
-    '--sdBackground': '#7c7c7c40',
-    '--sdPlaceholder': '#a0a0a0',
-}
-var darkTheme = {
-    '--mainBackground': 'linear-gradient(174deg, #3a3a3a, #15151e) ',
-    '--accentColor': '#fff',
-    '--revertColor': '#444',
-
-    '--headerBgc': '#2e2e2e', 
-    '--headerButtonBgc': '#6daeff',
-    '--headerHoverBcg': '#d5e6ff',
-
-    '--sdBackground': '#54545426',
-    '--sdPlaceholder': '#a0a0a0',
-}
-    
-
-var THEME = lightTheme;
-const setTheme = (theme) => {
-    if (theme == THEME) return;
-    THEME = theme;
-    let keys = Object.keys(THEME);
-    let styles =  Object.values(THEME);
-    for (let i = 0; i < keys.length; i++)
-        document
-            .documentElement
-            .style
-            .setProperty(keys[i], styles[i]);
-}
-// setTheme(lightTheme)
-
-
-
-
 
 
 
@@ -163,7 +120,7 @@ class d3Helper {
 
         if (!LAND__MODE)
             stroke(borders, styleBorders.color, styleBorders.thickness) 
-        stroke(globe, styleGlobeBorder.color, styleGlobeBorder.thickness)
+        
 
         if (LAND__MODE && currentRegion)
             return Fill_All(currentRegion, colorActive)
@@ -188,7 +145,7 @@ class d3Helper {
 
         canvas.attr('width', width).attr('height', height)
         projection
-            .scale((scaleFactor * (Math.min(width, height)) / 2 - 1))
+            .scale((scaleFactor * (Math.min(width, height)) / 2))
             .translate([width / 2, height / 2])
     }
     setAngles() {
@@ -421,26 +378,4 @@ $(document).ready(() => {
         currentPolygon = null;
         currentRegion = null;
     }) 
-
-
-    $(`header settings button`).click(function() {
-        $(this).parent()
-            .find(`button.active-btn`)
-            .removeClass(`active-btn`);
-        $(this).addClass(`active-btn`);
-    });
-    $(`span.header-choosetype button`).click(function() {
-        if ($(this).attr('id') == 'regionBtn')
-            LAND__MODE = true;
-        else 
-            LAND__MODE = false;
-    })
-    $(`span.header-theme button`).click(function() {
-        if ($(this).attr('id') == 'lightBtn')
-            setTheme(lightTheme)
-        else if ($(this).attr('id') == 'darkBtn')
-            setTheme(darkTheme)
-        else 
-           console.log('wtf');
-    })
 })
