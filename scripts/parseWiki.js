@@ -47,7 +47,7 @@ var riverObjString = `{
     'consumption': '${consumption}',
     'head': '${head}',
     'estuary': '${estuary}',
-    'locate': '${locate}',
+    'location': '${locate}',
 },
 `
 
