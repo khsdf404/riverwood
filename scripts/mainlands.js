@@ -1,4 +1,4 @@
- export const AFRICA = [
+export const AFRICA = [
         {'id': '12', 'name': 'Algeria'},
         {'id': '24', 'name': 'Angola'},
         {'id': '72', 'name': 'Botswana'},
@@ -279,12 +279,12 @@ export const REGIONS = [
         OCEANIA
 ];
 export const REGION__NAMES = [
-    `AFRICA`, 
-    `NORTH__AMERICA`, 
-    `CENTRAL__AMERICA`,
-    `SOUTH__AMERICA`,
-    `ASIA`, 
-    `EUROPE`,
-    `AUSTRALIA`,
-    `OCEANIA`
+    `Asia`, 
+    `Africa`, 
+    `Europe`,
+    `Oceania`,
+    `Australia`,
+    `North America`, 
+    `South America`,
+    `Central Amerika`
 ];
