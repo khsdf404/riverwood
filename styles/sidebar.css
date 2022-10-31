@@ -11,8 +11,9 @@ sidebar input {
     padding: 6px 2px;
 }
 
-::-webkit-input-placeholder {
+sidebar input::-webkit-input-placeholder {
     color:var(--sdPlaceholder);
+    font-family: 'Poppins';
 }
 
 
@@ -33,7 +34,6 @@ sidebar {
     color: var(--accentColor);
 }
 
-
 sidebar wrap {
     width: 90%;
     height: 90%;  
@@ -51,11 +51,19 @@ sidebar ul {
     position: relative;
     width: 80%;
     font-size: 22px;
-    list-style: bengali;
+    list-style: none;
     padding: 0;
     margin-top: 30px;
     overflow: auto;
     padding-right: 4px;
+    font-family: 'Neris';
+}
+sidebar ul::-webkit-scrollbar {
+    width: 7px;
+    background: var(--accentColor);
+}
+sidebar ul::-webkit-scrollbar-thumb { 
+    background: var(--sdThumbBgc); 
 }
 sidebar ul li {
     background: var(--sdListBgc);
@@ -66,6 +74,10 @@ sidebar ul li {
 sidebar ul li:first-child {
     margin: 0;
     margin-bottom: 4px;
+}
+sidebar ul li:last-child {
+    margin: 0;
+    margin-top: 4px;
 }
 sidebar li:hover div {
     display: block;
@@ -78,10 +90,3 @@ sidebar ul div {
 }
 
 
-sidebar ul::-webkit-scrollbar {
-    width: 7px;
-    background: var(--accentColor);
-}
-sidebar ul::-webkit-scrollbar-thumb { 
-    background: var(--sdThumbBgc); 
-}
