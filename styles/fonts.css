@@ -1,11 +1,31 @@
 @font-face {
-font-family: 'Poppins';
-src: url('Fonts/Poppins/Poppins-Regular.ttf');
-font-weight: normal;
-font-style: normal; }
-@font-face {
-font-family: 'Neris';
-src: url('Fonts/Neris/Neris-Thin.ttf'); }
-@font-face {
-font-family: 'Certege';
-src: url('Fonts/Certege/10648.ttf'); }
+    font-family: 'Aetherius';
+    src: url('Fonts/Aetherius/Aetherius-Regular.ttf'); }
+    @font-face {
+    font-family: 'Carolus';
+    src: url('Fonts/Carolus/Carolus-Regular.ttf'); }
+    @font-face {
+    font-family: 'Certege';
+    src: url('Fonts/Certege/10648.ttf'); }
+    @font-face {
+    font-family: 'Flow Ext';
+    src: url('Fonts/Flow Ext/Flow Ext-Regular.ttf.ttf'); }
+    @font-face {
+    font-family: 'Gunny Rewritten';
+    src: url('Fonts/Gunny Rewritten/Gunny Rewritten-Regular.ttf.ttf'); }
+    @font-face {
+    font-family: 'KaushanScript';
+    src: url('Fonts/KaushanScript/KaushanScript-Regular.ttf'); }
+    @font-face {
+    font-family: 'Lato';
+    src: url('Fonts/Lato/Lato-Regular.ttf'); }
+    @font-face {
+    font-family: 'Merienda';
+    src: url('Fonts/Merienda/Merienda-Regular.ttf'); }
+    @font-face {
+    font-family: 'Neris';
+    src: url('Fonts/Neris/Neris-Thin.ttf'); }
+    @font-face {
+    font-family: 'Poppins';
+    src: url('Fonts/Poppins/Poppins-Regular.ttf'); }
+        
