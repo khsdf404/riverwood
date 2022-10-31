@@ -2,7 +2,7 @@ var log = console.log.bind(document)
 var infobox = document.getElementsByClassName('infobox')[0];
 var tableCell = infobox.getElementsByTagName('tr');
 var infoboxImage = document.getElementsByClassName('infobox-image');
-var link, riverName, length, pool, consumption, head, estuary, locate, image;
+var link, riverName, length, pool, consumption, head, estuary, locate, image, information;
 const contains = (e, str) => {
     return e.innerText.lastIndexOf(str) != -1;
 }
@@ -16,13 +16,25 @@ const setClipboard = (text) => {
     copyFrom.select(); 
     document.execCommand('copy');
     document.body.removeChild(copyFrom);
-  }
+}
+const getInfo = () => {
+    let output = '';
+    let content = document.getElementById('mw-content-text');
+    var childs = content.getElementsByClassName('mw-parser-output')[0].childNodes;
+    for(let i = 0; i < childs.length; i++) {
+        if (('' + childs[i]) =='[object HTMLDivElement]')
+            break;
+        if (('' + childs[i]) == '[object HTMLParagraphElement]')
+            output += childs[i].innerText;
+    }
+    return output;
+}
 
 
-riverName = document.getElementsByClassName('infobox-above')[0].innerText;
+riverName = document.getElementsByClassName('mw-page-title-main')[0].innerText;
 link = window.location.href;
 if (infoboxImage.length != 0) image = infoboxImage[0].getElementsByTagName('img').src;
-
+information = getInfo();
 for (let tr of tableCell) {
     if (contains(tr, "Длина"))
         length = getText(tr);
@@ -48,8 +60,11 @@ var riverObjString = `{
     'head': '${head}',
     'estuary': '${estuary}',
     'location': '${locate}',
+    'info': '${information}'
 },
 `
 
 console.log(riverObjString);
 setClipboard(riverObjString);
+
+window.close();
