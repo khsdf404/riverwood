@@ -1,14 +1,14 @@
 sidebar input {
-    width: calc(100% - 8px);
+    width: calc(80% - 4px);
     height: 28px;
     /* border-radius: 5px; */
-    border: none;
-    padding: 4px;
+    border: none; 
     font-size: 20px;
     outline: none;
     background: none;
     border-bottom: 4px solid var(--accentColor);
     color: var(--accentColor);
+    padding: 6px 2px;
 }
 
 ::-webkit-input-placeholder {
@@ -28,27 +28,60 @@ sidebar {
     justify-content: center;
     min-width: 320px;
     color: #444;
-    box-shadow: -11px 0px 18px 2px #000;
+    box-shadow: -7px -9px 20px 0px #000;
     background: var(--sdBackground);
     color: var(--accentColor);
 }
 
+
 sidebar wrap {
     width: 90%;
-    height: 100%;  
+    height: 90%;  
     display: flex;
     flex-direction: column; 
     align-items: center;
-}
-sidebar wrap > div {
-    width: calc(80% - 10px);
-    margin-top: 40px;
-}
-sidebar wrap > div:first-child {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+} 
+
+
+
+
+
+
+sidebar ul {
     position: relative;
     width: 80%;
+    font-size: 22px;
+    list-style: bengali;
+    padding: 0;
+    margin-top: 30px;
+    overflow: auto;
+    padding-right: 4px;
+}
+sidebar ul li {
+    background: var(--sdListBgc);
+    margin: 4px 0;
+    border-radius: 4px;
+    padding: 4px 10px;
+}
+sidebar ul li:first-child {
+    margin: 0;
+    margin-bottom: 4px;
+}
+sidebar li:hover div {
+    display: block;
+}
+sidebar ul div {
+    display: none;
+    width: 100px;
+    height: 100px;
+    background: red;
+}
+
+
+sidebar ul::-webkit-scrollbar {
+    width: 7px;
+    background: var(--accentColor);
+}
+sidebar ul::-webkit-scrollbar-thumb { 
+    background: var(--sdThumbBgc); 
 }

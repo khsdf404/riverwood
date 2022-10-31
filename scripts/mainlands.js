@@ -269,12 +269,22 @@ export const OCEANIA =   [
 
 
 export const REGIONS = [
-                        AFRICA, 
-                        NORTH__AMERICA, 
-                        CENTRAL__AMERICA,
-                        SOUTH__AMERICA,
-                        ASIA, 
-                        EUROPE,
-                        AUSTRALIA,
-                        OCEANIA
-                    ];
+        AFRICA, 
+        NORTH__AMERICA, 
+        CENTRAL__AMERICA,
+        SOUTH__AMERICA,
+        ASIA, 
+        EUROPE,
+        AUSTRALIA,
+        OCEANIA
+];
+export const REGION__NAMES = [
+    `AFRICA`, 
+    `NORTH__AMERICA`, 
+    `CENTRAL__AMERICA`,
+    `SOUTH__AMERICA`,
+    `ASIA`, 
+    `EUROPE`,
+    `AUSTRALIA`,
+    `OCEANIA`
+];

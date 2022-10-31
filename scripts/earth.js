@@ -1,4 +1,6 @@
 import { REGIONS } from '/scripts/mainlands.js';
+
+
 var rotationDelay =     2000
 var scaleFactor =       1
 var degPerSec =         -10
@@ -73,9 +75,9 @@ const getUserTime = () => {
 class d3Helper {
     QueueData() {
         d3.queue()
-        .defer(d3.json, "/src/countriesInfo.json")
-        .defer(d3.tsv, "/src/countriesInfo.tsv")
-        .await(this.LoadData);
+            .defer(d3.json, "/src/countriesInfo.json")
+            .defer(d3.tsv, "/src/countriesInfo.tsv")
+            .await(this.LoadData);
     }
     LoadData = (error, world, names) => {
         if (error) throw error;

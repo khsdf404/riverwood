@@ -1,3 +1,26 @@
+import { REGIONS } from '/scripts/mainlands.js';
+import { REGION__NAMES } from '/scripts/mainlands.js';
+const COUNTRY__NAMES = (function() {
+    let tmpList = [];
+    REGIONS.forEach(region => {
+        region.forEach(country => {
+            tmpList.push(country.name);
+        })
+    })
+    return tmpList.sort((a, b) => { return a < b ? -1 : 1 });
+}()); 
+
+
+const AREATYPES = {
+    'country': 'country',
+    'region': 'region'
+}
+let AREA = AREATYPES.country;
+
+
+
+
+
 class PageThemes {
     constructor() {
         this.light = {
@@ -11,10 +34,12 @@ class PageThemes {
         
             '--sdBackground': '#7c7c7c40',
             '--sdPlaceholder': '#a0a0a0',
+            '--sdListBgc': '#5050502e',
+            '--sdThumbBgc': '#19aeef'
         }
         this.dark = {
             '--mainBackground': 'linear-gradient(174deg, #3a3a3a, #15151e) ',
-            '--accentColor': '#fff',
+            '--accentColor': '#fffc',
             '--revertColor': '#444',
         
             '--headerBgc': '#2e2e2e', 
@@ -23,6 +48,8 @@ class PageThemes {
         
             '--sdBackground': '#54545426',
             '--sdPlaceholder': '#a0a0a0',
+            '--sdListBgc': '#9d9d9d44',
+            '--sdThumbBgc': '#2d66c5'
         }
 
 
@@ -54,14 +81,35 @@ class PageThemes {
     }
 }
 
-class Mode {
+class SearchArea {
     setListeners() {
-        $(`span.header-choosetype button`).click(function() {
-            if ($(this).attr('id') == 'regionBtn')
-                LAND__MODE = true;
+        $(`span.header-choosetype button`).click((e) => {
+            if (e.currentTarget.id == 'regionBtn')
+                AREA = AREATYPES.region;
             else 
-                LAND__MODE = false;
+                AREA = AREATYPES.country;
+
+            this.RecreateSidear();
         })
+    }
+
+    RecreateSidear() {
+        $(`sidebar ul`).empty();
+
+        if (AREA == AREATYPES.region) {
+            REGION__NAMES.forEach(name => {
+                $(`sidebar ul`).append(this.CreateElem(name))
+            });
+        }
+        else {
+            COUNTRY__NAMES.forEach(name => {
+                $(`sidebar ul`).append(this.CreateElem(name))
+            }); 
+        }
+    }
+
+    CreateElem(text) {
+        return $(`<li>${text}</li>`);
     }
 }
 
@@ -75,11 +123,12 @@ $(document).ready(() => {
         $(this).addClass(`active-btn`);
     });
 
+    let ThemeObj = new PageThemes();
+    ThemeObj.setTheme(ThemeObj.dark);
+    ThemeObj.setListeners();
 
-    let Themes = new PageThemes();
-    Themes.setTheme(Themes.light);
-    Themes.setListeners();
 
-    let Mode = new Mode();
-    Mode.setListeners();    
+    let AreaObj = new SearchArea();
+    AreaObj.RecreateSidear();
+    AreaObj.setListeners();    
 })
