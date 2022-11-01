@@ -268,4 +268,138 @@ const RegionEnum = {
         {'id': '882', 'en': 'Samoa', 'ru': 'Самоа'}
     ]    
 }
- 
+
+var NAMES, AREA, AREA_TEXT, LANG;
+const REGIONS = [
+    {
+        'obj': RegionEnum.ASIA,
+        'ru': 'Азия',
+        'en': 'Asia'
+    },
+    {
+        'obj': RegionEnum.AFRICA,
+        'ru': 'Африка',
+        'en': 'Africa'
+    },
+    {
+        'obj': RegionEnum.AUSTRALIA,
+        'ru': 'Австралия',
+        'en': 'Africa'
+    },
+    {
+        'obj': RegionEnum.EUROPE,
+        'ru': 'Европа',
+        'en': 'Europe'
+    },
+    {
+        'obj': RegionEnum.NORTH__AMERICA,
+        'ru': 'Северная Америка',
+        'en': 'North America'
+    },
+    {
+        'obj': RegionEnum.CENTRAL__AMERICA,
+        'ru': 'Центральная Америка',
+        'en': 'Central America'
+    },
+    {
+        'obj': RegionEnum.SOUTH__AMERICA,
+        'ru': 'Южная Америка',
+        'en': 'South America'
+    },
+    {
+        'obj': RegionEnum.OCEANIA,
+        'ru': 'Океания',
+        'en': 'Oceania'
+    }
+]; 
+
+
+
+
+class Page {
+    // uses in headeer.js only
+    static Recreate() {
+        function CreateElem(text) {
+            return $(`<li>${text}</li>`);
+        }
+        $(`sidebar ul`).empty();
+        NAMES.forEach(name => {
+            $(`sidebar ul`).append(CreateElem(name))
+        });
+
+        
+        let ruBtn = $(`#ruBtn`);
+        let enBtn = $(`#enBtn`);
+        let countryBtn = $(`#countryBtn`);
+        let regionBtn = $(`#regionBtn`);
+        let buttons = [ ruBtn, enBtn, countryBtn, regionBtn ];
+        let textBtn = {
+            'ru': ['Ru', 'En', 'Страна', 'Регион'],
+            'en': ['Ru', 'En', 'Country', 'Region'],
+        }
+        
+        Translater.setButtons(buttons, textBtn);
+    }
+}
+
+
+
+const Earth = () => {
+    canvas =        d3.select('#globe')
+    canvasDOM =     document.getElementById('globe');
+    context =       canvas.node().getContext('2d');
+    projection =    d3.geoOrthographic().precision(0.1); 
+    path =          d3.geoPath(projection).context(context);
+
+
+    HELPER = new d3Helper();
+    HELPER.QueueData();
+
+    new d3Drag().setDrag();
+    new d3Hover().setHover();
+     
+
+    $(`main div`).mouseleave(() => {
+        currentPolygon = null;
+        currentRegion = null;
+        AREA_TEXT.text('');
+    });
+    $(window).resize(() => {
+        HELPER.setScale();
+        HELPER.RenderGlobe();
+    });
+}
+const Header = () => {
+    Translater.Start(Translater.LANGTYPES.en);
+    SearchArea.Start(SearchArea.AREATYPES.country);
+    Page.Recreate(); 
+    
+    $(`header settings button`).click(function() {
+        $(this).parent()
+            .find(`button.active-btn`)
+            .removeClass(`active-btn`);
+        $(this).addClass(`active-btn`);
+
+        Page.Recreate();
+    });
+
+    let ThemeObj = new PageThemes();
+    ThemeObj.setTheme(ThemeObj.dark); 
+}
+
+
+
+
+
+
+$(document).ready(() => {
+    // canvas & d3 variables
+    AREA_TEXT =     $('#areaText')
+    
+    Earth();
+    Header();
+     
+    
+
+    
+})

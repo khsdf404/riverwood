@@ -30,7 +30,15 @@ class PageThemes {
         }
 
 
-        this.THEME = null;
+
+        $(`span.header-theme button`).click((e) => {
+            if (e.currentTarget.id == 'lightBtn')
+                this.setTheme(this.light)
+            else if (e.currentTarget.id == 'darkBtn')
+                this.setTheme(this.dark)
+            else 
+               console.log(e);
+        })
     }
     
 
@@ -45,38 +53,104 @@ class PageThemes {
                 .style
                 .setProperty(keys[i], styles[i]);
     }
+}
 
-    setListeners() {
-        $(`span.header-theme button`).click((e) => {
-            if (e.currentTarget.id == 'lightBtn')
-                this.setTheme(this.light)
-            else if (e.currentTarget.id == 'darkBtn')
-                this.setTheme(this.dark)
-            else 
-               console.log(e);
+
+class Translater { 
+    static Start(lang) { 
+        LANG = lang;
+        $(`span.header-language button`).click((e) => {
+            AREA_TEXT.text('');
+            Translater.setLang(e.currentTarget.id);
+            SearchArea.setNames();
         })
+    }
+    static LANGTYPES = {
+        'ru': 'ru',
+        'en': 'en'
+    };
+
+    
+    
+    static isEnglish() {
+        return LANG == Translater.LANGTYPES.en;
+    }
+    static setLang(id) {
+        if (id == 'ruBtn')
+            LANG = this.LANGTYPES.ru;
+        else 
+            LANG = this.LANGTYPES.en;
+    }
+    static setButtons(buttons, textBtn) {
+        for(let i = 0; i < buttons.length; i++)
+            buttons[i].text(Translater.isEnglish() ? textBtn.en[i] : textBtn.ru[i])
     }
 }
 
 
+class SearchArea {
+    static Start(area) {
+        AREA = area; 
+        SearchArea.setNames(SearchArea.isRegion());
 
-// import { RIVERS__RU } from "/scripts/riversRU.js";
-// const inRegion = (reg) => {
-//     RIVERS__RU.forEach(river => {
-        
+
+        $(`span.header-choosetype button`).click((e) => {
+            AREA_TEXT.text('');
+            SearchArea.setArea(e.currentTarget.id);
+            SearchArea.setNames();
+        })
+    }
+    static AREATYPES = {
+        'country': 'country',
+        'region': 'region'
+    };
+    
+
+    static isRegion() { 
+        return AREA == SearchArea.AREATYPES.region;
+    }
+    static setArea(id) {
+        if (id == 'regionBtn')  
+            AREA = SearchArea.AREATYPES.region;
+        else                    
+            AREA = SearchArea.AREATYPES.country;
+    }
+    static setNames() {
+        if (SearchArea.isRegion()) {
+            NAMES = REGIONS.map(reg => {
+                return Translater.isEnglish() ? reg.en : reg.ru;
+            });
+            return;
+        }
+        else {
+            let tmpList = [];
+            REGIONS.forEach(region => {
+                region.obj.forEach(country => {
+                    tmpList.push(Translater.isEnglish() ? country.en : country.ru);
+                })
+            })
+            NAMES = tmpList.sort((a, b) => { return a < b ? -1 : 1 });
+        }
+    }
+
+
+    // static setRegion() {
+    //     AREA = SearchArea.AREATYPES.region;
+    // };
+    // static setCountry() {
+    //     AREA = SearchArea.AREATYPES.country;
+    // }; 
+}
+
+
+ 
+
+
+// const objList = (function() {
+//     let arr = [];
+//     REGIONS.forEach(el => {
+//         arr = arr.concat(el);
 //     });
-// }
-
-
-$(document).ready(() => {
-    $(`header settings button`).click(function() {
-        $(this).parent()
-            .find(`button.active-btn`)
-            .removeClass(`active-btn`);
-        $(this).addClass(`active-btn`);
-    });
-
-    let ThemeObj = new PageThemes();
-    ThemeObj.setTheme(ThemeObj.dark);
-    ThemeObj.setListeners();
-})
+//     arr.sort((a, b) => parseInt(a.id) - parseFloat(b.id));
+//     return arr;
+// }());

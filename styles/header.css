@@ -88,7 +88,8 @@ header settings button {
     border: 0;
     background: none; 
     color: var(--accentColor);
-    font-family: 'Poppins';
+    font-family: 'Verdana';
+    letter-spacing: .2px;
 } 
 header settings button:hover {
     background: var(--headerHoverBcg);

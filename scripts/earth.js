@@ -1,17 +1,26 @@
-var rotationDelay =     2000
-var scaleFactor =       1
-var degPerSec =         -10
-var angles =            { x: 50, y: -20, z: 0}
-var colorWater =        '#0000FF33' //'#18123600' 
-var colorLand =         '#309d60'   //'#F19BFE'
-var colorActive =       '#00000099'          //'#F6C1BC'
-var styleBorders =      { 'color': '#000', 'thickness': 0.5  };
-var styleGlobeBorder =  { 'color': '#000',  'thickness': 2  };
-var LAND__MODE = false;
-var RU__LANG = false;
+// 
+const rotationDelay =     2000
+const scaleFactor =       1
+const degPerSec =         -10
+const angles =            { x: 50, y: -20, z: 0}
+const colorWater =        '#0000FF33' //'#18123600' 
+const colorLand =         '#309d60'   //'#F19BFE'
+const colorActive =       '#00000099'          //'#F6C1BC'
+const styleBorders =      { 'color': '#000', 'thickness': 0.5  };
+const styleGlobeBorder =  { 'color': '#000',  'thickness': 2  };
+// all we need to work with
+let width, height
+let globe, land, countries, borders;
+var polygonList, objList, currentPolygon, currentRegion;
 
-
-var HELPER;
+// rotation part
+let v0 // Mouse position in Cartesian coordinates at start of drag gesture.
+let r0 // Projection rotation as Euler angles at start.
+let q0 // Projection rotation as versor at start.
+let lastTime = d3.now()
+let xRotationSpeed = degPerSec / 1000
+let yzRotationSpeed = xRotationSpeed * 5;
+let autorotate, now, diff, rotation;
 
 // canvas & d3 variables
 var canvas;
@@ -19,20 +28,7 @@ var canvasDOM;
 var context;
 var projection;
 var path;
-
-// all we need to work with
-var width, height
-var globe, land, countries, borders;
-var polygonList, objList, currentPolygon, currentRegion;
-
-// rotation part
-var v0 // Mouse position in Cartesian coordinates at start of drag gesture.
-var r0 // Projection rotation as Euler angles at start.
-var q0 // Projection rotation as versor at start.
-var lastTime = d3.now()
-var xRotationSpeed = degPerSec / 1000
-var yzRotationSpeed = xRotationSpeed * 5;
-var autorotate, now, diff, rotation;
+var HELPER;
  
 
 
@@ -47,8 +43,6 @@ const getPolygon = (countryObj) => {
         return parseInt(e.id) == parseInt(countryObj.id)
     })
 }
-
-
 const logCoord = (rotation) => {
     return;
     console.log(`{ x: ${Math.round(rotation[0])}, y: ${Math.round(rotation[1])}, z: ${Math.round(rotation[2])} }`);
@@ -60,8 +54,6 @@ const getUserTime = () => {
         currentdate.getMinutes()
     ]
 } 
-
-
 
 
 
@@ -331,39 +323,3 @@ class d3Drag {
         }, 1000); 
     } 
 }
-
-
-$(document).ready(() => {
-    // canvas & d3 variables
-    AREA_TEXT =     d3.select('#areaText')
-    canvas =        d3.select('#globe')
-    canvasDOM =     document.getElementById('globe');
-    context =       canvas.node().getContext('2d')
-    projection =    d3.geoOrthographic().precision(0.1) 
-    path =          d3.geoPath(projection).context(context)
-
-
-    Translater.Start();
-    SearchArea.Start();
-    Sidebar.Recreate(); 
-    
-
-
-    HELPER = new d3Helper();
-    HELPER.QueueData();
-
-    new d3Drag().setDrag();
-    new d3Hover().setHover();
-     
-    $(window).resize(() => {
-        HELPER.setScale();
-        HELPER.RenderGlobe();
-    })
-
-    $(`main div`).mouseleave(() => {
-        currentPolygon = null;
-        currentRegion = null;
-    }) 
-
-     
-})
