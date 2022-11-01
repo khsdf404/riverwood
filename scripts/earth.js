@@ -1,6 +1,3 @@
-import { REGIONS } from '/scripts/mainlands.js';
-
-
 var rotationDelay =     2000
 var scaleFactor =       1
 var degPerSec =         -10
@@ -14,23 +11,19 @@ var LAND__MODE = false;
 var RU__LANG = false;
 
 
-
-
 var HELPER;
+
+// canvas & d3 variables
+var canvas;
+var canvasDOM;
+var context;
+var projection;
+var path;
 
 // all we need to work with
 var width, height
 var globe, land, countries, borders;
-var polygonList, objList, currentPolygon, currentRegion = null;
-
-// canvas & d3 variables
-var countryName =   d3.select('#countryName')
-var canvas =        d3.select('#globe')
-var canvasDOM =     document.getElementById('globe');
-var context =       canvas.node().getContext('2d')
-var projection =    d3.geoOrthographic().precision(0.1) 
-var path =          d3.geoPath(projection).context(context)
-
+var polygonList, objList, currentPolygon, currentRegion;
 
 // rotation part
 var v0 // Mouse position in Cartesian coordinates at start of drag gesture.
@@ -102,8 +95,8 @@ class d3Helper {
             context.fill()
         }
         function Fill_All(arrayList, color) { 
-            arrayList.forEach(elem => {
-                fill(getPolygon(getObj(elem)), color)
+            arrayList.obj.forEach(elem => {
+                fill(getPolygon(elem), color)
             }); 
         }
         function stroke(obj, color, width) {
@@ -114,17 +107,16 @@ class d3Helper {
             context.stroke()
         }
         
-
         context.clearRect(0, 0, width, height)
 
         fill(globe, colorWater)
         fill(land, colorLand)
 
-        if (!LAND__MODE)
+        if (!SearchArea.isRegion())
             stroke(borders, styleBorders.color, styleBorders.thickness) 
         
 
-        if (LAND__MODE && currentRegion)
+        if (SearchArea.isRegion() && currentRegion)
             return Fill_All(currentRegion, colorActive)
             
         
@@ -195,9 +187,7 @@ class d3Helper {
             this.RenderGlobe()
         }
         lastTime = now
-    }
-    
-    
+    }  
 }
 
 class d3Hover {
@@ -205,7 +195,7 @@ class d3Hover {
         canvas.on('mousemove', this.CountryHover)
     }
     CountryHover = () => { 
-        if (LAND__MODE) {
+        if (SearchArea.isRegion()) {
             if (!(this.setRegion())) 
                 return;
         }
@@ -225,7 +215,7 @@ class d3Hover {
         // water hover 
         if (!countryPolygon) { 
             if (currentPolygon) {
-                countryName.text('');
+                AREA_TEXT.text('');
                 currentPolygon = undefined
                 HELPER.RenderGlobe()
             } 
@@ -242,7 +232,7 @@ class d3Hover {
         let polygon = this.getPolygon(canvasDOM);
         if (!polygon) { 
             if (currentRegion) {
-                countryName.text('');
+                AREA_TEXT.text('');
                 currentRegion = undefined
                 currentPolygon = undefined
                 HELPER.RenderGlobe()
@@ -252,7 +242,7 @@ class d3Hover {
         let obj = getObj(polygon);
         let output = false;
         REGIONS.forEach(region => {
-            region.forEach(country => { 
+            region.obj.forEach(country => { 
                 if (parseInt(country.id) == parseInt(obj.id)) {
                     if (currentRegion == region) { 
                         output = false;
@@ -295,30 +285,10 @@ class d3Hover {
         })
     }
     setName = () => {
-        if (LAND__MODE) {
-            let regionName = '';
-            if (currentRegion == REGIONS[0])
-                regionName = 'Africa';
-            else if (currentRegion == REGIONS[1])
-                regionName = 'North America';
-            else if (currentRegion == REGIONS[2])
-                regionName = 'Central America';
-            else if (currentRegion == REGIONS[3])
-                regionName = 'South America';
-            else if (currentRegion == REGIONS[4])
-                regionName = 'Asia';
-            else if (currentRegion == REGIONS[5])
-                regionName = 'Europe';
-            else if (currentRegion == REGIONS[6])
-                regionName = 'Australia';
-            else if (currentRegion == REGIONS[7])
-                regionName = 'Oceania & Icelands';
-            countryName.text(regionName)
-            return;
-        }
-        
-        let countryObj = getObj(currentPolygon);
-        countryName.text(countryObj && countryObj.name || '')
+        if (Translater.isEnglish())
+            AREA_TEXT.text(currentRegion && currentRegion.en || getObj(currentPolygon).en) 
+        else 
+            AREA_TEXT.text(currentRegion && currentRegion.ru || getObj(currentPolygon).ru) 
     }
 }
 class d3Drag { 
@@ -363,9 +333,23 @@ class d3Drag {
 }
 
 
-$(document).ready(() => {  
-    HELPER = new d3Helper();
+$(document).ready(() => {
+    // canvas & d3 variables
+    AREA_TEXT =     d3.select('#areaText')
+    canvas =        d3.select('#globe')
+    canvasDOM =     document.getElementById('globe');
+    context =       canvas.node().getContext('2d')
+    projection =    d3.geoOrthographic().precision(0.1) 
+    path =          d3.geoPath(projection).context(context)
+
+
+    Translater.Start();
+    SearchArea.Start();
+    Sidebar.Recreate(); 
     
+
+
+    HELPER = new d3Helper();
     HELPER.QueueData();
 
     new d3Drag().setDrag();
@@ -380,4 +364,6 @@ $(document).ready(() => {
         currentPolygon = null;
         currentRegion = null;
     }) 
+
+     
 })

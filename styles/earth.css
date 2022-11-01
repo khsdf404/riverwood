@@ -19,7 +19,7 @@ main div {
     border: 2px solid #000;
 }
 
-h2#countryName {  
+h2#areaText {  
     font-family: Neris; 
     text-align: center; 
     min-height: 32px;

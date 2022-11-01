@@ -1,6 +1,7 @@
 sidebar input {
     width: calc(80% - 4px);
     height: 28px;
+    min-height: 28px;
     /* border-radius: 5px; */
     border: none; 
     font-size: 20px;

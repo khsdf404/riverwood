@@ -1,26 +1,3 @@
-import { REGIONS } from '/scripts/mainlands.js';
-import { REGION__NAMES } from '/scripts/mainlands.js';
-const COUNTRY__NAMES = (function() {
-    let tmpList = [];
-    REGIONS.forEach(region => {
-        region.forEach(country => {
-            tmpList.push(country.name);
-        })
-    })
-    return tmpList.sort((a, b) => { return a < b ? -1 : 1 });
-}()); 
-
-
-const AREATYPES = {
-    'country': 'country',
-    'region': 'region'
-}
-let AREA = AREATYPES.country;
-
-
-
-
-
 class PageThemes {
     constructor() {
         this.light = {
@@ -81,38 +58,14 @@ class PageThemes {
     }
 }
 
-class SearchArea {
-    setListeners() {
-        $(`span.header-choosetype button`).click((e) => {
-            if (e.currentTarget.id == 'regionBtn')
-                AREA = AREATYPES.region;
-            else 
-                AREA = AREATYPES.country;
 
-            this.RecreateSidear();
-        })
-    }
 
-    RecreateSidear() {
-        $(`sidebar ul`).empty();
-
-        if (AREA == AREATYPES.region) {
-            REGION__NAMES.forEach(name => {
-                $(`sidebar ul`).append(this.CreateElem(name))
-            });
-        }
-        else {
-            COUNTRY__NAMES.forEach(name => {
-                $(`sidebar ul`).append(this.CreateElem(name))
-            }); 
-        }
-    }
-
-    CreateElem(text) {
-        return $(`<li>${text}</li>`);
-    }
-}
-
+// import { RIVERS__RU } from "/scripts/riversRU.js";
+// const inRegion = (reg) => {
+//     RIVERS__RU.forEach(river => {
+        
+//     });
+// }
 
 
 $(document).ready(() => {
@@ -126,9 +79,4 @@ $(document).ready(() => {
     let ThemeObj = new PageThemes();
     ThemeObj.setTheme(ThemeObj.dark);
     ThemeObj.setListeners();
-
-
-    let AreaObj = new SearchArea();
-    AreaObj.RecreateSidear();
-    AreaObj.setListeners();    
 })
