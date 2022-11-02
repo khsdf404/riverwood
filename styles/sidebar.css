@@ -48,7 +48,7 @@ sidebar wrap {
 
 
 
-sidebar ul {
+ul#sidebarList {
     position: relative;
     width: 80%;
     font-size: 22px;
@@ -59,35 +59,98 @@ sidebar ul {
     padding-right: 4px;
     font-family: 'Neris';
 }
-sidebar ul::-webkit-scrollbar {
+ul#sidebarList::-webkit-scrollbar {
     width: 7px;
     background: var(--accentColor);
 }
-sidebar ul::-webkit-scrollbar-thumb { 
+ul#sidebarList::-webkit-scrollbar-thumb { 
     background: var(--sdThumbBgc); 
 }
-sidebar ul li {
+ul#sidebarList > li {
     background: var(--sdListBgc);
     margin: 4px 0;
     border-radius: 4px;
     padding: 4px 10px;
+
+     
 }
-sidebar ul li:first-child {
+ul#sidebarList > li:first-child {
     margin: 0;
     margin-bottom: 4px;
 }
-sidebar ul li:last-child {
+ul#sidebarList > li:last-child {
     margin: 0;
     margin-top: 4px;
 }
-sidebar li:hover div {
-    display: block;
+
+
+
+ul#sidebarList marker {
+    unicode-bidi: isolate;
+    font-variant-numeric: tabular-nums;
+    text-transform: none;
+    text-indent: 0px !important;
+    text-align: start !important;
+    text-align-last: start !important;
 }
-sidebar ul div {
-    display: none;
-    width: 100px;
-    height: 100px;
-    background: red;
+ul#sidebarList itemTitle {
+    width: 100%;
+    display: flex;
+}
+ul#sidebarList item {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+
+    max-height: 0;
+    margin: 0 25px;
+    
+    font-size: 18px;
+
+    overflow: hidden;
+    transition: max-height .6s , margin-top .4s, margin-bottom .4s;
+}
+ul#sidebarList item a {
+    color: var(--headerButtonBgc);
+}
+ul#sidebarList#sidebarList item a:active {
+    color: var(--headerButtonBgc);
+} 
+ul#sidebarList li.sidebar-active-item item {
+    max-height: 80px; 
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+ul#sidebarList item div {
+    margin-right: 8px;
 }
 
 
+
+
+ul#sidebarList ol {
+    padding: 0;
+    margin: 0;
+    list-style: inside;
+    list-style-type: decimal;
+}
+ul#sidebarList ol li {
+    max-height: 0;
+    margin: 0 25px;
+    
+    font-size: 18px;
+
+    overflow: hidden;
+    transition: max-height .6s , margin-top .4s, margin-bottom .4s;
+}
+ul#sidebarList ol li a {
+    color: var(--headerButtonBgc);
+}
+ul#sidebarList#sidebarList ol li a:active {
+    color: var(--headerButtonBgc);
+} 
+ul#sidebarList li.sidebar-active-item ol li {
+    max-height: 80px; 
+    margin-top: 5px;
+    margin-bottom: 5px;
+}

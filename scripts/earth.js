@@ -11,7 +11,7 @@ const styleGlobeBorder =  { 'color': '#000',  'thickness': 2  };
 // all we need to work with
 let width, height
 let globe, land, countries, borders;
-var polygonList, objList, currentPolygon, currentRegion;
+var polygonList, currentPolygon, currentRegion;
 
 // rotation part
 let v0 // Mouse position in Cartesian coordinates at start of drag gesture.
@@ -34,7 +34,7 @@ var HELPER;
 
 
 const getObj = (countryPolygon) => {
-    return objList.find(function(e) {
+    return COUNTRIES.find(function(e) {
         return parseInt(e.id) == parseInt(countryPolygon.id)
     })
 }
@@ -61,17 +61,14 @@ class d3Helper {
     QueueData() {
         d3.queue()
             .defer(d3.json, "/src/countriesInfo.json")
-            .defer(d3.tsv, "/src/countriesInfo.tsv")
             .await(this.LoadData);
     }
     LoadData = (error, world, names) => {
         if (error) throw error;
-        globe = { type: 'Sphere' }
-        console.log(world);
+        globe = { type: 'Sphere' } 
         land = topojson.feature(world, world.objects.land);
         countries = topojson.feature(world, world.objects.countries);
         polygonList = countries.features;
-        objList = names;
         borders = topojson.mesh(world, world.objects.countries, function(a, b) { return a != b; });
 
         this.setScale();
@@ -118,16 +115,13 @@ class d3Helper {
 
 
     setScale = () => {
-        width = $(`main`).outerWidth() * .8; 
-        height = $(`main`).outerHeight() * .8; 
-
-        width =  Math.min(width, height);
+        width = Math.min(
+            $(`main`).outerWidth(), 
+            $(`main`).outerHeight()
+        )  * .8;
         height = width;
-
-
-        console.log(`w: ${width}, h: ${$(`main div`).outerHeight()}`);
+        // .log(`w: ${width}, h: ${$(`main div`).outerHeight()}`);
  
-       
 
         canvas.attr('width', width).attr('height', height)
         projection
@@ -195,7 +189,7 @@ class d3Hover {
             if (!(this.setCountry())) 
                 return;
         }
-
+        
         HELPER.RenderGlobe()
         this.setName();
     }

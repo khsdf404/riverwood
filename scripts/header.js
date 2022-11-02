@@ -1,3 +1,15 @@
+const ruBtn = $(`#ruBtn`);
+const enBtn = $(`#enBtn`);
+const countryBtn = $(`#countryBtn`);
+const regionBtn = $(`#regionBtn`);
+const buttons = [ ruBtn, enBtn, countryBtn, regionBtn ];
+const textBtn = {
+    'ru': ['Ru', 'En', 'Страна', 'Регион'],
+    'en': ['Ru', 'En', 'Country', 'Region'],
+}
+
+
+
 class PageThemes {
     constructor() {
         this.light = {
@@ -59,6 +71,13 @@ class PageThemes {
 class Translater { 
     static Start(lang) { 
         LANG = lang;
+        if (Translater.isEnglish())
+            $(`#enBtn`).addClass(`active-btn`);
+        else 
+            $(`#ruBtn`).addClass(`active-btn`);
+
+
+
         $(`span.header-language button`).click((e) => {
             AREA_TEXT.text('');
             Translater.setLang(e.currentTarget.id);
@@ -81,7 +100,7 @@ class Translater {
         else 
             LANG = this.LANGTYPES.en;
     }
-    static setButtons(buttons, textBtn) {
+    static setButtons() {
         for(let i = 0; i < buttons.length; i++)
             buttons[i].text(Translater.isEnglish() ? textBtn.en[i] : textBtn.ru[i])
     }
@@ -93,10 +112,15 @@ class SearchArea {
         AREA = area; 
         SearchArea.setNames(SearchArea.isRegion());
 
+        if (SearchArea.isRegion())
+            $(`#regionBtn`).addClass(`active-btn`);
+        else 
+            $(`#countryBtn`).addClass(`active-btn`);
+
 
         $(`span.header-choosetype button`).click((e) => {
             AREA_TEXT.text('');
-            SearchArea.setArea(e.currentTarget.id);
+            SearchArea.setArea(e.currentTarget);
             SearchArea.setNames();
         })
     }
@@ -109,27 +133,30 @@ class SearchArea {
     static isRegion() { 
         return AREA == SearchArea.AREATYPES.region;
     }
-    static setArea(id) {
-        if (id == 'regionBtn')  
+    static setArea(target) {
+        if (target == regionBtn[0])  
             AREA = SearchArea.AREATYPES.region;
         else                    
             AREA = SearchArea.AREATYPES.country;
     }
     static setNames() {
         if (SearchArea.isRegion()) {
-            NAMES = REGIONS.map(reg => {
-                return Translater.isEnglish() ? reg.en : reg.ru;
-            });
-            return;
+            REGIONS.forEach(reg => {
+                reg.name = 
+                    Translater.isEnglish() ? 
+                        reg.en :
+                        reg.ru
+            })
+            SIDEBAR_LIST = REGIONS;
         }
         else {
-            let tmpList = [];
-            REGIONS.forEach(region => {
-                region.obj.forEach(country => {
-                    tmpList.push(Translater.isEnglish() ? country.en : country.ru);
-                })
+            COUNTRIES.forEach(country => {
+                country.name = 
+                    Translater.isEnglish() ? 
+                        country.en :
+                        country.ru
             })
-            NAMES = tmpList.sort((a, b) => { return a < b ? -1 : 1 });
+            SIDEBAR_LIST = COUNTRIES;
         }
     }
 
@@ -143,14 +170,3 @@ class SearchArea {
 }
 
 
- 
-
-
-// const objList = (function() {
-//     let arr = [];
-//     REGIONS.forEach(el => {
-//         arr = arr.concat(el);
-//     });
-//     arr.sort((a, b) => parseInt(a.id) - parseFloat(b.id));
-//     return arr;
-// }());

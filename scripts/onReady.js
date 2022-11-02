@@ -1,3 +1,7 @@
+const log = console.log.bind(document);
+const START_LANG = Translater.LANGTYPES.ru;
+const START_AREA = SearchArea.AREATYPES.country;
+
 const RegionEnum = {
     'AFRICA': [
         {'id': '12', 'en': 'Algeria', 'ru': 'Алжир'},
@@ -61,8 +65,7 @@ const RegionEnum = {
         {'id': '124', 'en': 'Canada', 'ru': 'Канада'},
         {'id': '484', 'en': 'Mexico', 'ru': 'Мексика'},
         {'id': '840', 'en': 'United States of America', 'ru': 'США'},
-    ],
-    'CENTRAL__AMERICA': [
+
         {'id': '84', 'en': 'Belize', 'ru': 'Белиз'},
         {'id': '188', 'en': 'Costa Rica', 'ru': 'Коста Рика'},
         {'id': '222', 'en': 'El Salvador', 'ru': 'Сальвадор'},
@@ -71,6 +74,15 @@ const RegionEnum = {
         {'id': '558', 'en': 'Nicaragua', 'ru': 'Никарагуа'},
         {'id': '591', 'en': 'Panama', 'ru': 'Панама'},
     ],
+    // 'CENTRAL__AMERICA': [
+    //     {'id': '84', 'en': 'Belize', 'ru': 'Белиз'},
+    //     {'id': '188', 'en': 'Costa Rica', 'ru': 'Коста Рика'},
+    //     {'id': '222', 'en': 'El Salvador', 'ru': 'Сальвадор'},
+    //     {'id': '320', 'en': 'Guatemala', 'ru': 'Гватемала'},
+    //     {'id': '340', 'en': 'Honduras', 'ru': 'Гондурас'},
+    //     {'id': '558', 'en': 'Nicaragua', 'ru': 'Никарагуа'},
+    //     {'id': '591', 'en': 'Panama', 'ru': 'Панама'},
+    // ],
     'SOUTH__AMERICA' : [
         {'id': '32', 'en': 'Argentina', 'ru': 'Аргентина'},
         {'id': '68', 'en': 'Bolivia', 'ru': 'Боливия'},
@@ -133,7 +145,7 @@ const RegionEnum = {
         {'id': '784', 'en': 'United Arab Emirates', 'ru': 'ОАЭ'},
         {'id': '792', 'en': 'Turkey', 'ru': 'Турция'},
         {'id': '795', 'en': 'Turkmenistan', 'ru': 'Туркменистан'},
-        {'id': '860', 'en': 'Uzbekistan', 'ru': 'Убзекистан'},
+        {'id': '860', 'en': 'Uzbekistan', 'ru': 'Узбекистан'},
         {'id': '887', 'en': 'Yemen', 'ru': 'Йемен'},
     ],
     'EUROPE': [
@@ -153,7 +165,7 @@ const RegionEnum = {
         {'id': '250', 'en': 'France', 'ru': 'Франция'},
         {'id': '276', 'en': 'Germany', 'ru': 'Германия'},
         {'id': '300', 'en': 'Greece', 'ru': 'Греция'},
-        {'id': '304', 'en': 'Greenland [Denmark]', 'ru': 'Гринландия [Дания]'},
+        {'id': '304', 'en': 'Greenland [Denmark]', 'ru': 'Гренландия [Дания]'},
         {'id': '348', 'en': 'Hungary', 'ru': 'Венгрия'},
         {'id': '352', 'en': 'Iceland', 'ru': 'Исландия'},
         {'id': '372', 'en': 'Ireland', 'ru': 'Ирландия'},
@@ -163,12 +175,12 @@ const RegionEnum = {
         {'id': '440', 'en': 'Lithuania', 'ru': 'Литва'},
         {'id': '442', 'en': 'Luxembourg', 'ru': 'Люксембург'},
         {'id': '492', 'en': 'Monaco', 'ru': 'Монако'},
-        {'id': '498', 'en': 'Moldova', 'ru': 'Молдова'},
+        {'id': '498', 'en': 'Moldova', 'ru': 'Молдавия'},
         {'id': '499', 'en': 'Montenegro', 'ru': 'Черногория'},
         {'id': '528', 'en': 'Netherlands', 'ru': 'Нидерланды'},
         {'id': '578', 'en': 'Norway', 'ru': 'Норвегия'},
         {'id': '616', 'en': 'Poland', 'ru': 'Польша'},
-        {'id': '620', 'en': 'Portugal', 'ru': 'Поргугалия'},
+        {'id': '620', 'en': 'Portugal', 'ru': 'Португалия'},
         {'id': '642', 'en': 'Romania', 'ru': 'Румыния'},
         {'id': '688', 'en': 'Serbia', 'ru': 'Сербия'},
         {'id': '703', 'en': 'Slovakia', 'ru': 'Словакия'},
@@ -269,7 +281,8 @@ const RegionEnum = {
     ]    
 }
 
-var NAMES, AREA, AREA_TEXT, LANG;
+var SIDEBAR_LIST, AREA, AREA_TEXT, LANG;
+
 const REGIONS = [
     {
         'obj': RegionEnum.ASIA,
@@ -284,7 +297,7 @@ const REGIONS = [
     {
         'obj': RegionEnum.AUSTRALIA,
         'ru': 'Австралия',
-        'en': 'Africa'
+        'en': 'Australia'
     },
     {
         'obj': RegionEnum.EUROPE,
@@ -296,11 +309,11 @@ const REGIONS = [
         'ru': 'Северная Америка',
         'en': 'North America'
     },
-    {
-        'obj': RegionEnum.CENTRAL__AMERICA,
-        'ru': 'Центральная Америка',
-        'en': 'Central America'
-    },
+    // {
+    //     'obj': RegionEnum.CENTRAL__AMERICA,
+    //     'ru': 'Центральная Америка',
+    //     'en': 'Central America'
+    // },
     {
         'obj': RegionEnum.SOUTH__AMERICA,
         'ru': 'Южная Америка',
@@ -308,43 +321,85 @@ const REGIONS = [
     },
     {
         'obj': RegionEnum.OCEANIA,
-        'ru': 'Океания',
-        'en': 'Oceania'
+        'ru': 'Океания и острова',
+        'en': 'Oceania and Islands'
     }
-]; 
-
-
-
-
-class Page {
-    // uses in headeer.js only
-    static Recreate() {
-        function CreateElem(text) {
-            return $(`<li>${text}</li>`);
-        }
-        $(`sidebar ul`).empty();
-        NAMES.forEach(name => {
-            $(`sidebar ul`).append(CreateElem(name))
+].map(reg => {
+        reg.name = START_LANG == Translater.LANGTYPES.ru ? 
+            reg.ru : 
+            reg.en;
+        reg.rivers = [];
+        reg.obj.forEach(country => {
+            country.name = country.ru;
+            country.rivers = RIVERS__RU
+                    .filter(river => {
+                        if (river.location.indexOf(country.ru) > -1)
+                            return river.name;
+                    })
+                    .sort((a, b) => { return a < b ? -1 : 1 });
+            reg.rivers = reg.rivers.concat(...country.rivers);
         });
+        reg.rivers = reg.rivers.filter((el, id) => reg.rivers.indexOf(el) === id);
+        return reg;
+    }
+);
+const COUNTRIES = []
+    .concat(...REGIONS.map(reg => reg.obj))
+    .sort((a, b) => { return a.name < b.name ? -1 : 1 }); 
 
-        
-        let ruBtn = $(`#ruBtn`);
-        let enBtn = $(`#enBtn`);
-        let countryBtn = $(`#countryBtn`);
-        let regionBtn = $(`#regionBtn`);
-        let buttons = [ ruBtn, enBtn, countryBtn, regionBtn ];
-        let textBtn = {
-            'ru': ['Ru', 'En', 'Страна', 'Регион'],
-            'en': ['Ru', 'En', 'Country', 'Region'],
+
+
+
+ 
+
+class Page { 
+    static Recreate() {
+        function CreateElem(text, riversArr) { 
+            let cell = $(`<li><itemTitle>${text} (${riversArr.length})</itemTitle></li>`); 
+            let maxLen = (riversArr.length + '').length;
+            // <marker>${  
+            //     (''.padStart((maxLen - (++index + '').length) * 3, ' ') 
+            //     + (index) + '.')}
+            // </marker>
+            // let lk = $(`<ol></ol>`)
+            riversArr.forEach((el, index) => {
+                cell.append(`
+                    <item>
+                        <div> ➝ </div>
+                        <a class="non-select" href="${el.link}" target="_blank" rel="noopener noreferrer">
+                            ${el.name}
+                        </a>
+                    </item>
+                `);
+            });
+            // cell.append(lk);
+            return cell;
         }
-        
-        Translater.setButtons(buttons, textBtn);
+
+
+
+        $(`#sidebarList`).empty();
+        SIDEBAR_LIST.forEach(e => 
+            $(`#sidebarList`).append(CreateElem(e.name, e.rivers))
+        );
+        $(`#sidebarList li`).click(function(e) {
+            log(e)
+            $(`#sidebarList li`).removeClass(`sidebar-active-item`);
+            $(this).toggleClass(`sidebar-active-item`);
+        })
+
+
+
+
+
+        Translater.setButtons();
     }
 }
 
 
 
-const Earth = () => {
+const Earth = () => { 
+    // canvas & d3 variables
     canvas =        d3.select('#globe')
     canvasDOM =     document.getElementById('globe');
     context =       canvas.node().getContext('2d');
@@ -370,8 +425,8 @@ const Earth = () => {
     });
 }
 const Header = () => {
-    Translater.Start(Translater.LANGTYPES.en);
-    SearchArea.Start(SearchArea.AREATYPES.country);
+    Translater.Start(START_LANG);
+    SearchArea.Start(START_AREA);
     Page.Recreate(); 
     
     $(`header settings button`).click(function() {
@@ -393,13 +448,9 @@ const Header = () => {
 
 
 $(document).ready(() => {
-    // canvas & d3 variables
-    AREA_TEXT =     $('#areaText')
+    AREA_TEXT =     $('#areaText');
+
     
     Earth();
     Header();
-     
-    
-
-    
 })
