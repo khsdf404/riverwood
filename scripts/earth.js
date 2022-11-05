@@ -220,8 +220,8 @@ class d3Hover {
         if (countryPolygon === currentPolygon) { 
             return false;
         }
-        log(countryPolygon)
-        log(getObj(countryPolygon))
+        // log(countryPolygon)
+        // log(getObj(countryPolygon))
         currentPolygon = countryPolygon;
         return true;
     }

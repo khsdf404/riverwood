@@ -560,13 +560,6 @@ const REGIONS = [
 
 
 
-
-
-
-
-
-
-
 const findCountry = (id) => {
     let output = null;
     REGIONS.forEach(reg => {
@@ -594,7 +587,7 @@ class Page {
         function CreateElem(text, riversArr) { 
             let cell = $(`<li><h6>${text} (${riversArr.length})</h6></li>`); 
             let cellRiversWrap = $(`<div></div>`);
-            riversArr.forEach((el, index) => {
+            riversArr.forEach(el => {
                 cellRiversWrap.append(`
                     <wrap>
                         <span>➝</span>
@@ -624,9 +617,6 @@ class Page {
             else 
                 div.css({'max-height': '0px'});
         })
-
-
-
 
 
         Translater.setButtons();

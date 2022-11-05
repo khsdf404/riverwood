@@ -68,6 +68,7 @@ header settings span {
     border-radius: 3px;
     overflow: hidden;
     height: 30px;
+    width: fit-content;
     z-index: 2;
 }
 
