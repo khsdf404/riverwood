@@ -114,7 +114,7 @@ class Translater {
 class SearchArea {
     static Start(area) {
         AREA = area; 
-        SearchArea.setNames(SearchArea.isRegion());
+        SearchArea.setNames();
 
         if (SearchArea.isRegion())
             $(`#regionBtn`).addClass(`active-btn`);

@@ -1,7 +1,7 @@
 // 
 const rotationDelay =     15000
 const scaleFactor =       1
-const degPerSec =         -10
+const degPerSec =         -0
 const angles =            { x: 50, y: -20, z: 0}
 const colorWater =        '#0000FF33' //'#18123600' 
 const colorLand =         '#309d60'   //'#F19BFE'
@@ -34,6 +34,16 @@ var HELPER;
 
 
 const getObj = (countryPolygon) => {
+    if (SearchArea.isRegion()) {
+        let b;
+        REGIONS.forEach(reg => {
+            if (b) return;
+            b = reg.obj.find(country => {
+                return parseInt(country.id) == parseInt(countryPolygon.id)
+            })
+        }) 
+        return b;
+    }
     return COUNTRIES.find(function(e) {
         return parseInt(e.id) == parseInt(countryPolygon.id)
     })
@@ -209,8 +219,9 @@ class d3Hover {
         // hover one country twice
         if (countryPolygon === currentPolygon) { 
             return false;
-        } 
+        }
         log(countryPolygon)
+        log(getObj(countryPolygon))
         currentPolygon = countryPolygon;
         return true;
     }
@@ -264,8 +275,8 @@ class d3Hover {
         
         return countries.features.find(function(f) {
             return f.geometry.coordinates.find(function(c1) {
-                return polygonContains(c1, pos) || c1.find(function(c2) {
-                    return polygonContains(c2, pos)
+                return getObj(f) && polygonContains(c1, pos) || c1.find(function(c2) {
+                    return (getObj(f) != undefined && polygonContains(c2, pos))
                 })
             })
         })
