@@ -1,5 +1,5 @@
 // 
-const rotationDelay =     2000
+const rotationDelay =     15000
 const scaleFactor =       1
 const degPerSec =         -10
 const angles =            { x: 50, y: -20, z: 0}
@@ -122,7 +122,7 @@ class d3Helper {
         height = width;
         // .log(`w: ${width}, h: ${$(`main div`).outerHeight()}`);
  
-
+        $(`main div`).css({'width': width, 'height': height}) 
         canvas.attr('width', width).attr('height', height)
         projection
             .scale((scaleFactor * (Math.min(width, height)) / 2))
@@ -194,8 +194,7 @@ class d3Hover {
         this.setName();
     }
 
-    setCountry = () => { 
-        console.log();
+    setCountry = () => {
         let countryPolygon = this.getPolygon(canvasDOM)
       
         // water hover 
@@ -211,6 +210,7 @@ class d3Hover {
         if (countryPolygon === currentPolygon) { 
             return false;
         } 
+        log(countryPolygon)
         currentPolygon = countryPolygon;
         return true;
     }
@@ -303,9 +303,7 @@ class d3Drag {
         HELPER.RenderGlobe();
         logCoord( projection.rotate());
     }
-    End() { 
-        currentPolygon = null;
-        currentRegion = null;
+    End() {
         let interval = setInterval(() => {
             console.log('Waiting');
             

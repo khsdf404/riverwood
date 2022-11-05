@@ -51,7 +51,6 @@ sidebar wrap {
 ul#sidebarList {
     position: relative;
     width: 80%;
-    font-size: 22px;
     list-style: none;
     padding: 0;
     margin-top: 30px;
@@ -85,72 +84,46 @@ ul#sidebarList > li:last-child {
 
 
 
-ul#sidebarList marker {
-    unicode-bidi: isolate;
-    font-variant-numeric: tabular-nums;
-    text-transform: none;
-    text-indent: 0px !important;
-    text-align: start !important;
-    text-align-last: start !important;
-}
-ul#sidebarList itemTitle {
-    width: 100%;
+
+ul#sidebarList h6 {
     display: flex;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    font-weight: 100;
+    color: var(--sdHeaderColor);
 }
-ul#sidebarList item {
+ul#sidebarList div {
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
+    flex-direction: column;
 
     max-height: 0;
-    margin: 0 25px;
+    margin: 0px 37px 0 25px;
     
-    font-size: 18px;
-
     overflow: hidden;
-    transition: max-height .6s , margin-top .4s, margin-bottom .4s;
+    transition: max-height .6s;
 }
-ul#sidebarList item a {
-    color: var(--headerButtonBgc);
+ul#sidebarList div a {
+    font-size: 18px;
+    color: var(--sdLinkColor);
 }
-ul#sidebarList#sidebarList item a:active {
-    color: var(--headerButtonBgc);
+ul#sidebarList#sidebarList div a:active {
+    color: var(--sdLinkColor);
 } 
-ul#sidebarList li.sidebar-active-item item {
-    max-height: 80px; 
-    margin-top: 5px;
-    margin-bottom: 5px;
-}
-ul#sidebarList item div {
+ul#sidebarList span {
+    font-size: 20px;
     margin-right: 8px;
 }
-
-
-
-
-ul#sidebarList ol {
-    padding: 0;
-    margin: 0;
-    list-style: inside;
-    list-style-type: decimal;
-}
-ul#sidebarList ol li {
-    max-height: 0;
-    margin: 0 25px;
-    
-    font-size: 18px;
-
-    overflow: hidden;
-    transition: max-height .6s , margin-top .4s, margin-bottom .4s;
-}
-ul#sidebarList ol li a {
-    color: var(--headerButtonBgc);
-}
-ul#sidebarList#sidebarList ol li a:active {
-    color: var(--headerButtonBgc);
-} 
-ul#sidebarList li.sidebar-active-item ol li {
-    max-height: 80px; 
+ul#sidebarList wrap {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: row;
     margin-top: 5px;
     margin-bottom: 5px;
+
+    transition: 2s all;
 }
