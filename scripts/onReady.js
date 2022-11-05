@@ -589,12 +589,10 @@ class Page {
             let cellRiversWrap = $(`<div></div>`);
             riversArr.forEach(el => {
                 cellRiversWrap.append(`
-                    <wrap>
+                    <a class="non-select" href="${el.link}" target="_blank" rel="noopener noreferrer">
                         <span>➝</span>
-                        <a class="non-select" href="${el.link}" target="_blank" rel="noopener noreferrer">
-                            ${el.name}
-                        </a>
-                    </wrap>
+                        <ins>${el.name}</ins>
+                    </a>
                 `);
             });
             cell.append(cellRiversWrap)
@@ -613,7 +611,7 @@ class Page {
             $(`.sidebar-active-item`).not(parent).removeClass(`sidebar-active-item`);
             parent.toggleClass(`sidebar-active-item`);
             if (parent.hasClass(`sidebar-active-item`))
-                div.css({'max-height': (div.find('wrap').length * 50) + 'px'});
+                div.css({'max-height': (div.find('a').length * 40) + 'px'});
             else 
                 div.css({'max-height': '0px'});
         })

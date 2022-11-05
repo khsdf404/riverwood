@@ -26,7 +26,8 @@ class PageThemes {
             '--sdListBgc': '#5050502e',
             '--sdThumbBgc': '#19aeef',
             '--sdHeaderColor': '#000',
-            '--sdLinkColor': '#0142b9'
+            '--sdLinkColor': '#0142b9',
+            '--sdFontWeight': '900'
         }
         this.dark = {
             '--mainBackground': 'linear-gradient(174deg, #3a3a3a, #15151e) ',
@@ -42,7 +43,8 @@ class PageThemes {
             '--sdListBgc': '#9d9d9d44',
             '--sdThumbBgc': '#2d66c5',
             '--sdHeaderColor': '#fffc',
-            '--sdLinkColor': '#93c3ff'
+            '--sdLinkColor': '#93c3ff',
+            '--sdFontWeight': '100'
         }
 
 

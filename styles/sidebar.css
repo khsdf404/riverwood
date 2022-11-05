@@ -73,7 +73,7 @@ ul#sidebarList h6 {
     margin: 0;
     padding: 0;
     font-size: 20px;
-    font-weight: 900;
+    font-weight: var(--sdFontWeight);
     color: var(--accentColor);
 }
 ul#sidebarList div {
@@ -91,23 +91,30 @@ ul#sidebarList div {
 ul#sidebarList div a {
     font-size: 18px;
     color: var(--sdLinkColor);
+    font-weight: 900;
+    text-decoration: none;
+    transition: .2s;
+    margin: 2px 0;
+}
+ul#sidebarList div a:last-child {
+    margin-bottom: 6px;
 }
 ul#sidebarList#sidebarList div a:active {
     color: var(--sdLinkColor);
-} 
-ul#sidebarList span {
-    font-size: 20px;
-    margin-right: 8px;
 }
-ul#sidebarList wrap {
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-    flex-direction: row;
-    margin-top: 5px;
-    margin-bottom: 5px;
 
-    transition: 2s all;
+ul#sidebarList a span {
+    font-size: 16px;
+    margin-right: 8px;
+    transition: .7s font-size, .7s margin-right, .5s color;
+    color: var(--accentColor);
+}
+ul#sidebarList a:hover > span {
+    font-size: 12px;
+    margin-right: 2px;
+}
+ul#sidebarList a:hover {
+    transform: translateX(20px) scale(1.05);
 }
 
 
@@ -151,6 +158,7 @@ ul#riverList > li:last-child {
 ul#riverList a {
     font-size: 18px;
     color: var(--sdLinkColor);
+    font-weight: 900;
 }
 ul#riverList a:active {
     color: var(--sdLinkColor);
@@ -183,11 +191,7 @@ aside .sidebar-input-wrapper {
     overflow: hidden;
     position: relative;
 }
-#searchInput::after {
-    content: '0/0';
-    position: absolute;
-    
-}
+
 
 #searchInput::-webkit-input-placeholder {
     color:var(--sdPlaceholder);
@@ -207,6 +211,7 @@ span.input-btn {
     font-size: 20px;
     font-family: 'Neris';
     margin-bottom: 10px;
+    font-weight: var(--sdFontWeight);
 }
 span.input-btn:last-child {
     margin: 0 0px 10px 2px; 
@@ -216,4 +221,9 @@ span.input-btn:last-child::before {
    content: '×';
    position: absolute;  
    top: -7px;
+}
+
+aside span.input-counter { 
+    font-size: 16px;
+    padding: 0 6px;
 }

@@ -1,7 +1,10 @@
-const input = $(`#searchInput`);
-const prevMark = $(`.input-btn`).eq(0);
-const nextMark = $(`.input-btn`).eq(1);
-const cleanInput = $(`.input-btn`).eq(2);
+const input =       $(`#searchInput`);
+const controls =    $(`.input-btn`);
+const counter =     controls.eq(0);
+const prevMark =    controls.eq(1);
+const nextMark =    controls.eq(2);
+const cleanInput =  controls.eq(3);
+
 
 const riverList = $(`#riverList`);
 const sidebarList = $(`#sidebarList`);
@@ -29,10 +32,13 @@ const scrollToElem = (index) => {
         riverList.animate({
             'scrollTop': height * aList.index(currentTarget)
         }, scrollSpeed);
+        counter.text(`${index > -1 ? index % length + 1 : length - Math.abs(index + 1) % length}/${length}`)
     }
 }
-$(`.input-btn`).fadeOut(0);
 
+
+
+controls.fadeOut(0);
 
 
 input.on(`input`, () => {
@@ -40,39 +46,44 @@ input.on(`input`, () => {
     if (!val) {
         riverList.scrollTop(0);
         riverList.fadeOut(200);
+        controls.fadeOut(200);
+
         clearTimeout(clock);
         clock = setTimeout(() => {
             sidebarList.fadeIn(200);
         }, 250);
-        
-        $(`.input-btn`).fadeOut(200);
-
+    
         newSearch = true;
         return;
     }
     if (newSearch == true) {
         sidebarList.fadeOut(200);
+
         clearTimeout(clock);
+        controls.fadeIn(200);
         clock = setTimeout(() => {
             riverList.fadeIn(200, () => {
                 currentIndex = -1;
                 nextMark.trigger('click');
             });
         }, 250);
-        
-        $(`.input-btn`).fadeIn(200);
     }
 
+    counter.text(`0/0`);
     $(`.search-target`).removeClass('search-target');
-    $(`#riverList a`).each(function() {
+    // riverList.find('li').css({'display': 'list-item'});
+    aList.each(function() { 
         let text = $(this).text();
         $(this).html(text.replace(/<[/]*mark>/g, ``));
-        if (text.indexOf(val) > -1) {
+        let indexOf = text.toUpperCase().indexOf(val.toUpperCase());
+        if (indexOf > -1) {
             $(this).addClass('search-target');
-            $(this).html(text.replace(val, `<mark>${val}</mark>`));
+            let part = text.slice(indexOf, indexOf + val.length)
+            $(this).html(text.replace(part, `<mark>${part}</mark>`));
         }
-    })
-    
+        // else $(this).parent('li').css({'display': 'none'});
+    });
+   
 
     
     if (!newSearch) {
@@ -81,6 +92,16 @@ input.on(`input`, () => {
     }
     newSearch = false;
 });
+input.on('keyup', e => { 
+    if (e.key == 'Enter')
+        nextMark.trigger('click');
+    else if (e.key == 'ArrowDown')
+        nextMark.trigger('click');
+    else if (e.key == 'ArrowUp')
+        prevMark.trigger('click');
+    else if (e.key == 'Escape')
+        cleanInput.trigger('click');
+})
 
 
 
@@ -95,4 +116,3 @@ cleanInput.click(() => {
     input.val('');
     input.trigger('input');
 })
-
