@@ -39,7 +39,7 @@ class PageThemes {
         '--headerButtonBgc': '#93c3ff',
         '--headerDisableBtnBgc': '#b9b9b93b',
         '--headerHoverBcg': '#1e437261',
-        '--headerSettingsBgc': 'linear-gradient(39deg, #ffe7bb, #ffffffad)', // #bec1e394
+        '--headerSettingsBgc': '#ffffffdf', // #bec1e394
                                             // linear-gradient(45deg, #a0beeb, white);
                                             // repeating-linear-gradient(138deg, #b5d3ff85, #94b9df6e 50px);
                                             // #f9ecdcc7
@@ -66,7 +66,8 @@ class PageThemes {
         '--headerButtonBgc': '#93c3ff',
         '--headerDisableBtnBgc': '#fff',
         '--headerHoverBcg': '#d5e6ff',
-        '--headerSettingsBgc': '#82828b94',  // linear-gradient(229deg, #6177b5, #2a2a2a)
+        '--headerSettingsBgc': '#82828b94', // #82828b94 
+                                            // linear-gradient(229deg, #6177b5, #2a2a2a)
         '--headerSettingsFilter': 'drop-shadow(6px 8px 19px #000)',
         '--headerLogoBtnBgc': '#59595f',
         '--headerLogoBtnBorder': '1px solid #686868',
