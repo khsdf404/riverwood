@@ -1,21 +1,17 @@
+:root {
+    --btnOneWidth: 15px;
+}
+
+
 header {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     position: relative;
     width: 100%;
-    /* padding: 0px 7% 0 10%; */ 
+    min-height: 75px;
     background: var(--headerBgc);
     color: var(--accentColor);
-    /* margin: 0 auto;
-    border-bottom-right-radius: 9px;
-    border-bottom-left-radius: 9px;  */
-    height: auto;
-    /* height: 500px; */
-    /* padding: 20px 0; */
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    align-items: center;
     box-shadow: 0px 1px 14px -7px #000;
 }
  
@@ -24,20 +20,23 @@ header logo {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    flex: 10;
-    align-self: flex-start; 
-    min-width: 320px;
+    width: calc(37% - 10px);
+    min-width: 290px;
+    margin-left: 10px; 
 }
 header logo img {
     height: 36px;
-    margin-right: 18px;
+    margin-right: 15px;
 }
 header logo h1 {
     font-size: 36px;
     letter-spacing: 12px;
     font-family: 'Aetherius';
+    margin: 0;
 }
-
+header logo button {
+    display: none;
+}
 
 
 
@@ -47,16 +46,11 @@ header logo h1 {
 header settings { 
     display: flex;
     flex-direction: row;
-    flex: 16; 
+    flex: 1;
     align-items: center;
+    justify-content: center; 
     justify-content: center;
-    min-width: 400px;
-    margin: 15px 0px;
-}
-header settings wrap  {
-    display: flex;
-    width: 90%; 
-    justify-content: space-between;
+    padding: 0 2%;
 } 
 header settings span {
     display: flex;
@@ -71,8 +65,9 @@ header settings span {
     width: fit-content;
     z-index: 2;
 }
-
-
+header settings span:last-child {
+    margin-left: auto;
+}
 
 
 
@@ -81,11 +76,10 @@ header settings button {
     display: flex;
     justify-content: center;
     align-items: center;
-    position: relative;
-    width: auto;
+    position: relative; 
     height: 100%;
+    padding: 0;
     margin: 0;
-    padding: 0 10px;
     border: 0;
     background: none; 
     color: var(--accentColor);
@@ -107,14 +101,38 @@ header settings button.active-btn {
 
 
 
-
-
-
-
-
-header settings span.header-choosetype {
-    margin: 0 auto 0 4px;
+span.header-theme button:first-child:not(.active-btn)::after {
+    position: absolute;
+    content: '';
+    width: 1px;
+    height: 80%;
+    right: 0px;
+    background: var(--accentColor);
 }
+span.header-theme button:last-child:not(.active-btn)::after {
+    position: absolute;
+    content: '';
+    width: 1px;
+    height: 80%;
+    left: 0px;
+    background: var(--accentColor);
+}
+
+span.header-language button {
+    width: calc( var(--btnOneWidth) * (6/2)  )
+}
+span.header-choosetype button {
+    width: calc( var(--btnOneWidth) * (10/2) )
+}
+span.header-theme button {
+    width: calc( var(--btnOneWidth) * (10/3) )
+}
+
+
+
+
+
+
 
 
 
@@ -123,19 +141,4 @@ header settings span.header-choosetype {
 
 header settings span.header-theme img {
     transform: scale(0.9);
-}
-header settings span.header-theme button::after {
-    position: absolute;
-    content: '';
-    width: 1px;
-    height: 80%; 
-    right: -1px;
-    background: var(--accentColor);
-}
-header settings span.header-theme button:last-child:after {
-    width: 0;
-}
-header settings span.header-theme button.active-btn:after {
-    width: 0;
-}
-
+} 

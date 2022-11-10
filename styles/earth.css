@@ -3,8 +3,7 @@ main {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    flex: 16;
-    min-width: 400px;
+    flex: 16; 
 }
 main div {
     display: flex;

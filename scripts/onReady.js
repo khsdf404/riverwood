@@ -1,5 +1,6 @@
 const log = console.log.bind(document);
-const START_LANG = Translater.LANGTYPES.ru;
+const START_THEME = PageThemes.Light;
+const START_LANG = Translater.LANGTYPES.en;
 const START_AREA = SearchArea.AREATYPES.country;
 var SIDEBAR_LIST, AREA, AREA_TEXT, LANG;
     
@@ -652,8 +653,11 @@ const Earth = () => {
 const Header = () => {
     Translater.Start(START_LANG);
     SearchArea.Start(START_AREA);
+    PageThemes.Start(START_THEME);
     Page.Recreate(); 
     
+    
+
     $(`header settings button`).click(function() {
         $(this).parent()
             .find(`button.active-btn`)
@@ -663,10 +667,26 @@ const Header = () => {
         if (!$(this).parent('span').hasClass('header-theme'))
             Page.Recreate();
     });
+    
 
-    let ThemeObj = new PageThemes();
-    ThemeObj.setTheme(ThemeObj.dark); 
+    let a = true;
+    $(`header logo button`).click(function() {
+        $(this).toggleClass('header-logo-btn-active')
+        $(`header settings`).animate({
+            'right': a ? '10px' : '-250px' 
+        }, a ? 300 : 200) 
+        a = !a;
+    })
+    $(`content`).click(() => {
+        a = false;
+        $(`header logo button`).trigger('click');
+    })
+    $(`body`).on('resize', () => {
+        a = false;
+        $(`header logo button`).trigger('click');
+    })
 }
+
 
 
 

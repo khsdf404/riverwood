@@ -11,60 +11,84 @@ const textBtn = {
 
 
 class PageThemes {
-    constructor() {
-        this.light = {
-            '--mainBackground': '#f3e5d56b',
-            '--accentColor': '#444',
-            '--revertColor': '#fff',
-        
-            '--headerBgc': '#fff', 
-            '--headerButtonBgc': '#93c3ff',
-            '--headerHoverBcg': '#1e437261',
-        
-            '--sdBackground': '#7c7c7c40',
-            '--sdPlaceholder': '#a0a0a0',
-            '--sdListBgc': '#5050502e',
-            '--sdThumbBgc': '#19aeef',
-            '--sdHeaderColor': '#000',
-            '--sdLinkColor': '#0142b9',
-            '--sdFontWeight': '900'
-        }
-        this.dark = {
-            '--mainBackground': 'linear-gradient(174deg, #3a3a3a, #15151e) ',
-            '--accentColor': '#fffc',
-            '--revertColor': '#444',
-        
-            '--headerBgc': '#2e2e2e', 
-            '--headerButtonBgc': '#93c3ff',
-            '--headerHoverBcg': '#d5e6ff',
-        
-            '--sdBackground': '#54545426',
-            '--sdPlaceholder': '#a0a0a0',
-            '--sdListBgc': '#9d9d9d44',
-            '--sdThumbBgc': '#2d66c5',
-            '--sdHeaderColor': '#fffc',
-            '--sdLinkColor': '#93c3ff',
-            '--sdFontWeight': '100'
-        }
+    static Start(theme) {
+        PageThemes.setTheme(theme);
 
+        if (theme == PageThemes.Light) 
+            $(`#lightBtn`).addClass('active-btn');
+        if (theme == PageThemes.Dark) 
+            $(`#darkBtn`).addClass('active-btn');
 
 
         $(`span.header-theme button`).click((e) => {
             if (e.currentTarget.id == 'lightBtn')
-                this.setTheme(this.light)
+                PageThemes.setTheme(PageThemes.Light)
             else if (e.currentTarget.id == 'darkBtn')
-                this.setTheme(this.dark)
+                PageThemes.setTheme(PageThemes.Dark)
             else 
                console.log(e);
-        })
+        });
     }
+    static Light = {
+        '--mainBackground': '#f3e5d56b',
+        '--accentColor': '#444',
+        '--revertColor': '#fff',
+    
+        '--headerBgc': '#fff', 
+        '--headerDisabledColor': '#666',
+        '--headerButtonBgc': '#93c3ff',
+        '--headerDisableBtnBgc': '#b9b9b93b',
+        '--headerHoverBcg': '#1e437261',
+        '--headerSettingsBgc': 'linear-gradient(39deg, #ffe7bb, #ffffffad)', // #bec1e394
+                                            // linear-gradient(45deg, #a0beeb, white);
+                                            // repeating-linear-gradient(138deg, #b5d3ff85, #94b9df6e 50px);
+                                            // #f9ecdcc7
+                                            // linear-gradient(39deg, #ffe7bb, #ffffffad)
+        '--headerSettingsFilter': 'drop-shadow(6px 8px 19px #bbb)',
+        '--headerLogoBtnBgc': '#ebebeb', // #ddeaff #ebebeb
+        '--headerLogoBtnBorder': '1px solid #cfcfcf',
+    
+        '--sdBackground': '#f1efec',
+        '--sdPlaceholder': '#a0a0a0',
+        '--sdListBgc': '#5050502e',
+        '--sdThumbBgc': '#19aeef',
+        '--sdHeaderColor': '#000',
+        '--sdLinkColor': '#0142b9',
+        '--sdFontWeight': '900'
+    }
+    static Dark = {
+        '--mainBackground': 'linear-gradient(180deg, #484848, #15151e)',
+        '--accentColor': '#fffc',
+        '--revertColor': '#444',
+    
+        '--headerBgc': '#2e2e2e', 
+        '--headerDisabledColor': '#666',
+        '--headerButtonBgc': '#93c3ff',
+        '--headerDisableBtnBgc': '#fff',
+        '--headerHoverBcg': '#d5e6ff',
+        '--headerSettingsBgc': '#82828b94',  // linear-gradient(229deg, #6177b5, #2a2a2a)
+        '--headerSettingsFilter': 'drop-shadow(6px 8px 19px #000)',
+        '--headerLogoBtnBgc': '#59595f',
+        '--headerLogoBtnBorder': '1px solid #686868',
+
+    
+        '--sdBackground': '#54545426',
+        '--sdPlaceholder': '#a0a0a0',
+        '--sdListBgc': '#9d9d9d44',
+        '--sdThumbBgc': '#2d66c5',
+        '--sdHeaderColor': '#fffc',
+        '--sdLinkColor': '#93c3ff',
+        '--sdFontWeight': '100'
+    }
+    static currentTheme;
+    
     
 
-    setTheme(theme) {
-        if (theme == this.THEME) return;
-        this.THEME = theme;
-        let keys = Object.keys(this.THEME);
-        let styles =  Object.values(this.THEME);
+    static setTheme(theme) {
+        if (theme == PageThemes.currentTheme) return;
+        PageThemes.currentTheme = theme;
+        let keys = Object.keys(PageThemes.currentTheme);
+        let styles =  Object.values(PageThemes.currentTheme);
         for (let i = 0; i < keys.length; i++)
             document
                 .documentElement
@@ -162,7 +186,7 @@ class SearchArea {
                         country.en :
                         country.ru
             })
-            SIDEBAR_LIST = COUNTRIES;
+            SIDEBAR_LIST = COUNTRIES.sort((a, b) => a.name < b.name ? -1 : 1);;
         }
     }
 

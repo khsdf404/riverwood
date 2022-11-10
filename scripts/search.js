@@ -12,7 +12,9 @@ const sidebarList = $(`#sidebarList`);
 RIVERS__RU.forEach(river => {
     riverList.append(`
         <li>
-            <a href="${river.link}">${river.name}</a>
+            <a href="${river.link}" target="_blank" rel="noopener noreferrer">
+                ${river.name}
+            </a>
         </li>
     `)
 });
@@ -20,9 +22,11 @@ RIVERS__RU.forEach(river => {
 const aList = $(`#riverList a`);
 
 
+
+var scrollSpeed = 300;
+var removeOthers = false;
 var newSearch = true;
 var currentIndex = -1;
-var scrollSpeed = 300;
 var clock;
 const scrollToElem = (index) => {
     let length = $(`.search-target`).length; 
@@ -71,7 +75,7 @@ input.on(`input`, () => {
 
     counter.text(`0/0`);
     $(`.search-target`).removeClass('search-target');
-    // riverList.find('li').css({'display': 'list-item'});
+    if (removeOthers) riverList.find('li').css({'display': 'list-item'});
     aList.each(function() { 
         let text = $(this).text();
         $(this).html(text.replace(/<[/]*mark>/g, ``));
@@ -81,7 +85,7 @@ input.on(`input`, () => {
             let part = text.slice(indexOf, indexOf + val.length)
             $(this).html(text.replace(part, `<mark>${part}</mark>`));
         }
-        // else $(this).parent('li').css({'display': 'none'});
+        else if (removeOthers) $(this).parent('li').css({'display': 'none'});
     });
    
 

@@ -1,7 +1,7 @@
 // 
-const rotationDelay =     15000
+const rotationDelay =     8000
 const scaleFactor =       1
-const degPerSec =         -0
+const degPerSec =         -7
 const angles =            { x: 50, y: -20, z: 0}
 const colorWater =        '#0000FF33' //'#18123600' 
 const colorLand =         '#309d60'   //'#F19BFE'

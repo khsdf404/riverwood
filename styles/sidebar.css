@@ -1,8 +1,10 @@
 
 
 aside {
-    height: 100%;
-    flex: 10;
+    min-height: calc(100% - 80px);
+    max-height: calc(100% - 80px);
+    height: calc(100% - 80px);
+    padding: 40px 0;
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -15,14 +17,12 @@ aside {
     box-shadow: -7px -9px 20px 0px #000;
     background: var(--sdBackground);
     color: var(--accentColor);
-}
 
-aside wrap {
-    width: 90%;
-    height: 90%;  
-    display: flex;
     flex-direction: column; 
+    width: 37%; 
     align-items: center;
+    justify-content: flex-start;
+    min-width: 300px;
 } 
 
 
@@ -32,10 +32,10 @@ aside wrap {
 
 ul#sidebarList {
     position: relative;
-    width: 80%;
+    width: 70%; 
     list-style: none;
-    padding: 0;
-    margin-top: 30px;
+    padding: 0; 
+    margin: 0;
     overflow: auto;
     padding-right: 4px;
     font-family: 'Neris';
@@ -124,10 +124,10 @@ ul#sidebarList a:hover {
 ul#riverList {
     display: none;
     position: relative;
-    width: 80%;
+    width: 70%;
     list-style: none;
     padding: 0;
-    margin-top: 30px;
+    margin: 0;
     overflow: auto;
     padding-right: 4px;
     font-family: 'Neris';
@@ -169,11 +169,11 @@ ul#riverList mark {
 
 
 
-
-aside .sidebar-input-wrapper {
-    width: calc(80% - 4px);
-    height: 28px;
-    min-height: 28px;
+.sidebar-input-wrapper {
+    width: calc(70% - 4px);
+    /* height: 28px;
+    min-height: 28px; */
+    margin-bottom: 30px;
     position: relative;
     display: flex;
     justify-content: flex-start;
@@ -202,28 +202,26 @@ span.input-btn {
     border-radius: 3px;
     background: var(--sdListBgc);
     content: '';
-    min-width: 27px;
-    min-height: 27px;
-    margin: 0px 2px;
+    width: 27px;
+    height: 23px;
+    padding-bottom: 4px;
+    margin: 0px 1px;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 20px;
     font-family: 'Neris';
-    margin-bottom: 10px;
+    margin-bottom: 2px;
+    align-self: end;
     font-weight: var(--sdFontWeight);
+} 
+aside span.input-counter { 
+    font-size: 14px;
+    padding: 0px 12px;
+    padding-bottom: 4px;
 }
 span.input-btn:last-child {
-    margin: 0 0px 10px 2px; 
-}
-
-span.input-btn:last-child::before {
-   content: '×';
-   position: absolute;  
-   top: -7px;
-}
-
-aside span.input-counter { 
-    font-size: 16px;
-    padding: 0 6px;
+    margin-right: 0;
+    height: 21px;
+    padding-bottom: 6px;
 }

@@ -19,15 +19,12 @@ body {
 
 content {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
-    flex-direction: row;
-    /* height: auto; */
+    flex-direction: row; 
     flex: 1;
-    /* overflow: hidden; */
-    /* margin-top: auto; */
-    flex-wrap: wrap;
     overflow: auto;
+    overflow-x: hidden;
 }
 
 
