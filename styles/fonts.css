@@ -1,39 +1,87 @@
 @font-face {
     font-family: 'Aetherius';
-    src: url('Fonts/Aetherius/Aetherius-Regular.ttf'); }
+    src: url('Fonts/Aetherius.ttf'); }
+@font-face {
+    font-family: 'Ghothic';
+    src: url('Fonts/Ghothic.ttf'); }
+@font-face {
+    font-family: 'Barkentina';
+    src: url('Fonts/Barkentina.otf'); }
 @font-face {
     font-family: 'Carolus';
-    src: url('Fonts/Carolus/Carolus-Regular.ttf'); }
+    src: url('Fonts/Carolus.ttf'); }
 @font-face {
     font-family: 'Certege';
-    src: url('Fonts/Certege/10648.ttf'); }
+    src: url('Fonts/Certege.ttf'); }
 @font-face {
-    font-family: 'Flow';
-    src: url('Fonts/Flow Ext/Flow.ttf'); }
+    font-family: 'Comfortaa';
+    src: url('Fonts/Comfortaa.ttf'); }
 @font-face {
-    font-family: 'Gunny';
-    src: url('Fonts/Gunny Rewritten/Gunny.ttf'); }
+    font-family: 'Constantine';
+    src: url('Fonts/Constantine.ttf'); }
+@font-face {
+    font-family: 'Cormorant';
+    src: url('Fonts/Cormorant.otf'); }
+@font-face {
+    font-family: 'CormorantGaramond';
+    src: url('Fonts/CormorantGaramond.otf'); }
+@font-face {
+    font-family: 'CormorantInfant';
+    src: url('Fonts/CormorantInfant.otf'); }
+@font-face {
+    font-family: 'CormorantSC';
+    src: url('Fonts/CormorantSC.otf'); }
+@font-face {
+    font-family: 'CormorantUnicase';
+    src: url('Fonts/CormorantUnicase.otf'); }
+@font-face {
+    font-family: 'CormorantUpright';
+    src: url('Fonts/CormorantUpright.otf'); }
+@font-face {
+    font-family: 'FlowExt';
+    src: url('Fonts/FlowExt.ttf'); }
+@font-face {
+    font-family: 'Forum';
+    src: url('Fonts/Forum.otf'); }
+@font-face {
+    font-family: 'Glametrix';
+    src: url('Fonts/Glametrix.otf'); }
+@font-face {
+    font-family: 'GunnyRewritten';
+    src: url('Fonts/GunnyRewritten.ttf'); }
 @font-face {
     font-family: 'KaushanScript';
-    src: url('Fonts/KaushanScript/KaushanScript-Regular.ttf'); }
+    src: url('Fonts/KaushanScript.ttf'); }
+@font-face {
+    font-family: 'Kurier';
+    src: url('Fonts/Kurier.otf'); }
 @font-face {
     font-family: 'Lato';
-    src: url('Fonts/Lato/Lato-Regular.ttf'); }
+    src: url('Fonts/Lato.ttf'); }
+@font-face {
+    font-family: 'LinLibertine';
+    src: url('Fonts/LinLibertine.ttf'); }
 @font-face {
     font-family: 'Merienda';
-    src: url('Fonts/Merienda/Merienda-Regular.ttf'); }
+    src: url('Fonts/Merienda.ttf'); }
+@font-face {
+    font-family: 'NelaSlab';
+    src: url('Fonts/NelaSlab.ttf'); }
 @font-face {
     font-family: 'Neris';
-    src: url('Fonts/Neris/Neris-Thin.ttf'); }
+    src: url('Fonts/Neris.ttf'); }
+@font-face {
+    font-family: 'Philosopher';
+    src: url('Fonts/Philosopher.ttf'); }
+@font-face {
+    font-family: 'PoiretOne';
+    src: url('Fonts/PoiretOne.ttf'); }
 @font-face {
     font-family: 'Poppins';
-    src: url('Fonts/Poppins/Poppins-Regular.ttf'); }
+    src: url('Fonts/Poppins.ttf'); }
 @font-face {
     font-family: 'Rivers';
-    src: url('Fonts/Rivers/Rivers.ttf'); }
+    src: url('Fonts/Rivers.ttf'); }
 @font-face {
-    font-family: 'PentagramsSalemica';
-    src: url('Fonts/PentagramsSalemica/PentagramsSalemica.ttf'); }
-@font-face {
-    font-family: 'RossSwimmer';
-    src: url('Fonts/RossSwimmer/RossSwimmer.ttf'); }
+    font-family: 'Zella';
+    src: url('Fonts/Zella.ttf'); }

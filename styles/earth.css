@@ -19,7 +19,7 @@ main div {
 }
 
 h2#areaText {  
-    font-family: Neris; 
+    font-family: var(--mainFont);
     text-align: center; 
     min-height: 32px;
 } 

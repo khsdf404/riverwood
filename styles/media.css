@@ -88,6 +88,9 @@
     header settings span:last-child {
         margin-right: 0;
     }
+    header settings span.header-mobile-scroll {
+        display: flex;
+    }
     
 
 
@@ -108,6 +111,13 @@
     main div {
         margin-bottom: 10%;
     }
+
+
+
+
+
+
+ 
 }
 
 

@@ -24,6 +24,9 @@ aside {
     justify-content: flex-start;
     min-width: 300px;
 } 
+aside > * {
+    margin: 0 10% 0 15%;
+}
 
 
 
@@ -32,13 +35,11 @@ aside {
 
 ul#sidebarList {
     position: relative;
-    width: 70%; 
+    width: -webkit-fill-available; 
     list-style: none;
-    padding: 0; 
-    margin: 0;
+    padding: 0;  
     overflow: auto;
     padding-right: 4px;
-    font-family: 'Neris';
 }
 ul#sidebarList::-webkit-scrollbar {
     width: 7px;
@@ -74,7 +75,9 @@ ul#sidebarList h6 {
     padding: 0;
     font-size: 20px;
     font-weight: var(--sdFontWeight);
+    font-family: var(--mainFont);
     color: var(--accentColor);
+
 }
 ul#sidebarList div {
     display: flex;
@@ -91,10 +94,11 @@ ul#sidebarList div {
 ul#sidebarList div a {
     font-size: 18px;
     color: var(--sdLinkColor);
-    font-weight: 900;
+    /* font-weight: 900; */
     text-decoration: none;
     transition: .2s;
-    margin: 2px 0;
+    margin: 2px 0;font-size: 22px;
+    line-height: 20px;
 }
 ul#sidebarList div a:last-child {
     margin-bottom: 6px;
@@ -111,6 +115,7 @@ ul#sidebarList a span {
 }
 ul#sidebarList a:hover > span {
     font-size: 12px;
+    font-family: 'Neris';
     margin-right: 2px;
 }
 ul#sidebarList a:hover {
@@ -124,13 +129,12 @@ ul#sidebarList a:hover {
 ul#riverList {
     display: none;
     position: relative;
-    width: 70%;
+    width: -webkit-fill-available;
     list-style: none;
-    padding: 0;
-    margin: 0;
+    padding: 0; 
     overflow: auto;
     padding-right: 4px;
-    font-family: 'Neris';
+    font-family: var(--mainFont);
 }
 ul#riverList::-webkit-scrollbar {
     width: 7px;
@@ -170,7 +174,7 @@ ul#riverList mark {
 
 
 .sidebar-input-wrapper {
-    width: calc(70% - 4px);
+    width: -webkit-fill-available;
     /* height: 28px;
     min-height: 28px; */
     margin-bottom: 30px;
@@ -186,16 +190,20 @@ ul#riverList mark {
     font-size: 20px;
     outline: none;
     background: none;
+    font-family: var(--addFont);
     color: var(--accentColor);
     padding: 6px 2px;
     overflow: hidden;
     position: relative;
+    font-size: 26px;
+    margin-bottom: -10px;
 }
 
 
 #searchInput::-webkit-input-placeholder {
     color:var(--sdPlaceholder);
-    font-family: 'Verdana'; /*Poppins*/
+    font-family: var(--addFont);
+    font-size: 30px;
 }
 
 span.input-btn {
@@ -224,4 +232,18 @@ span.input-btn:last-child {
     margin-right: 0;
     height: 21px;
     padding-bottom: 6px;
+}
+
+
+
+
+
+
+
+
+
+
+
+ins {
+    font-family: var(--addFont);
 }

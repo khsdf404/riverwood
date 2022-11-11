@@ -30,8 +30,8 @@ header logo img {
 }
 header logo h1 {
     font-size: 36px;
-    letter-spacing: 12px;
-    font-family: 'Aetherius';
+    letter-spacing: 9px;
+    font-family: var(--logoFont);
     margin: 0;
 }
 header logo button {
@@ -65,10 +65,12 @@ header settings span {
     width: fit-content;
     z-index: 2;
 }
-header settings span:last-child {
+header settings span.header-theme {
     margin-left: auto;
 }
-
+header settings span.header-mobile-scroll {
+    display: none;
+}
 
 
 
@@ -83,8 +85,8 @@ header settings button {
     border: 0;
     background: none; 
     color: var(--accentColor);
-    font-family: 'Verdana';
-    letter-spacing: .2px;
+    font-family: var(--addFont);
+    letter-spacing: .8px; 
 } 
 header settings button:hover {
     background: var(--headerHoverBcg);
@@ -119,15 +121,22 @@ span.header-theme button:last-child:not(.active-btn)::after {
 }
 
 span.header-language button {
-    width: calc( var(--btnOneWidth) * (6/2)  )
+    font-size: 22px;
+    padding-top: 4px;
+    width: calc( var(--btnOneWidth) * (10/4)  );
 }
 span.header-choosetype button {
-    width: calc( var(--btnOneWidth) * (10/2) )
+    font-size: 20px;
+    padding-top: 4px;
+    width: calc( var(--btnOneWidth) * (10/2) );
 }
-span.header-theme button {
-    width: calc( var(--btnOneWidth) * (10/3) )
+span.header-theme button { 
+    width: calc( var(--btnOneWidth) * (10/3) );
 }
-
+span.header-mobile-scroll button {
+    
+    width: calc( var(--btnOneWidth) * (10/1) );
+}
 
 
 
