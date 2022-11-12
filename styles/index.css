@@ -29,8 +29,7 @@ main {
     align-items: center;
     flex-direction: row; 
     flex: 1;
-    overflow: auto;
-    overflow-x: hidden;
+    overflow: hidden;
 }
 
 

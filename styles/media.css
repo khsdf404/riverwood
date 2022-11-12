@@ -104,7 +104,7 @@
         margin-top: 20px;
     }
     div.header-mobile-scroll:hover {
-        background-color: var(--headerDisableBtnBgc);
+        background-color: none;
     }
 
     div.header-controls button {
@@ -115,7 +115,9 @@
     div.header-mobile-scroll button {
         background-color: var(--headerBgc); 
         font-size: 20px;
-        color: var(--accentColor); 
+        color: var(--accentColor);
+        font-weight: 900;
+        letter-spacing: 1px;
     }
     
 
@@ -180,14 +182,14 @@
     }
     ul#riverList a {
         font-size: 20px;
-    }
+    } 
     #searchInput {
-        font-size: 20px;
+        font-size: 22px;
     }
-    div.sidebar-input-wrapper {
-        min-height: 24px;
-        height: 24px;
+    #searchInput::-webkit-input-placeholder { 
+        font-size: 24px; 
     }
+    
 
 
 

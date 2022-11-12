@@ -98,6 +98,8 @@ div.header-mobile-scroll button {
     font-family: var(--addFont);
     letter-spacing: .8px; 
     line-height: 1; 
+    font-weight: 100;
+    transition: .45s all;
 } 
 div.header-controls button:hover {
     background: var(--headerHoverBcg);
@@ -150,8 +152,8 @@ div.header-controls button.active-btn::after {
 
 
 
-.active-btn, #mobileScroll {
-    font-weight: 900;
+div.header-controls button.active-btn {
+    font-weight: 900; 
 }
 div.header-theme img {
     transform: scale(0.9);

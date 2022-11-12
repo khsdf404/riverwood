@@ -47,7 +47,7 @@ class PageThemes {
                                             // linear-gradient(39deg, #ffe7bb, #ffffffad)
                                             // #d7ddf3c2
         '--headerSettingsFilter': 'drop-shadow(6px 8px 19px #bbb)',
-        '--headerLogoBtnBgc': '#ebebeb', // #ddeaff #ebebeb
+        '--headerLogoBtnBgc': '#e3dfdf', // #ddeaff #ebebeb
         '--headerLogoBtnBorder': '1px solid #cfcfcf',
     
         '--sdBackground': '#f1efec',
@@ -103,7 +103,7 @@ class PageThemes {
 
 class Translater { 
     static Start(lang) { 
-        LANG = lang;
+        Translater.lang = lang;
         if (Translater.isEnglish())
             $(`#enBtn`).addClass(`active-btn`);
         else 
@@ -121,17 +121,17 @@ class Translater {
         'ru': 'ru',
         'en': 'en'
     };
-
+    static lang;
     
     
     static isEnglish() {
-        return LANG == Translater.LANGTYPES.en;
+        return Translater.lang == Translater.LANGTYPES.en;
     }
     static setLang(id) {
         if (id == 'ruBtn')
-            LANG = this.LANGTYPES.ru;
+            Translater.lang = this.LANGTYPES.ru;
         else 
-            LANG = this.LANGTYPES.en;
+            Translater.lang = this.LANGTYPES.en;
     }
     static setButtons() {
         for(let i = 0; i < buttons.length; i++)

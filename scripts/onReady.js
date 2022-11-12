@@ -1,9 +1,9 @@
 const log = console.log.bind(document);
-const START_THEME = PageThemes.Light;
-const START_LANG = Translater.LANGTYPES.en;
-const START_AREA = SearchArea.AREATYPES.country;
-var SIDEBAR_LIST, AREA, AREA_TEXT, LANG;
-    
+const START_THEME =     PageThemes.Light;
+const START_LANG =      Translater.LANGTYPES.en;
+const START_AREA =      SearchArea.AREATYPES.country;
+var SIDEBAR_LIST, AREA, AREA_TEXT;
+
 
 
 const NOT__FOUND = [
@@ -669,21 +669,59 @@ const Header = () => {
     });
     
 
-    let isSettigns = true;
+    let isSettigns = false;
+    const HideSettings = () => {
+        if (isSettigns) {
+            isSettigns = false; 
+            $(`button#settingsBtn`).removeClass('active-btn');
+            $(`section.header-settings`).animate({
+                'right': '-250px' 
+            }, 200) 
+        }
+    }
     $(`button#settingsBtn`).click(function() {
-        $(this).toggleClass('active-btn')
+        isSettigns ? 
+            $(this).removeClass('active-btn') :
+            $(this).addClass('active-btn')
+            
         $(`section.header-settings`).animate({
-            'right': isSettigns ? '10px' : '-250px' 
-        }, isSettigns ? 300 : 200) 
+            'right': !isSettigns ? '10px' : '-250px' 
+        }, !isSettigns ? 300 : 200) 
         isSettigns = !isSettigns;
     })
     $(`main`).click(() => {
-        isSettigns = false;
-        $(`button#settingsBtn`).trigger('click');
+        HideSettings();
     })
-    $(`body`).on('resize', () => {
-        isSettigns = false;
-        $(`button#settingsBtn`).trigger('click');
+    $(window).on('resize', function() {
+        HideSettings();
+    }) 
+
+
+
+    let onEarth = false;
+    const scrollSpeed = 500;
+    $(`#mobileScroll`).click(function() { 
+        let newText = !onEarth ? 'Go back' : 'To the Earth'
+        $(this).find('span').animate({
+            'opacity': '0'
+        }, scrollSpeed / 2.3, () => {
+            $(this).find('span').text(newText)
+            setTimeout(() => {
+                $(this).find('span').animate({
+                    'opacity': '1'
+                }, scrollSpeed / 2.3)
+            }, scrollSpeed / 4.6);
+        })
+        $(`main`).animate({
+            'scrollTop': onEarth ? 
+                            '0px' : 
+                            $(`main`).outerHeight() + 'px'
+        }, scrollSpeed, 'easeInOutQuad');
+        onEarth = !onEarth;
+
+        setTimeout(() => {
+            HideSettings();
+        }, scrollSpeed * (6/10));
     })
 }
 
@@ -699,4 +737,6 @@ $(document).ready(() => {
     
     Earth();
     Header();
+
+ 
 })
