@@ -15,7 +15,9 @@ aside {
  
     background: var(--sdBackground);
     color: var(--accentColor);
-    box-shadow: -7px -9px 20px 0px #000;
+    box-shadow: -6px -9px 16px 0px #939393;
+
+    z-index: 1;
 } 
 aside > * {
     margin: 0 10% 0 15%;

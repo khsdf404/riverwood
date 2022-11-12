@@ -30,7 +30,7 @@ class PageThemes {
         });
     }
     static Light = {
-        '--mainBackground': '#f3e5d56b',
+        '--mainBackground': '#fef9f2',
         '--accentColor': '#444',
         '--revertColor': '#fff',
     
@@ -38,7 +38,7 @@ class PageThemes {
         '--headerDisabledColor': '#585858',
         '--headerButtonBgc': '#93c3ff',
         '--headerDisableBtnBgc': '#b9b9b92b',
-        '--headerHoverBcg': '#1e437261',
+        '--headerHoverBcg': '#e4e4e5',
         '--headerSettingsBgc': '#d7ddf3c2', // ffffffdf
                                             // #bec1e394
                                             // linear-gradient(45deg, #a0beeb, white);
@@ -50,7 +50,7 @@ class PageThemes {
         '--headerLogoBtnBgc': '#e3dfdf', // #ddeaff #ebebeb
         '--headerLogoBtnBorder': '1px solid #cfcfcf',
     
-        '--sdBackground': '#f1efec',
+        '--sdBackground': '#f7f7f7',
         '--sdPlaceholder': '#a0a0a0',
         '--sdListBgc': '#5050502e',
         '--sdThumbBgc': '#19aeef',
@@ -67,7 +67,7 @@ class PageThemes {
         '--headerDisabledColor': '#b9b9b9',
         '--headerButtonBgc': '#93c3ff',
         '--headerDisableBtnBgc': '#fff',
-        '--headerHoverBcg': '#d5e6ff',
+        '--headerHoverBcg': '#5c5c5c',
         '--headerSettingsBgc': '#82828b94', // #82828b94 
                                             // linear-gradient(229deg, #6177b5, #2a2a2a)
         '--headerSettingsFilter': 'drop-shadow(6px 8px 19px #000)',
@@ -75,7 +75,7 @@ class PageThemes {
         '--headerLogoBtnBorder': '1px solid #686868',
 
     
-        '--sdBackground': '#54545426',
+        '--sdBackground': '#282828',
         '--sdPlaceholder': '#a0a0a0',
         '--sdListBgc': '#9d9d9d44',
         '--sdThumbBgc': '#2d66c5',

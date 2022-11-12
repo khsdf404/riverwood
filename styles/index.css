@@ -19,9 +19,6 @@ html, body, article {
 body {
     display: flex;
     flex-direction: column;
-    
-    background: var(--mainBackground);
-    color: var(--accentColor);
 }
 
 main {
@@ -34,7 +31,10 @@ main {
     flex: 1;
     overflow: hidden;
 }
-
+ article {
+    background: var(--mainBackground);
+    z-index: 0;
+ }
 
 .non-select {
     -webkit-touch-callout: none; /* iOS Safari */
