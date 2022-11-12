@@ -12,8 +12,10 @@ header {
     justify-content: flex-start;
     align-items: center;
     position: relative;
+
     width: 100%;
     min-height: 75px;
+
     background: var(--headerBgc);
     color: var(--accentColor);
     box-shadow: 0px 1px 14px -7px #000;
@@ -28,6 +30,7 @@ section.header-logo {
     flex-direction: row;
     justify-content: center;
     align-items: center;
+
     width: calc(37% - 10px);
     max-width: 490px; 
     min-width: 310px;
@@ -38,10 +41,10 @@ section.header-logo img {
     margin-right: 15px;
 }
 section.header-logo h1 {
-    font-size: 36px;
-    letter-spacing: 9px;
-    font-family: var(--logoFont);
     margin: 0;
+    font-size: 36px;
+    font-family: var(--logoFont);
+    letter-spacing: 9px;
 }
 
 
@@ -53,24 +56,27 @@ section.header-logo h1 {
 section.header-settings { 
     display: flex;
     flex-direction: row;
-    flex: 1;
     align-items: center;
     justify-content: center; 
-    justify-content: center;
+    
+    flex: 1;
     padding: 0 2%;
 } 
 div.header-controls, 
 div.header-mobile-scroll {
+    position: relative;
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    position: relative;
-    border: 1px solid var(--accentColor);
-    margin-right: 4px;
-    border-radius: 3px;
-    overflow: hidden;
-    height: 30px;
+
     width: fit-content;
+    height: 30px;
+    margin-right: 4px;
+
+    border: 1px solid var(--accentColor);
+    border-radius: 3px;
+    
+    overflow: hidden;
     z-index: 2;
 }
 div.header-theme {
@@ -84,21 +90,25 @@ div.header-mobile-scroll {
 
 div.header-controls button,
 div.header-mobile-scroll button {
+    position: relative; 
     display: flex;
     justify-content: center;
     align-items: center;
-    position: relative; 
+    
     height: 100%;
+
     padding: 0;
     margin: 0;
     border: 0;
     background: none; 
-    font-size: 20px; 
+    
     color: var(--accentColor);
+    font-size: 20px; 
+    font-weight: 100;
     font-family: var(--addFont);
     letter-spacing: .8px; 
     line-height: 1; 
-    font-weight: 100;
+    
     transition: .45s all;
 } 
 div.header-controls button:hover {
@@ -109,8 +119,11 @@ div.header-controls button.active-btn {
     background: var(--headerButtonBgc);
     color: #000;
 } 
-div.header-language button { 
+
+
+div.header-language button {
     width: calc( var(--btnOneWidth) * (10/4)  );
+    font-size: 18px;
 }
 div.header-choosetype button { 
     width: calc( var(--btnOneWidth) * (10/2) );
@@ -122,7 +135,7 @@ div.header-mobile-scroll button {
     width: calc( var(--btnOneWidth) * (10/1) );
 }
 
-
+ 
 
 
 
@@ -135,6 +148,7 @@ div.header-controls button:not(:last-child)::after{
     width: 1px;
 
     right: 0px; 
+
     background-color: var(--accentColor);
     opacity: .5;
 }
@@ -145,6 +159,7 @@ div.header-controls button.active-btn::after {
     width: 1px;
     
     left: -1px;
+    
     background-color: var(--headerBgc);
     opacity: 1;
 }

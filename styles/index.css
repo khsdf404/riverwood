@@ -5,29 +5,32 @@
 }
 
 html, body, article {
+    position: relative;
+
+    width: 100%;
     min-height: 100%;
     height: 100%;
-}
-html, body, article, .earth-wrapper {
-    width: 100%;
+
     margin: 0;
     padding: 0;
-    overflow: hidden;
-    position: relative;
-}
 
+    overflow: hidden;
+}
 body {
     display: flex;
     flex-direction: column;
+    
     background: var(--mainBackground);
     color: var(--accentColor);
 }
 
 main {
     display: flex;
+    flex-direction: row; 
     justify-content: flex-start;
     align-items: center;
-    flex-direction: row; 
+    
+    
     flex: 1;
     overflow: hidden;
 }

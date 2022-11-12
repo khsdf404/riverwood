@@ -3,25 +3,29 @@ article {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    flex: 16;
+
+    flex: 1;
     padding: 0 7.5%;
 }
 article canvas {
     display: flex;
     justify-content: center;
     align-items: flex-start;
+
+
     width: 80%;
     max-height: 70%;
-    /* height: 600px; */
-    /* width: 600px; */
-    border-radius: 1000px;
-    overflow: hidden;
+    
     background: linear-gradient(104deg, #74ace58f, transparent);
     border: 2px solid #000;
+    border-radius: 1000px;
+
+    overflow: hidden;
 }
 
 h2#areaText {  
-    font-family: var(--mainFont);
-    text-align: center; 
     min-height: 32px;
+    
+    text-align: center;
+    font-family: var(--mainFont);
 } 

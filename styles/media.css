@@ -1,11 +1,11 @@
-@media (max-width: 920px){
+@media (max-width: 920px) {
     section.header-logo h1 {
         font-size: 26px;
         letter-spacing: 6px;
     }
 
     section.header-settings {
-        padding: 0%;
+        padding: 0;
     }
     div.header-controls button {
         font-size: 16px;
@@ -25,8 +25,9 @@
 
 @media (max-width: 750px) {
     section.header-logo {
-        width: 100%;
         justify-content: flex-start; 
+
+        width: 100%;
         max-width: 100%;
         min-width: 0px;
     }
@@ -41,12 +42,15 @@
         display: flex;
         justify-content: center;
         align-items: center;
+
         width: 35px;
         height: 22px;
+        
         margin: 0 10px 0 auto;
         padding: 0; 
-        border-radius: 2px;
+
         background: none;
+        border-radius: 2px;
         border: var(--headerLogoBtnBorder); 
 
         transition: .3s;
@@ -58,12 +62,14 @@
         border-bottom-left-radius: 0;
     }
     button#settingsBtn span {
-        background: var(--accentColor);
+        display: flex;
+        
         width: 3px;
         height: 3px;
-        display: flex;
-        border-radius: 17px;
         margin: 0 2px;
+
+        background: var(--accentColor);
+        border-radius: 10px;
     }
 
 
@@ -72,50 +78,47 @@
     section.header-settings {
         position: fixed;
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: flex-start;
-        flex-direction: column;
-        width: auto;
-        min-width: 0;
+        
         top: 50px;
         right: -250px;
+
+        width: auto;
+        min-width: 0;
+
         padding: 15px 30px;
-        background: none;
-        z-index: 10;
-        border-radius: 4px;
-        color: #fff;
-        overflow: hidden; 
+        
         background: var(--headerSettingsBgc);
         filter: var(--headerSettingsFilter); 
+        border-radius: 4px;
+        color: #fff;
+
+        overflow: hidden; 
+        z-index: 10; 
     } 
     div.header-controls,
     div.header-mobile-scroll {
         margin: 2px 0;
         border: 1px solid #00000057
-    }
-    div.header-controls:first-child {
-        margin-left: 0;
     } 
-    div.header-controls:last-child {
-        margin-right: 0;
-    }
     div.header-mobile-scroll {
         display: flex;
         margin-top: 20px;
     }
-    div.header-mobile-scroll:hover {
-        background-color: none;
-    }
+    
+
 
     div.header-controls button {
         background-color: var(--headerBgc); 
-        font-size: 20px;
         color: var(--headerDisabledColor);
+        font-size: 20px;
     }
     div.header-mobile-scroll button {
         background-color: var(--headerBgc); 
-        font-size: 20px;
         color: var(--accentColor);
+        font-size: 20px;
         font-weight: 900;
         letter-spacing: 1px;
     }
@@ -123,8 +126,8 @@
 
 
     div.header-language button { 
-        font-size: 15px;
         width: calc( var(--btnOneWidth) * (10/4)  );
+        font-size: 15px;
     }
     div.header-choosetype button { 
         width: calc( var(--btnOneWidth) * (10/2) );
@@ -135,7 +138,11 @@
     div.header-mobile-scroll button {
         width: calc( var(--btnOneWidth) * (10/1) );
     }
-    
+
+
+    div.header-controls button:hover {
+        background-color: none;
+    }
 
 
 
@@ -149,7 +156,7 @@
     }
     article {
         width: -webkit-fill-available; 
-    }   
+    }
     h2#areaText {
         margin-bottom: 80px;
     }
