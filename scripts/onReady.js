@@ -285,7 +285,7 @@ const COUNTRIES = [
                         if (river.location.indexOf(country.ru) > -1)
                             return river.name;
                     })
-                    .sort((a, b) => { return a < b ? -1 : 1 });
+                    .sort((a, b) => { return a.name < b.name ? -1 : 1 });
         return country;
     }
 ).sort((a, b) => a.name < b.name ? -1 : 1);
@@ -545,7 +545,7 @@ const REGIONS = [
                         if (river.location.indexOf(country.ru) > -1)
                             return river.name;
                     })
-                    .sort((a, b) => { return a < b ? -1 : 1 });
+                    .sort((a, b) => { return a.name < b.name ? -1 : 1 });
             reg.rivers = reg.rivers.concat(...country.rivers);
         });
         reg.rivers = reg.rivers.filter((el, id) => reg.rivers.indexOf(el) === id);
@@ -602,11 +602,11 @@ class Page {
 
 
 
-        $(`#sidebarList`).empty();
+        $(`#areaList`).empty();
         SIDEBAR_LIST.forEach(e => 
-            $(`#sidebarList`).append(CreateElem(e.name, e.rivers))
+            $(`#areaList`).append(CreateElem(e.name, e.rivers))
         );
-        $(`#sidebarList li h6`).click(function(e) {
+        $(`#areaList li h6`).click(function(e) {
             let parent = $(this).parent('li');
             let div = parent.find('div');
             $(`.sidebar-active-item`).not(parent).removeClass(`sidebar-active-item`);
@@ -640,7 +640,7 @@ const Earth = () => {
     new d3Hover().setHover();
      
 
-    $(`main div`).mouseleave(() => {
+    $(`main canvas`).mouseleave(() => {
         currentPolygon = null;
         currentRegion = null;
         AREA_TEXT.text('');
@@ -658,32 +658,32 @@ const Header = () => {
     
     
 
-    $(`header settings button`).click(function() {
+    $(`section.header-settings button`).click(function() {
         $(this).parent()
             .find(`button.active-btn`)
             .removeClass(`active-btn`);
         $(this).addClass(`active-btn`);
 
-        if (!$(this).parent('span').hasClass('header-theme'))
+        if (!$(this).parent('div').hasClass('header-theme'))
             Page.Recreate();
     });
     
 
-    let a = true;
-    $(`header logo button`).click(function() {
-        $(this).toggleClass('header-logo-btn-active')
-        $(`header settings`).animate({
-            'right': a ? '10px' : '-250px' 
-        }, a ? 300 : 200) 
-        a = !a;
+    let isSettigns = true;
+    $(`button#settingsBtn`).click(function() {
+        $(this).toggleClass('active-btn')
+        $(`section.header-settings`).animate({
+            'right': isSettigns ? '10px' : '-250px' 
+        }, isSettigns ? 300 : 200) 
+        isSettigns = !isSettigns;
     })
-    $(`content`).click(() => {
-        a = false;
-        $(`header logo button`).trigger('click');
+    $(`main`).click(() => {
+        isSettigns = false;
+        $(`button#settingsBtn`).trigger('click');
     })
     $(`body`).on('resize', () => {
-        a = false;
-        $(`header logo button`).trigger('click');
+        isSettigns = false;
+        $(`button#settingsBtn`).trigger('click');
     })
 }
 

@@ -7,7 +7,7 @@ const cleanInput =  controls.eq(3);
 
 
 const riverList = $(`#riverList`);
-const sidebarList = $(`#sidebarList`);
+const areaList = $(`#areaList`);
 
 RIVERS__RU.forEach(river => {
     riverList.append(`
@@ -54,14 +54,14 @@ input.on(`input`, () => {
 
         clearTimeout(clock);
         clock = setTimeout(() => {
-            sidebarList.fadeIn(200);
+            areaList.fadeIn(200);
         }, 250);
     
         newSearch = true;
         return;
     }
     if (newSearch == true) {
-        sidebarList.fadeOut(200);
+        areaList.fadeOut(200);
 
         clearTimeout(clock);
         controls.fadeIn(200);

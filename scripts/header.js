@@ -2,10 +2,10 @@ const ruBtn = $(`#ruBtn`);
 const enBtn = $(`#enBtn`);
 const countryBtn = $(`#countryBtn`);
 const regionBtn = $(`#regionBtn`);
-const buttons = [ ruBtn, enBtn, countryBtn, regionBtn ];
+const buttons = [ countryBtn, regionBtn ];
 const textBtn = {
-    'ru': ['Ru', 'En', 'Страна', 'Регион'],
-    'en': ['Ru', 'En', 'Country', 'Region'],
+    'ru': ['Страна', 'Регион'],
+    'en': ['Country', 'Region'],
 }
 
 
@@ -20,7 +20,7 @@ class PageThemes {
             $(`#darkBtn`).addClass('active-btn');
 
 
-        $(`span.header-theme button`).click((e) => {
+        $(`div.header-theme button`).click((e) => {
             if (e.currentTarget.id == 'lightBtn')
                 PageThemes.setTheme(PageThemes.Light)
             else if (e.currentTarget.id == 'darkBtn')
@@ -35,15 +35,17 @@ class PageThemes {
         '--revertColor': '#fff',
     
         '--headerBgc': '#fff', 
-        '--headerDisabledColor': '#666',
+        '--headerDisabledColor': '#585858',
         '--headerButtonBgc': '#93c3ff',
-        '--headerDisableBtnBgc': '#b9b9b93b',
+        '--headerDisableBtnBgc': '#b9b9b92b',
         '--headerHoverBcg': '#1e437261',
-        '--headerSettingsBgc': '#ffffffdf', // #bec1e394
+        '--headerSettingsBgc': '#d7ddf3c2', // ffffffdf
+                                            // #bec1e394
                                             // linear-gradient(45deg, #a0beeb, white);
                                             // repeating-linear-gradient(138deg, #b5d3ff85, #94b9df6e 50px);
                                             // #f9ecdcc7
                                             // linear-gradient(39deg, #ffe7bb, #ffffffad)
+                                            // #d7ddf3c2
         '--headerSettingsFilter': 'drop-shadow(6px 8px 19px #bbb)',
         '--headerLogoBtnBgc': '#ebebeb', // #ddeaff #ebebeb
         '--headerLogoBtnBorder': '1px solid #cfcfcf',
@@ -62,7 +64,7 @@ class PageThemes {
         '--revertColor': '#444',
     
         '--headerBgc': '#2e2e2e', 
-        '--headerDisabledColor': '#666',
+        '--headerDisabledColor': '#b9b9b9',
         '--headerButtonBgc': '#93c3ff',
         '--headerDisableBtnBgc': '#fff',
         '--headerHoverBcg': '#d5e6ff',
@@ -109,7 +111,7 @@ class Translater {
 
 
 
-        $(`span.header-language button`).click((e) => {
+        $(`div.header-language button`).click((e) => {
             AREA_TEXT.text('');
             Translater.setLang(e.currentTarget.id);
             SearchArea.setNames();
@@ -149,7 +151,7 @@ class SearchArea {
             $(`#countryBtn`).addClass(`active-btn`);
 
 
-        $(`span.header-choosetype button`).click((e) => {
+        $(`div.header-choosetype button`).click((e) => {
             AREA_TEXT.text('');
             SearchArea.setArea(e.currentTarget);
             SearchArea.setNames();

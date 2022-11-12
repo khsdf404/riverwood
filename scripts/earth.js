@@ -125,14 +125,15 @@ class d3Helper {
 
 
     setScale = () => {
+        $(`#globe`).css({'width': '80%', 'height': '70%', 'max-height': '70%'});
         width = Math.min(
-            $(`main`).outerWidth(), 
-            $(`main`).outerHeight()
-        )  * .8;
+            $(`main article`).width(), 
+            $(`main article canvas`).outerHeight()
+        );
         height = width;
         // .log(`w: ${width}, h: ${$(`main div`).outerHeight()}`);
- 
-        $(`main div`).css({'width': width, 'height': height}) 
+        
+        $(`#globe`).css({'width': width + 'px', 'max-height': height + 'px'});
         canvas.attr('width', width).attr('height', height)
         projection
             .scale((scaleFactor * (Math.min(width, height)) / 2))

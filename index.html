@@ -8,56 +8,55 @@
 
     <title>Riverwood</title>
 
+
+    <link href="styles/all.min.css" rel="stylesheet" type="text/css"/>
+    <link href="styles/fonts.css" rel="stylesheet" type="text/css"/>
 	<link href="styles/index.css" rel="stylesheet" type="text/css">
     <link href="styles/header.css" rel="stylesheet" type="text/css">
     <link href="styles/sidebar.css" rel="stylesheet" type="text/css">
     <link href="styles/earth.css" rel="stylesheet" type="text/css">
-	<link href="styles/fonts.css" rel="stylesheet" type="text/css"/>
-    <link href="styles/all.min.css" rel="stylesheet" type="text/css"/>
     <link href="styles/media.css" rel="stylesheet" type="text/css">
 
 
     <!-- <script src="https://kit.fontawesome.com/1a5dbb7df6.js" crossorigin="anonymous"></script> -->
     <script src="scripts/jquery-3.0.0.min.js" type="text/javascript"></script>
 
-    
-
     <script src="/scripts/d3/d3.min.js"></script>
     <script src='/scripts/d3/d3-geo.v1.min.js'></script>
     <script src="/scripts/d3/versor.js"></script>
     <script src="/scripts/d3/topojson.v2.min.js"></script>
 
-
     <script src="/scripts/riversRU.js" type="text/javascript"></script>
     <script src="/scripts/riversEN.js" type="text/javascript"></script>
- 
-
-	<script src="scripts/earth.js" type="text/javascript"></script>
 </head>
 
 <body>
 	<header class="non-select">
-        <logo>
+        <section class="header-logo">
             <img    class="header-logo" src="src/wave.png" alt="">
             <h1>RIVERWOOD</h1>
-            <button>
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-        </logo>
-        <settings>
-            <span class="header-language">
-                <button id="ruBtn">Ru</button>
-                <button id="enBtn">En</button>
-                <button id="frBtn">Fr</button>
-                <button id="spBtn">Sp</button>
-            </span>
-            <span   class="header-choosetype">
+            
+        </section>
+
+        <button id="settingsBtn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+
+        <section class="header-settings">
+            <div class="header-controls header-language">
+                <button id="ruBtn">RU</button>
+                <button id="enBtn">EN</button>
+                <button id="frBtn">FR</button>
+                <button id="spBtn">SP</button>
+            </div>
+            <div class="header-controls header-choosetype">
                 <button id="countryBtn">Country</button>
                 <button id="regionBtn">Region</button>
-            </span>
-            <span class="header-theme">
+            </div>
+            <div class="header-controls header-theme">
                 <button id="lightBtn" class="">
                     <img src="src/sun-cheese.png" alt="">
                 </button>
@@ -67,15 +66,15 @@
                 <button id="darkBtn">
                     <img src="src/moon.png" alt="">
                 </button>
-            </span> 
+            </div> 
 
-            <span class="header-mobile-scroll">
-                <button id="mobileScroll">Find on Earth ↓</button>
-            </span>
-        </settings>
+            <div class="header-mobile-scroll">
+                <button id="mobileScroll">To the Earth</button>
+            </div>
+        </section>
     </header>
 
-    <content>
+    <main>
         <aside>
             <div class="sidebar-input-wrapper">
                 <input placeholder="Find river!" type="text" id="searchInput"/>
@@ -84,23 +83,16 @@
                 <span class="input-btn non-select">↓</span>
                 <span class="input-btn non-select">×</span>
             </div>
-            
-
-
-            <ul id="sidebarList"></ul>
+             
+            <ul id="areaList"></ul>
             <ul id="riverList"></ul>
         </aside>
-        <main>
+        <article>
             <h2 id="areaText"></h2>
-            <div> 
-                <canvas id="globe"></canvas>
-            </div> 
-        </main>
-
-
-
-    </content>
-
+            <canvas id="globe"></canvas>
+        </article> 
+    </main>
+    <script src="scripts/earth.js" type="text/javascript"></script>
     <script src="scripts/header.js" type="text/javascript"></script>
     <script src="scripts/search.js" type="text/javascript"></script>
     <script src="scripts/onReady.js" type="text/javascript"></script>

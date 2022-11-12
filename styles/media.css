@@ -1,26 +1,43 @@
 @media (max-width: 920px){
-    header logo h1 {
-        font-size: 30px;
-        letter-spacing: 8px;
+    section.header-logo h1 {
+        font-size: 26px;
+        letter-spacing: 6px;
+    }
+
+    section.header-settings {
+        padding: 0%;
+    }
+    div.header-controls button {
+        font-size: 16px;
+    }
+
+
+    div.header-language button { 
+        width: calc( var(--btnOneWidth) * (10/4 * 14/16)  );
+    }
+    div.header-choosetype button { 
+        width: calc( var(--btnOneWidth) * (10/2 ) );
+    }
+    div.header-theme button { 
+        width: calc( var(--btnOneWidth) * (10/3 * 7/8) );
     }
 }
 
 @media (max-width: 750px) {
-    header logo {
+    section.header-logo {
         width: 100%;
-        justify-content: flex-start;
-        min-width: 0;
+        justify-content: flex-start; 
+        max-width: 100%;
+        min-width: 0px;
     }
-
-
-    header logo img { 
+    section.header-logo img { 
         height: 40px;
     }
     
 
 
 
-    header logo button {
+    button#settingsBtn {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -34,13 +51,13 @@
 
         transition: .3s;
     } 
-    header logo button.header-logo-btn-active {
+    button#settingsBtn.active-btn {
         background-color: var(--headerLogoBtnBgc);
         border: none;
         border-bottom-right-radius: 0;
         border-bottom-left-radius: 0;
     }
-    header logo button span {
+    button#settingsBtn span {
         background: var(--accentColor);
         width: 3px;
         height: 3px;
@@ -52,7 +69,7 @@
 
 
 
-    header settings {
+    section.header-settings {
         position: fixed;
         display: flex;
         justify-content: center;
@@ -71,94 +88,119 @@
         background: var(--headerSettingsBgc);
         filter: var(--headerSettingsFilter); 
     } 
-    header settings button {
-        background-color: var(--headerDisableBtnBgc); 
-        color: var(--headerDisabledColor);
+    div.header-controls,
+    div.header-mobile-scroll {
+        margin: 2px 0;
+        border: 1px solid #00000057
     }
-    header settings span {
-        margin: 3px 0;
-        border: 1px solid #555;
-    }
-    header settings span:first-child {
+    div.header-controls:first-child {
         margin-left: 0;
-    }
-    header settings span.header-choosetype {
-        margin: 0;
-    }
-    header settings span:last-child {
+    } 
+    div.header-controls:last-child {
         margin-right: 0;
     }
-    header settings span.header-mobile-scroll {
+    div.header-mobile-scroll {
         display: flex;
+        margin-top: 20px;
+    }
+    div.header-mobile-scroll:hover {
+        background-color: var(--headerDisableBtnBgc);
+    }
+
+    div.header-controls button {
+        background-color: var(--headerBgc); 
+        font-size: 20px;
+        color: var(--headerDisabledColor);
+    }
+    div.header-mobile-scroll button {
+        background-color: var(--headerBgc); 
+        font-size: 20px;
+        color: var(--accentColor); 
+    }
+    
+
+
+    div.header-language button { 
+        font-size: 15px;
+        width: calc( var(--btnOneWidth) * (10/4)  );
+    }
+    div.header-choosetype button { 
+        width: calc( var(--btnOneWidth) * (10/2) );
+    }
+    div.header-theme button { 
+        width: calc( var(--btnOneWidth) * (10/3) );
+    }
+    div.header-mobile-scroll button {
+        width: calc( var(--btnOneWidth) * (10/1) );
     }
     
 
 
 
 
-    content {
+    main {
         flex-direction: column;
     }
     aside {
         width: 100%;
+        max-width: 100%;
     }
-    main {
-        width: 100%;
+    article {
+        width: -webkit-fill-available; 
     }   
     h2#areaText {
-        margin-bottom: 25%;
+        margin-bottom: 80px;
     }
-    main div {
+    canvas#globe {
         margin-bottom: 10%;
     }
-
-
-
-
-
-
- 
 }
 
 
 
 
 @media (max-width: 600px) {
-    header logo h1 {
+    section.header-logo h1 {
         font-size: 24px;
-        letter-spacing: 6px;
+        letter-spacing: 4px;
     }
 
     
-    #searchInput {
+    
+
+
+    ul#areaList h6 {
         font-size: 16px;
     }
-    .sidebar-input-wrapper {
+    ul#areaList div a {
+        font-size: 20px;
+    }
+    ul#areaList a span {
+        margin-right: 4px;
+    }
+    ul#riverList a {
+        font-size: 20px;
+    }
+    #searchInput {
+        font-size: 20px;
+    }
+    div.sidebar-input-wrapper {
         min-height: 24px;
         height: 24px;
     }
-
-
-    ul#sidebarList h6 {
-        font-size: 15px;
-    }
-    ul#riverList a {
-        font-size: 15px;
-    }
-
 
 
 
     span.input-btn {
         width: 23px;
         height: 19px;
-        margin: 2px 2px;
+        margin: 2px 1px;
         font-size: 18px;
     }
     span.input-btn:last-child { 
         height: 17px;
     }
-    aside span.input-counter { 
+    span.input-counter { 
         font-size: 12px;
         padding: 0px 8px;
         padding-bottom: 4px; 
