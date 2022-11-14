@@ -283,10 +283,7 @@ class d3Hover {
         })
     }
     setName = () => {
-        if (Translater.isEnglish())
-            AREA_TEXT.text(currentRegion && currentRegion.en || getObj(currentPolygon).en) 
-        else 
-            AREA_TEXT.text(currentRegion && currentRegion.ru || getObj(currentPolygon).ru) 
+        AREA_TEXT.text(currentRegion || getObj(currentPolygon).name) 
     }
 }
 class d3Drag { 

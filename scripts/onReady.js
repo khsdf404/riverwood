@@ -37,8 +37,7 @@ class Page {
             return cell;
         }
 
-
-
+        
         $(`#areaList`).empty();
         SIDEBAR_LIST.forEach(e => 
             $(`#areaList`).append(CreateElem(e.name, e.rivers))
@@ -55,7 +54,7 @@ class Page {
         })
 
 
-        Translater.setButtons();
+        Translater.TranslatePage();
     }
 }
 
@@ -88,15 +87,18 @@ const Earth = () => {
     });
 }
 const Header = () => {
+    if ($(window).outerWidth() < 750) {
+        GLOBE_ACTIVE = true; 
+        $(`main`).scrollTop($(`main`).outerHeight());       
+    }
     Translater.Start(START_LANG);
     SearchArea.Start(START_AREA);
     PageThemes.Start(START_THEME);
     Page.Recreate(); 
-    
-    let onEarth = false;
+
     const scrollSpeed = 500;
 
-    $(`section.header-settings button`).click(function() {
+    $(`div.header-controls button`).click(function() {
         $(this).parent()
             .find(`button.active-btn`)
             .removeClass(`active-btn`);
@@ -129,43 +131,32 @@ const Header = () => {
     })
     $(`main`).click(() => {
         HideSettings();
-    })
-    $(window).on('resize', function() {
-        HideSettings();
+    });
 
-        if ($(this).outerWidth() < 750) {
-            $(`main`).scrollTop($(`main`).outerHeight());
-            onEarth = true;
-            $(`#mobileScroll`).find('span').text('See in list')
-        }
-    }) 
-    if ($(window).outerWidth() < 750) {
-        $(`main`).scrollTop($(`main`).outerHeight());
-        onEarth = true;
-        $(`#mobileScroll`).find('span').text('See in list')
-    }
+    
 
 
 
     
     $(`#mobileScroll`).click(function() { 
-        let newText = !onEarth ? 'See in list' : 'To the Earth'
-        $(this).find('span').animate({
-            'opacity': '0'
-        }, scrollSpeed / 2.3, () => {
-            $(this).find('span').text(newText)
-            setTimeout(() => {
-                $(this).find('span').animate({
-                    'opacity': '1'
-                }, scrollSpeed / 2.3)
-            }, scrollSpeed / 4.6);
-        })
+        GLOBE_ACTIVE = !GLOBE_ACTIVE;
+        Translater.TranslatePage();
+        // $(this).find('span').animate({
+        //     'opacity': '0'
+        // }, scrollSpeed / 2.3, () => {
+           
+        //     setTimeout(() => {
+        //         $(this).find('span').animate({
+        //             'opacity': '1'
+        //         }, scrollSpeed / 2.3)
+        //     }, scrollSpeed / 4.6);
+        // })
         $(`main`).animate({
-            'scrollTop': onEarth ? 
+            'scrollTop': !GLOBE_ACTIVE ? 
                             '0px' : 
                             $(`main`).outerHeight() + 'px'
         }, scrollSpeed, 'easeInOutQuad');
-        onEarth = !onEarth;
+        
 
         setTimeout(() => {
             HideSettings();
@@ -186,5 +177,7 @@ $(document).ready(() => {
     Earth();
     Header();
 
- 
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
+       log('a')
+    }
 })

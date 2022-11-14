@@ -26,6 +26,7 @@ article canvas {
 h2#areaText {  
     min-height: 32px;
     
+    color: var(--accentColor);
     text-align: center;
     font-family: var(--mainFont);
 } 

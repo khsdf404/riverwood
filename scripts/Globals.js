@@ -2,6 +2,7 @@ const log = console.log.bind(document);
 const START_THEME =     PageThemes.Light;
 const START_LANG =      Translater.LANGTYPES.en;
 const START_AREA =      SearchArea.AREATYPES.country;
+var GLOBE_ACTIVE = true;
 var SIDEBAR_LIST, AREA, AREA_TEXT;
 
 

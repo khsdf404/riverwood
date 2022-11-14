@@ -1,13 +1,3 @@
-const ruBtn = $(`#ruBtn`);
-const enBtn = $(`#enBtn`);
-const countryBtn = $(`#countryBtn`);
-const regionBtn = $(`#regionBtn`);
-const buttons = [ countryBtn, regionBtn ];
-const textBtn = {
-    'ru': ['Страна', 'Регион'],
-    'en': ['Country', 'Region'],
-}
-
 
 
 class PageThemes {
@@ -102,45 +92,110 @@ class PageThemes {
 
 
 class Translater { 
-    static Start(lang) { 
-        Translater.lang = lang;
-        if (Translater.isEnglish())
+    static lang;
+    static text;
+
+    static LANGTYPES = {
+        'ru': 0,
+        'en': 1,
+        'fr': 2,
+        'sp': 3
+    };
+    static CONTENT = {
+        'ru': [
+            'Страна', 
+            'Регион', 
+            ['К Земле', 'См. в списке'], 
+            'Найти реку!'
+        ], 
+        'en': [
+            'Country', 
+            'Region', 
+            ['To the Earth', 'See in list'], 
+            'Find river!'
+        ],
+        'fr': [
+            'Country', 
+            'Region', 
+            ['To the Earth', 'See in list'], 
+            'Find river!'
+        ],
+        'sp': [
+            'Country', 
+            'Region', 
+            ['To the Earth', 'See in list'], 
+            'Find river!'
+        ]
+    }
+
+
+    static Start(lang) {
+        Translater.setLang(lang);
+        Translater.TranslatePage();
+
+        if (Translater.lang == Translater.LANGTYPES.en)
             $(`#enBtn`).addClass(`active-btn`);
+        else if (Translater.lang == Translater.LANGTYPES.fr)
+            $(`#frBtn`).addClass(`active-btn`);
+        else if (Translater.lang == Translater.LANGTYPES.sp)
+            $(`#spBtn`).addClass(`active-btn`);
         else 
             $(`#ruBtn`).addClass(`active-btn`);
-
-
-
+        
+        
+        
         $(`div.header-language button`).click((e) => {
             AREA_TEXT.text('');
             Translater.setLang(e.currentTarget.id);
             SearchArea.setNames();
         })
     }
-    static LANGTYPES = {
-        'ru': 'ru',
-        'en': 'en'
-    };
-    static lang;
     
-    
-    static isEnglish() {
-        return Translater.lang == Translater.LANGTYPES.en;
-    }
+
     static setLang(id) {
-        if (id == 'ruBtn')
-            Translater.lang = this.LANGTYPES.ru;
-        else 
-            Translater.lang = this.LANGTYPES.en;
+        if (id == 'enBtn' || id == Translater.LANGTYPES.en) {
+            Translater.lang = Translater.LANGTYPES.en;
+            Translater.text = Translater.CONTENT.en;
+        }
+        else if (id == 'frBtn' || id == Translater.LANGTYPES.fr) {
+            Translater.lang = Translater.LANGTYPES.fr;
+            Translater.text = Translater.CONTENT.fr;
+        }
+        else if (id == 'spBtn' || id == Translater.LANGTYPES.sp) {
+            Translater.lang = Translater.LANGTYPES.sp;
+            Translater.text = Translater.CONTENT.sp;
+        }
+        else {
+            Translater.lang = Translater.LANGTYPES.ru;
+            Translater.text = Translater.CONTENT.ru;
+        }
     }
-    static setButtons() {
-        for(let i = 0; i < buttons.length; i++)
-            buttons[i].text(Translater.isEnglish() ? textBtn.en[i] : textBtn.ru[i])
+    static TranslatePage() { 
+        $(`#countryBtn`).text(Translater.text[0]);
+        $(`#regionBtn`).text(Translater.text[1]);
+        $(`#mobileScroll`).text(Translater.text[2][GLOBE_ACTIVE ? 1 : 0])
+        $(`#searchInput`).attr('placeholder', Translater.text[3])
+    }
+    static TranslateObj(obj) {
+        if (Translater.lang == Translater.LANGTYPES.en)
+            return obj.en;
+        else if (Translater.lang == Translater.LANGTYPES.fr)
+            return obj.fr;
+        else if (Translater.lang == Translater.LANGTYPES.sp)
+            return obj.sp;
+        else 
+            return obj.ru;
     }
 }
 
 
 class SearchArea {
+    static AREATYPES = {
+        'country': 'country',
+        'region': 'region'
+    };
+
+
     static Start(area) {
         AREA = area; 
         SearchArea.setNames();
@@ -157,10 +212,7 @@ class SearchArea {
             SearchArea.setNames();
         })
     }
-    static AREATYPES = {
-        'country': 'country',
-        'region': 'region'
-    };
+    
     
 
     static isRegion() { 
@@ -175,31 +227,17 @@ class SearchArea {
     static setNames() {
         if (SearchArea.isRegion()) {
             REGIONS.forEach(reg => {
-                reg.name = 
-                    Translater.isEnglish() ? 
-                        reg.en :
-                        reg.ru
+                reg.name = Translater.TranslateObj(reg);
             })
             SIDEBAR_LIST = REGIONS;
         }
         else {
             COUNTRIES.forEach(country => {
-                country.name = 
-                    Translater.isEnglish() ? 
-                        country.en :
-                        country.ru
+                country.name = Translater.TranslateObj(country);
             })
             SIDEBAR_LIST = COUNTRIES.sort((a, b) => a.name < b.name ? -1 : 1);;
         }
-    }
-
-
-    // static setRegion() {
-    //     AREA = SearchArea.AREATYPES.region;
-    // };
-    // static setCountry() {
-    //     AREA = SearchArea.AREATYPES.country;
-    // }; 
+    } 
 }
 
 
