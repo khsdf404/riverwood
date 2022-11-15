@@ -79,13 +79,15 @@ const Earth = () => {
      
 
     
-    if (!isPhone()) {
-        $(`main canvas`).mouseleave(() => {
-            currentPolygon = null;
-            currentRegion = null;
-            AREA_TEXT.text('');
-        });
-    }
+    $(`main canvas`).mouseleave(() => {
+        currentPolygon = null;
+        currentRegion = null;
+        AREA_TEXT.text('');
+
+        setRotation(true);
+    });
+
+    
     $(window).resize(() => {
         HELPER.setScale();
         HELPER.RenderGlobe();

@@ -1,5 +1,5 @@
 // 
-const rotationDelay =     8000
+const rotationDelay =     4000
 const scaleFactor =       1
 const degPerSec =         -7
 const angles =            { x: 50, y: -20, z: 0}
@@ -20,8 +20,7 @@ let q0 // Projection rotation as versor at start.
 let lastTime = d3.now()
 let xRotationSpeed = degPerSec / 1000
 let yzRotationSpeed = xRotationSpeed * 5;
-let autorotate, now, diff, rotation;
-
+let autorotate, now, diff, rotation, rotateAvailable = true, restartTimer;
 // canvas & d3 variables
 var canvas;
 var canvasDOM;
@@ -64,7 +63,17 @@ const getUserTime = () => {
         currentdate.getMinutes()
     ]
 } 
-
+const setRotation = (state) => {
+    clearTimeout(restartTimer);
+    if (state) {
+        restartTimer = setTimeout(() => {
+            rotateAvailable = true;
+            log(a)
+        }, rotationDelay);
+    }
+    else 
+        rotateAvailable = false;
+}
 
 
 class d3Helper {
@@ -158,7 +167,7 @@ class d3Helper {
     timerTick = (elapsed) => {
         now = d3.now()
         diff = now - lastTime
-        if (diff < elapsed) {
+        if (diff < elapsed && rotateAvailable) {
             
             rotation = projection.rotate()
             logCoord(rotation);
@@ -191,7 +200,7 @@ class d3Hover {
     setHover() {
         canvas.on('mousemove', this.CountryHover)
     }
-    CountryHover = () => { 
+    CountryHover = () => {
         if (AreaObj.isRegion()) {
             if (!(this.setRegion())) 
                 return;
@@ -203,6 +212,7 @@ class d3Hover {
         
         HELPER.RenderGlobe()
         this.setName();
+        setRotation(false);
     }
 
     setCountry = () => {
@@ -299,13 +309,12 @@ class d3Drag {
 
 
     Start() { 
+        setRotation(false)
         v0 = versor.cartesian(projection.invert(d3.mouse(canvasDOM)))
         r0 = projection.rotate()
         q0 = versor(r0)
-        autorotate.stop();
     }
     Drag() {
-        autorotate.stop();
         let v1 = versor.cartesian(projection.rotate(r0).invert(d3.mouse(canvasDOM)))
         let q1 = versor.multiply(q0, versor.delta(v0, v1))
         let r1 = versor.rotation(q1)
@@ -314,14 +323,7 @@ class d3Drag {
         logCoord( projection.rotate());
     }
     End() {
-        let interval = setInterval(() => {
-            console.log('Waiting');
-            
-            if (!(currentPolygon || currentRegion)) { 
-                autorotate.stop();
-                HELPER.setTimer();
-                clearInterval(interval);
-            }
-        }, 1000); 
+        if (!currentPolygon && !currentRegion)
+            setRotation(true)
     } 
 }

@@ -26,13 +26,13 @@ main {
     flex-direction: row; 
     justify-content: flex-start;
     align-items: center;
-    
+    background: var(--mainBackground);
     
     flex: 1;
     overflow: hidden;
 }
  article {
-    background: var(--mainBackground);
+    
     z-index: 0;
  }
 
