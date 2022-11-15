@@ -34,7 +34,7 @@ var HELPER;
 
 
 const getObj = (countryPolygon) => {
-    if (SearchArea.isRegion()) {
+    if (AreaObj.isRegion()) {
         let b;
         REGIONS.forEach(reg => {
             if (b) return;
@@ -111,11 +111,11 @@ class d3Helper {
         fill(globe, colorWater)
         fill(land, colorLand)
 
-        if (!SearchArea.isRegion())
+        if (!AreaObj.isRegion())
             stroke(borders, styleBorders.color, styleBorders.thickness) 
         
 
-        if (SearchArea.isRegion() && currentRegion)
+        if (AreaObj.isRegion() && currentRegion)
             return Fill_All(currentRegion, colorActive)
             
         
@@ -192,7 +192,7 @@ class d3Hover {
         canvas.on('mousemove', this.CountryHover)
     }
     CountryHover = () => { 
-        if (SearchArea.isRegion()) {
+        if (AreaObj.isRegion()) {
             if (!(this.setRegion())) 
                 return;
         }

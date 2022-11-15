@@ -54,7 +54,7 @@ class Page {
         })
 
 
-        Translater.TranslatePage();
+        LanguagesObj.TranslatePage();
     }
 }
 
@@ -91,25 +91,16 @@ const Header = () => {
         GLOBE_ACTIVE = true; 
         $(`main`).scrollTop($(`main`).outerHeight());       
     }
-    Translater.Start(START_LANG);
-    SearchArea.Start(START_AREA);
-    PageThemes.Start(START_THEME);
+    LanguagesObj.Start(START_LANG);
+    AreaObj.Start(START_AREA);
+    ThemesObj.Start(START_THEME);
     Page.Recreate(); 
 
     const scrollSpeed = 500;
-
-    $(`div.header-controls button`).click(function() {
-        $(this).parent()
-            .find(`button.active-btn`)
-            .removeClass(`active-btn`);
-        $(this).addClass(`active-btn`);
-
-        if (!$(this).parent('div').hasClass('header-theme'))
-            Page.Recreate();
-    });
+    let isSettigns = false;
     
 
-    let isSettigns = false;
+    
     const HideSettings = () => {
         if (isSettigns) {
             isSettigns = false; 

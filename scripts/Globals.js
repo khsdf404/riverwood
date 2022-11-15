@@ -1,11 +1,18 @@
 const log = console.log.bind(document);
-const START_THEME =     PageThemes.Light;
-const START_LANG =      Translater.LANGTYPES.en;
-const START_AREA =      SearchArea.AREATYPES.country;
+const START_THEME =     localStorage.getItem('theme') ? 
+                            JSON.parse(localStorage.getItem('theme')) : 
+                            ThemesObj.Light;
+const START_LANG =      localStorage.getItem('lang') ? 
+                            JSON.parse(localStorage.getItem('lang')) : 
+                            LanguagesObj.LANGTYPES.en;
+const START_AREA =      localStorage.getItem('area') ? 
+                            JSON.parse(localStorage.getItem('area')) : 
+                            AreaObj.AREATYPES.country;
 var GLOBE_ACTIVE = true;
+var CURRENT_THEME, CURRENT_LANG, CURRENT_AREA;
 var SIDEBAR_LIST, AREA, AREA_TEXT;
-
-
+ 
+log(START_THEME)
 
 const NOT__FOUND = [
     {'id': '28', 'en': 'Antigua and Barbuda', 'ru': 'Антигуа и Барбуда'}, // not found
@@ -278,9 +285,7 @@ const COUNTRIES = [
     {'id': '630', 'en': 'Puerto Rico', 'ru': 'Пуэрто-Рико'},
     {'id': '780', 'en': 'Trinidad and Tobago', 'ru': 'Тринидад и Тобаго'},   
 ].map(country => {
-        country.name = (START_LANG == Translater.LANGTYPES.ru) ? 
-            country.ru : 
-            country.en;
+        country.name = LanguagesObj.TranslateObj(country);
         country.rivers = RIVERS__RU
                     .filter(river => {
                         if (river.location.indexOf(country.ru) > -1)
@@ -533,14 +538,10 @@ const REGIONS = [
         'en': 'Oceania and Islands'
     }
 ].map(reg => {
-        reg.name = START_LANG == Translater.LANGTYPES.ru ? 
-            reg.ru : 
-            reg.en;
+        reg.name = LanguagesObj.TranslateObj(reg);
         reg.rivers = [];
         reg.obj.forEach(country => {
-            country.name = (START_LANG == Translater.LANGTYPES.ru) ? 
-                country.ru : 
-                country.en;
+            country.name = LanguagesObj.TranslateObj(country);
             country.rivers = RIVERS__RU
                     .filter(river => {
                         if (river.location.indexOf(country.ru) > -1)

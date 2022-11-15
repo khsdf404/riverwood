@@ -1,24 +1,8 @@
+function ObjEquals(obj1, obj2) {
+    return JSON.stringify(obj1) == JSON.stringify(obj2)
+}
 
-
-class PageThemes {
-    static Start(theme) {
-        PageThemes.setTheme(theme);
-
-        if (theme == PageThemes.Light) 
-            $(`#lightBtn`).addClass('active-btn');
-        if (theme == PageThemes.Dark) 
-            $(`#darkBtn`).addClass('active-btn');
-
-
-        $(`div.header-theme button`).click((e) => {
-            if (e.currentTarget.id == 'lightBtn')
-                PageThemes.setTheme(PageThemes.Light)
-            else if (e.currentTarget.id == 'darkBtn')
-                PageThemes.setTheme(PageThemes.Dark)
-            else 
-               console.log(e);
-        });
-    }
+class ThemesObj {
     static Light = {
         '--mainBackground': '#fef9f2',
         '--accentColor': '#444',
@@ -72,28 +56,56 @@ class PageThemes {
         '--sdHeaderColor': '#fffc',
         '--sdLinkColor': '#93c3ff',
         '--sdFontWeight': '100'
-    }
-    static currentTheme;
-    
-    
+    } 
 
-    static setTheme(theme) {
-        if (theme == PageThemes.currentTheme) return;
-        PageThemes.currentTheme = theme;
-        let keys = Object.keys(PageThemes.currentTheme);
-        let styles =  Object.values(PageThemes.currentTheme);
+
+
+    static Start(theme) {
+        ThemesObj.setTheme(theme); 
+
+        if (CURRENT_THEME == ThemesObj.Light) 
+            $(`#lightBtn`).addClass('active-btn');
+        else if (CURRENT_THEME == ThemesObj.Dark) 
+            $(`#darkBtn`).addClass('active-btn');
+
+
+        $(`div.header-theme button`).click(function() {
+            if ($(this).hasClass(`active-btn`)) return;
+
+            $(this).parent()
+                .find(`button.active-btn`)
+                .removeClass(`active-btn`);
+            $(this).addClass(`active-btn`);
+            
+
+            ThemesObj.setTheme($(this).attr('id'))
+        });
+    }
+    static setTheme(id) {
+        if (id == 'lightBtn' || ObjEquals(id, ThemesObj.Light)) 
+            CURRENT_THEME = ThemesObj.Light;
+        else if (id == 'darkBtn' || ObjEquals(id, ThemesObj.Light))
+            CURRENT_THEME = ThemesObj.Dark;
+        else 
+            CURRENT_THEME = ThemesObj.Dark; // dynamic
+
+
+            
+        let keys = Object.keys(CURRENT_THEME);
+        let styles =  Object.values(CURRENT_THEME);
         for (let i = 0; i < keys.length; i++)
             document
                 .documentElement
                 .style
                 .setProperty(keys[i], styles[i]);
+
+        localStorage.setItem('theme', JSON.stringify(CURRENT_THEME));
     }
 }
 
 
-class Translater { 
-    static lang;
-    static text;
+class LanguagesObj {
+    static CONTENT;
 
     static LANGTYPES = {
         'ru': 0,
@@ -101,7 +113,7 @@ class Translater {
         'fr': 2,
         'sp': 3
     };
-    static CONTENT = {
+    static TEXT = {
         'ru': [
             'Страна', 
             'Регион', 
@@ -130,58 +142,70 @@ class Translater {
 
 
     static Start(lang) {
-        Translater.setLang(lang);
-        Translater.TranslatePage();
+        LanguagesObj.setLang(lang);
+        LanguagesObj.TranslatePage();
 
-        if (Translater.lang == Translater.LANGTYPES.en)
+        if (CURRENT_LANG == LanguagesObj.LANGTYPES.en)
             $(`#enBtn`).addClass(`active-btn`);
-        else if (Translater.lang == Translater.LANGTYPES.fr)
+        else if (CURRENT_LANG == LanguagesObj.LANGTYPES.fr)
             $(`#frBtn`).addClass(`active-btn`);
-        else if (Translater.lang == Translater.LANGTYPES.sp)
+        else if (CURRENT_LANG == LanguagesObj.LANGTYPES.sp)
             $(`#spBtn`).addClass(`active-btn`);
         else 
             $(`#ruBtn`).addClass(`active-btn`);
         
         
         
-        $(`div.header-language button`).click((e) => {
+        $(`div.header-language button`).click(function() {
+            if ($(this).hasClass(`active-btn`)) return;
+
+            $(this).parent()
+                .find(`button.active-btn`)
+                .removeClass(`active-btn`);
+            $(this).addClass(`active-btn`);
+
+
             AREA_TEXT.text('');
-            Translater.setLang(e.currentTarget.id);
-            SearchArea.setNames();
+            LanguagesObj.setLang($(this).attr('id'));
+            AreaObj.setNames();
+
+            Page.Recreate();
         })
     }
     
 
     static setLang(id) {
-        if (id == 'enBtn' || id == Translater.LANGTYPES.en) {
-            Translater.lang = Translater.LANGTYPES.en;
-            Translater.text = Translater.CONTENT.en;
+        if (id == 'enBtn' || id == LanguagesObj.LANGTYPES.en) {
+            CURRENT_LANG = LanguagesObj.LANGTYPES.en;
+            LanguagesObj.CONTENT = LanguagesObj.TEXT.en;
         }
-        else if (id == 'frBtn' || id == Translater.LANGTYPES.fr) {
-            Translater.lang = Translater.LANGTYPES.fr;
-            Translater.text = Translater.CONTENT.fr;
+        else if (id == 'frBtn' || id == LanguagesObj.LANGTYPES.fr) {
+            CURRENT_LANG = LanguagesObj.LANGTYPES.fr;
+            LanguagesObj.CONTENT = LanguagesObj.TEXT.fr;
         }
-        else if (id == 'spBtn' || id == Translater.LANGTYPES.sp) {
-            Translater.lang = Translater.LANGTYPES.sp;
-            Translater.text = Translater.CONTENT.sp;
+        else if (id == 'spBtn' || id == LanguagesObj.LANGTYPES.sp) {
+            CURRENT_LANG = LanguagesObj.LANGTYPES.sp;
+            LanguagesObj.CONTENT = LanguagesObj.TEXT.sp;
         }
         else {
-            Translater.lang = Translater.LANGTYPES.ru;
-            Translater.text = Translater.CONTENT.ru;
+            CURRENT_LANG = LanguagesObj.LANGTYPES.ru;
+            LanguagesObj.CONTENT = LanguagesObj.TEXT.ru;
         }
+
+        localStorage.setItem('lang', JSON.stringify(CURRENT_LANG))
     }
     static TranslatePage() { 
-        $(`#countryBtn`).text(Translater.text[0]);
-        $(`#regionBtn`).text(Translater.text[1]);
-        $(`#mobileScroll`).text(Translater.text[2][GLOBE_ACTIVE ? 1 : 0])
-        $(`#searchInput`).attr('placeholder', Translater.text[3])
+        $(`#countryBtn`).text(LanguagesObj.CONTENT[0]);
+        $(`#regionBtn`).text(LanguagesObj.CONTENT[1]);
+        $(`#mobileScroll`).text(LanguagesObj.CONTENT[2][GLOBE_ACTIVE ? 1 : 0])
+        $(`#searchInput`).attr('placeholder', LanguagesObj.CONTENT[3])
     }
     static TranslateObj(obj) {
-        if (Translater.lang == Translater.LANGTYPES.en)
+        if (CURRENT_LANG == LanguagesObj.LANGTYPES.en)
             return obj.en;
-        else if (Translater.lang == Translater.LANGTYPES.fr)
+        else if (CURRENT_LANG == LanguagesObj.LANGTYPES.fr)
             return obj.fr;
-        else if (Translater.lang == Translater.LANGTYPES.sp)
+        else if (CURRENT_LANG == LanguagesObj.LANGTYPES.sp)
             return obj.sp;
         else 
             return obj.ru;
@@ -189,55 +213,65 @@ class Translater {
 }
 
 
-class SearchArea {
+class AreaObj {
     static AREATYPES = {
-        'country': 'country',
-        'region': 'region'
+        'country': 0,
+        'region': 1
     };
 
 
     static Start(area) {
-        AREA = area; 
-        SearchArea.setNames();
+        CURRENT_AREA = area; 
+        AreaObj.setNames();
 
-        if (SearchArea.isRegion())
+        if (AreaObj.isRegion())
             $(`#regionBtn`).addClass(`active-btn`);
         else 
             $(`#countryBtn`).addClass(`active-btn`);
 
 
-        $(`div.header-choosetype button`).click((e) => {
-            AREA_TEXT.text('');
-            SearchArea.setArea(e.currentTarget);
-            SearchArea.setNames();
+        $(`div.header-choosetype button`).click(function() {
+            if ($(this).hasClass(`active-btn`)) return;
+
+            $(this).parent()
+                .find(`button.active-btn`)
+                .removeClass(`active-btn`);
+            $(this).addClass(`active-btn`);
+
+
+
+            AREA_TEXT.text(''); 
+            AreaObj.setArea();
+            AreaObj.setNames();
+
+            Page.Recreate();
         })
     }
     
     
 
     static isRegion() { 
-        return AREA == SearchArea.AREATYPES.region;
+        return CURRENT_AREA == AreaObj.AREATYPES.region;
     }
-    static setArea(target) {
-        if (target == regionBtn[0])  
-            AREA = SearchArea.AREATYPES.region;
-        else                    
-            AREA = SearchArea.AREATYPES.country;
+    static setArea() {
+        CURRENT_AREA = CURRENT_AREA == AreaObj.AREATYPES.region ?
+            AreaObj.AREATYPES.country :
+            AreaObj.AREATYPES.region;
+        
+        localStorage.setItem('area', JSON.stringify(CURRENT_AREA));
     }
     static setNames() {
-        if (SearchArea.isRegion()) {
+        if (AreaObj.isRegion()) {
             REGIONS.forEach(reg => {
-                reg.name = Translater.TranslateObj(reg);
+                reg.name = LanguagesObj.TranslateObj(reg);
             })
             SIDEBAR_LIST = REGIONS;
         }
         else {
             COUNTRIES.forEach(country => {
-                country.name = Translater.TranslateObj(country);
+                country.name = LanguagesObj.TranslateObj(country);
             })
             SIDEBAR_LIST = COUNTRIES.sort((a, b) => a.name < b.name ? -1 : 1);;
         }
     } 
 }
-
-
