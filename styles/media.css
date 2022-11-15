@@ -157,8 +157,9 @@
     article {
         width: -webkit-fill-available; 
     }
-    h2#areaText {
+    a#areaText {
         margin-bottom: 80px;
+        text-decoration: underline;
     }
     canvas#globe {
         margin-bottom: 10%;

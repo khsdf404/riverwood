@@ -40,7 +40,7 @@ class Page {
 const Phone = () => {
     const scrollSpeed = 500; 
     const isPhone = () => {
-        return /Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)
+        return (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent))
     }
     const HideSettings = () => {
         if (SETTINGS_ACTIVE) {
@@ -52,10 +52,17 @@ const Phone = () => {
         }
     }
 
+    $(window).resize(() => { 
+        if (isPhone() && $(window).outerWidth() < 750) {
+            GLOBE_ACTIVE = $(`main`).scrollTop() > 0
+            LanguagesObj.TranslatePage()
+        }
+    })
+
     if ($(window).outerWidth() < 750) {
         GLOBE_ACTIVE = true; 
         $(`main`).scrollTop($(`main`).outerHeight());       
-    } 
+    }
 
     $(`button#settingsBtn`).click(function() {
         SETTINGS_ACTIVE ? 
@@ -119,13 +126,15 @@ const Earth = () => {
 
     new d3Drag().setDrag();
     new d3Hover().setHover();
-     
+    new d3Click().setClick();
 
     
     $(`main canvas`).mouseleave(() => {
+        AREA_TEXT.text('');
+
         currentPolygon = null;
         currentRegion = null;
-        AREA_TEXT.text('');
+        HELPER.RenderGlobe();
 
         setRotation(true);
     });
@@ -136,11 +145,6 @@ const Earth = () => {
         HELPER.RenderGlobe();
     });
 }
-
-
-
-
-
 
 
 

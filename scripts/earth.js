@@ -33,6 +33,7 @@ var HELPER;
 
 
 const getObj = (countryPolygon) => {
+    if (!countryPolygon) return null;
     if (AreaObj.isRegion()) {
         let b;
         REGIONS.forEach(reg => {
@@ -195,6 +196,20 @@ class d3Helper {
     }  
 }
 
+
+
+class d3Click {
+    setClick() {
+        canvas.on('click', this.OpenPage)
+    }
+    OpenPage() {
+        let name = getObj(currentPolygon) && getObj(currentPolygon).name || currentRegion && currentRegion.name;
+        log(name);
+        if (name) {
+            window.location.href = 'Area/area.html';
+        }
+    }
+}
 class d3Hover {
     setHover() {
         canvas.on('mousemove', this.CountryHover)
@@ -293,6 +308,8 @@ class d3Hover {
         })
     }
     setName = () => {
+        if (currentPolygon)
+            return AREA_TEXT.text(getObj(currentPolygon).name)
         AREA_TEXT.text(currentRegion.name) 
     }
 }

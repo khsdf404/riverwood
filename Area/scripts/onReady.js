@@ -46,6 +46,5 @@ const Header = () => {
 
 
 $(document).ready(() => {  
-    Header();    
-    log(localStorage.getItem('area'))
+    Header();
 })

@@ -7,3 +7,4 @@ const START_LANG =      localStorage.getItem('lang') ?
                             LanguagesObj.LANGTYPES.en;
 var SETTINGS_ACTIVE;
 var CURRENT_THEME, CURRENT_LANG;
+ 

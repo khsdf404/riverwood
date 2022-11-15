@@ -9,6 +9,7 @@ class ThemesObj {
         '--revertColor': '#fff',
     
         '--headerBgc': '#fff', 
+        '--headerShadow': '0px 1px 14px -7px #777',
         '--headerDisabledColor': '#585858',
         '--headerButtonBgc': '#93c3ff',
         '--headerDisableBtnBgc': '#b9b9b92b',
@@ -38,6 +39,7 @@ class ThemesObj {
         '--revertColor': '#444',
     
         '--headerBgc': '#2e2e2e', 
+        '--headerShadow': '0px 1px 14px -7px #000',
         '--headerDisabledColor': '#b9b9b9',
         '--headerButtonBgc': '#93c3ff',
         '--headerDisableBtnBgc': '#fff',
@@ -49,7 +51,7 @@ class ThemesObj {
         '--headerLogoBtnBorder': '1px solid #686868',
 
     
-        '--sdBackground': '#282828',
+        '--sdBackground': '#00000047',
         '--sdPlaceholder': '#a0a0a0',
         '--sdListBgc': '#9d9d9d44',
         '--sdThumbBgc': '#2d66c5',
@@ -82,6 +84,10 @@ class ThemesObj {
         });
     }
     static setTheme(id) {
+        log(id)
+        log(ObjEquals(id, ThemesObj.Light))
+        log(JSON.stringify(id))
+        log(JSON.stringify(ThemesObj.Light))
         if (id == 'lightBtn' || ObjEquals(id, ThemesObj.Light)) 
             CURRENT_THEME = ThemesObj.Light;
         else if (id == 'darkBtn' || ObjEquals(id, ThemesObj.Light))

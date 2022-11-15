@@ -32,5 +32,5 @@ a#areaText {
     font-size: 24px;
     font-family: var(--mainFont);
     font-weight: 900;
-
+    text-decoration: none;
 } 

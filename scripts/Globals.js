@@ -12,8 +12,7 @@ var GLOBE_ACTIVE = true; var SETTINGS_ACTIVE = false;
 var CURRENT_THEME, CURRENT_LANG, CURRENT_AREA;
 var SIDEBAR_LIST, AREA_TEXT;
  
-
-
+ 
 
 const COUNTRIES = [
     {'id': '12', 'en': 'Algeria', 'ru': 'Алжир'},
