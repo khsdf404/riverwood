@@ -73,7 +73,7 @@ class d3Helper {
             .defer(d3.json, "/src/countriesInfo.json")
             .await(this.LoadData);
     }
-    LoadData = (error, world, names) => {
+    LoadData = (error, world) => {
         if (error) throw error;
         globe = { type: 'Sphere' } 
         land = topojson.feature(world, world.objects.land);
@@ -238,6 +238,7 @@ class d3Hover {
             return null;
         }
         let obj = getObj(polygon);
+        
         let output = false;
         REGIONS.forEach(region => {
             region.obj.forEach(country => { 
@@ -253,7 +254,7 @@ class d3Hover {
                 if (output) return output;
             });
             if (output) return output;
-        }); 
+        });
         return output;
     }
     getPolygon = (event) => { 
@@ -283,7 +284,7 @@ class d3Hover {
         })
     }
     setName = () => {
-        AREA_TEXT.text(currentRegion || getObj(currentPolygon).name) 
+        AREA_TEXT.text(currentRegion.name) 
     }
 }
 class d3Drag { 

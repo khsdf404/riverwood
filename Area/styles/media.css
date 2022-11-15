@@ -1,0 +1,219 @@
+@media (max-width: 920px) {
+    section.header-logo h1 {
+        font-size: 26px;
+        letter-spacing: 6px;
+    }
+
+    section.header-settings {
+        padding: 0;
+    }
+    div.header-controls button {
+        font-size: 16px;
+    }
+
+
+    div.header-language button { 
+        width: calc( var(--btnOneWidth) * (10/4 * 14/16)  );
+    }
+    div.header-choosetype button { 
+        width: calc( var(--btnOneWidth) * (10/2 ) );
+    }
+    div.header-theme button { 
+        width: calc( var(--btnOneWidth) * (10/3 * 7/8) );
+    }
+}
+
+@media (max-width: 750px) {
+    section.header-logo {
+        justify-content: flex-start; 
+
+        width: auto; 
+        min-width: 0px;
+    }
+    section.header-logo img { 
+        height: 40px;
+    }
+    
+
+
+
+    button#settingsBtn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        width: 35px;
+        height: 22px;
+        
+        margin: 0 10px 0 auto;
+        padding: 0; 
+
+        background: none;
+        border-radius: 2px;
+        border: var(--headerLogoBtnBorder); 
+
+        transition: .3s;
+    } 
+    button#settingsBtn.active-btn {
+        background-color: var(--headerLogoBtnBgc);
+        border: none;
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+    button#settingsBtn span {
+        display: flex;
+        
+        width: 3px;
+        height: 3px;
+        margin: 0 2px;
+
+        background: var(--accentColor);
+        border-radius: 10px;
+    }
+
+
+
+
+    section.header-settings {
+        position: fixed;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        
+        top: 50px;
+        right: -250px;
+
+        width: auto;
+        min-width: 0;
+
+        padding: 15px 30px;
+        
+        background: var(--headerSettingsBgc);
+        filter: var(--headerSettingsFilter); 
+        border-radius: 4px;
+        color: #fff;
+
+        overflow: hidden; 
+        z-index: 10; 
+    } 
+    div.header-controls,
+    div.header-mobile-scroll {
+        margin: 2px 0;
+        border: 1px solid #00000057
+    } 
+    div.header-mobile-scroll {
+        display: flex;
+        margin-top: 20px;
+    }
+    
+
+
+    div.header-controls button {
+        background-color: var(--headerBgc); 
+        color: var(--headerDisabledColor);
+        font-size: 20px;
+    }
+    div.header-mobile-scroll button {
+        background-color: var(--headerBgc); 
+        color: var(--accentColor);
+        font-size: 20px;
+        font-weight: 900;
+        letter-spacing: 1px;
+    }
+    
+
+
+    div.header-language button { 
+        width: calc( var(--btnOneWidth) * (10/4)  );
+        font-size: 15px;
+    }
+    div.header-choosetype button { 
+        width: calc( var(--btnOneWidth) * (10/2) );
+    }
+    div.header-theme button { 
+        width: calc( var(--btnOneWidth) * (10/3) );
+    }
+    div.header-mobile-scroll button {
+        width: calc( var(--btnOneWidth) * (10/1) );
+    }
+
+
+    div.header-controls button:hover {
+        background-color: none;
+    }
+
+
+
+
+    main {
+        flex-direction: column;
+    }
+    aside {
+        width: 100%;
+        max-width: 100%;
+    }
+    article {
+        width: -webkit-fill-available; 
+    }
+    h2#areaText {
+        margin-bottom: 80px;
+    }
+    canvas#globe {
+        margin-bottom: 10%;
+    }
+}
+
+
+
+
+@media (max-width: 600px) {
+    section.header-logo h1 {
+        font-size: 24px;
+        letter-spacing: 4px;
+    }
+
+    
+    
+
+
+    ul#areaList h6 {
+        font-size: 16px;
+    }
+    ul#areaList div a {
+        font-size: 20px;
+    }
+    ul#areaList a span {
+        margin-right: 4px;
+    }
+    ul#riverList a {
+        font-size: 20px;
+    } 
+    #searchInput {
+        font-size: 22px;
+    }
+    #searchInput::-webkit-input-placeholder { 
+        font-size: 24px; 
+    }
+    
+
+
+
+    span.input-btn {
+        width: 23px;
+        height: 19px;
+        margin: 2px 1px;
+        font-size: 18px;
+    }
+    span.input-btn:last-child { 
+        height: 17px;
+    }
+    span.input-counter { 
+        font-size: 12px;
+        padding: 0px 8px;
+        padding-bottom: 4px; 
+    }
+ 
+
+    
+}

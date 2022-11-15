@@ -23,10 +23,14 @@ article canvas {
     overflow: hidden;
 }
 
-h2#areaText {  
+a#areaText {  
     min-height: 32px;
+    margin-bottom: 50px;
     
     color: var(--accentColor);
     text-align: center;
+    font-size: 24px;
     font-family: var(--mainFont);
+    font-weight: 900;
+
 } 

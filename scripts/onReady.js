@@ -18,7 +18,9 @@ const findCountry2 = (id) => {
 
 
 
-
+const isPhone = () => {
+return /Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)
+}
 
 class Page { 
     static Recreate() {
@@ -76,11 +78,14 @@ const Earth = () => {
     new d3Hover().setHover();
      
 
-    $(`main canvas`).mouseleave(() => {
-        currentPolygon = null;
-        currentRegion = null;
-        AREA_TEXT.text('');
-    });
+    
+    if (!isPhone()) {
+        $(`main canvas`).mouseleave(() => {
+            currentPolygon = null;
+            currentRegion = null;
+            AREA_TEXT.text('');
+        });
+    }
     $(window).resize(() => {
         HELPER.setScale();
         HELPER.RenderGlobe();
@@ -94,65 +99,61 @@ const Header = () => {
     LanguagesObj.Start(START_LANG);
     AreaObj.Start(START_AREA);
     ThemesObj.Start(START_THEME);
-    Page.Recreate(); 
-
-    const scrollSpeed = 500;
-    let isSettigns = false;
-    
+    Page.Recreate();
 
     
-    const HideSettings = () => {
-        if (isSettigns) {
-            isSettigns = false; 
-            $(`button#settingsBtn`).removeClass('active-btn');
-            $(`section.header-settings`).animate({
-                'right': '-250px' 
-            }, 200) 
+    if (isPhone()) {
+        const scrollSpeed = 500; 
+        const HideSettings = () => {
+            if (SETTINGS_ACTIVE) {
+                SETTINGS_ACTIVE = false; 
+                $(`button#settingsBtn`).removeClass('active-btn');
+                $(`section.header-settings`).animate({
+                    'right': '-250px' 
+                }, 200) 
+            }
         }
-    }
-    $(`button#settingsBtn`).click(function() {
-        isSettigns ? 
-            $(this).removeClass('active-btn') :
-            $(this).addClass('active-btn')
+        $(`button#settingsBtn`).click(function() {
+            SETTINGS_ACTIVE ? 
+                $(this).removeClass('active-btn') :
+                $(this).addClass('active-btn')
+                
+            $(`section.header-settings`).animate({
+                'right': !SETTINGS_ACTIVE ? '10px' : '-250px' 
+            }, !SETTINGS_ACTIVE ? 300 : 200) 
+            SETTINGS_ACTIVE = !SETTINGS_ACTIVE;
+        })
+        $(`#mobileScroll`).click(function() { 
+            GLOBE_ACTIVE = !GLOBE_ACTIVE;
+            LanguagesObj.TranslatePage();
+            // $(this).find('span').animate({
+            //     'opacity': '0'
+            // }, scrollSpeed / 2.3, () => {
+               
+            //     setTimeout(() => {
+            //         $(this).find('span').animate({
+            //             'opacity': '1'
+            //         }, scrollSpeed / 2.3)
+            //     }, scrollSpeed / 4.6);
+            // })
+            $(`main`).animate({
+                'scrollTop': !GLOBE_ACTIVE ? 
+                                '0px' : 
+                                $(`main`).outerHeight() + 'px'
+            }, scrollSpeed, 'easeInOutQuad');
             
-        $(`section.header-settings`).animate({
-            'right': !isSettigns ? '10px' : '-250px' 
-        }, !isSettigns ? 300 : 200) 
-        isSettigns = !isSettigns;
-    })
-    $(`main`).click(() => {
-        HideSettings();
-    });
-
     
+            setTimeout(() => {
+                HideSettings();
+            }, scrollSpeed * (6/10));
+        })
 
 
 
-    
-    $(`#mobileScroll`).click(function() { 
-        GLOBE_ACTIVE = !GLOBE_ACTIVE;
-        Translater.TranslatePage();
-        // $(this).find('span').animate({
-        //     'opacity': '0'
-        // }, scrollSpeed / 2.3, () => {
-           
-        //     setTimeout(() => {
-        //         $(this).find('span').animate({
-        //             'opacity': '1'
-        //         }, scrollSpeed / 2.3)
-        //     }, scrollSpeed / 4.6);
-        // })
-        $(`main`).animate({
-            'scrollTop': !GLOBE_ACTIVE ? 
-                            '0px' : 
-                            $(`main`).outerHeight() + 'px'
-        }, scrollSpeed, 'easeInOutQuad');
-        
-
-        setTimeout(() => {
+        $(`main`).click(() => {
             HideSettings();
-        }, scrollSpeed * (6/10));
-    })
+        });
+    }
 }
 
 
@@ -166,9 +167,5 @@ $(document).ready(() => {
 
     
     Earth();
-    Header();
-
-    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
-       log('a')
-    }
+    Header();    
 })
