@@ -488,7 +488,6 @@ const REGIONS = [
     }
 ).sort((a, b) => a.name < b.name ? -1 : 1);
 
-log(REGIONS)
 
 
 
@@ -559,3 +558,24 @@ const NOT__FOUND = [
     {'id': '876', 'en': 'Wallis and Futuna', 'ru': 'Уоллис и Футуна'}, // changed France & Oceania not found
     {'id': '882', 'en': 'Samoa', 'ru': 'Самоа'}, // not found
 ]
+
+
+
+
+const findCountry = (id) => {
+    let output = null;
+    REGIONS.forEach(reg => {
+        if (output) return;
+        output = reg.obj.find(function(e) {
+            return parseInt(e.id) == parseInt(id)
+        })
+    });
+    return output;
+}
+const findCountry2 = (id) => {
+    let output = null;
+    output = COUNTRIES.find(function(e) {
+        return parseInt(e.id) == parseInt(id)
+    })
+    return output;
+}

@@ -67,8 +67,7 @@ const setRotation = (state) => {
     clearTimeout(restartTimer);
     if (state) {
         restartTimer = setTimeout(() => {
-            rotateAvailable = true;
-            log(a)
+            rotateAvailable = true; 
         }, rotationDelay);
     }
     else 

@@ -1,27 +1,3 @@
-const findCountry = (id) => {
-    let output = null;
-    REGIONS.forEach(reg => {
-        if (output) return;
-        output = reg.obj.find(function(e) {
-            return parseInt(e.id) == parseInt(id)
-        })
-    });
-    return output;
-}
-const findCountry2 = (id) => {
-    let output = null;
-    output = COUNTRIES.find(function(e) {
-        return parseInt(e.id) == parseInt(id)
-    })
-    return output;
-}
-
-
-
-const isPhone = () => {
-return /Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)
-}
-
 class Page { 
     static Recreate() {
         function CreateElem(text, riversArr) { 
@@ -61,7 +37,74 @@ class Page {
 }
 
 
+const Phone = () => {
+    const scrollSpeed = 500; 
+    const isPhone = () => {
+        return /Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)
+    }
+    const HideSettings = () => {
+        if (SETTINGS_ACTIVE) {
+            SETTINGS_ACTIVE = false; 
+            $(`button#settingsBtn`).removeClass('active-btn');
+            $(`section.header-settings`).animate({
+                'right': '-250px' 
+            }, 200) 
+        }
+    }
 
+    if ($(window).outerWidth() < 750) {
+        GLOBE_ACTIVE = true; 
+        $(`main`).scrollTop($(`main`).outerHeight());       
+    } 
+
+    $(`button#settingsBtn`).click(function() {
+        SETTINGS_ACTIVE ? 
+            $(this).removeClass('active-btn') :
+            $(this).addClass('active-btn')
+            
+        $(`section.header-settings`).animate({
+            'right': !SETTINGS_ACTIVE ? '10px' : '-250px' 
+        }, !SETTINGS_ACTIVE ? 300 : 200) 
+        SETTINGS_ACTIVE = !SETTINGS_ACTIVE;
+    })
+    $(`#mobileScroll`).click(function() {
+        GLOBE_ACTIVE = !GLOBE_ACTIVE;
+        LanguagesObj.TranslatePage();
+        // $(this).find('span').animate({
+        //     'opacity': '0'
+        // }, scrollSpeed / 2.3, () => {
+           
+        //     setTimeout(() => {
+        //         $(this).find('span').animate({
+        //             'opacity': '1'
+        //         }, scrollSpeed / 2.3)
+        //     }, scrollSpeed / 4.6);
+        // })
+        $(`main`).animate({
+            'scrollTop': !GLOBE_ACTIVE ? 
+                            '0px' : 
+                            $(`main`).outerHeight() + 'px'
+        }, scrollSpeed, 'easeInOutQuad');
+        
+
+        setTimeout(() => {
+            HideSettings();
+        }, scrollSpeed * (6/10));
+    })
+
+
+
+    $(`main`).click(() => {
+        if (!isPhone()) return;
+        HideSettings();
+    }); 
+}
+const Header = () => {
+    LanguagesObj.Start(START_LANG);
+    AreaObj.Start(START_AREA);
+    ThemesObj.Start(START_THEME);
+    Page.Recreate();
+}
 const Earth = () => { 
     // canvas & d3 variables
     canvas =        d3.select('#globe')
@@ -87,76 +130,13 @@ const Earth = () => {
         setRotation(true);
     });
 
-    
+
     $(window).resize(() => {
         HELPER.setScale();
         HELPER.RenderGlobe();
     });
 }
-const Header = () => {
-    if ($(window).outerWidth() < 750) {
-        GLOBE_ACTIVE = true; 
-        $(`main`).scrollTop($(`main`).outerHeight());       
-    }
-    LanguagesObj.Start(START_LANG);
-    AreaObj.Start(START_AREA);
-    ThemesObj.Start(START_THEME);
-    Page.Recreate();
 
-    
-    if (isPhone()) {
-        const scrollSpeed = 500; 
-        const HideSettings = () => {
-            if (SETTINGS_ACTIVE) {
-                SETTINGS_ACTIVE = false; 
-                $(`button#settingsBtn`).removeClass('active-btn');
-                $(`section.header-settings`).animate({
-                    'right': '-250px' 
-                }, 200) 
-            }
-        }
-        $(`button#settingsBtn`).click(function() {
-            SETTINGS_ACTIVE ? 
-                $(this).removeClass('active-btn') :
-                $(this).addClass('active-btn')
-                
-            $(`section.header-settings`).animate({
-                'right': !SETTINGS_ACTIVE ? '10px' : '-250px' 
-            }, !SETTINGS_ACTIVE ? 300 : 200) 
-            SETTINGS_ACTIVE = !SETTINGS_ACTIVE;
-        })
-        $(`#mobileScroll`).click(function() { 
-            GLOBE_ACTIVE = !GLOBE_ACTIVE;
-            LanguagesObj.TranslatePage();
-            // $(this).find('span').animate({
-            //     'opacity': '0'
-            // }, scrollSpeed / 2.3, () => {
-               
-            //     setTimeout(() => {
-            //         $(this).find('span').animate({
-            //             'opacity': '1'
-            //         }, scrollSpeed / 2.3)
-            //     }, scrollSpeed / 4.6);
-            // })
-            $(`main`).animate({
-                'scrollTop': !GLOBE_ACTIVE ? 
-                                '0px' : 
-                                $(`main`).outerHeight() + 'px'
-            }, scrollSpeed, 'easeInOutQuad');
-            
-    
-            setTimeout(() => {
-                HideSettings();
-            }, scrollSpeed * (6/10));
-        })
-
-
-
-        $(`main`).click(() => {
-            HideSettings();
-        });
-    }
-}
 
 
 
@@ -168,6 +148,7 @@ $(document).ready(() => {
     AREA_TEXT =     $('#areaText');
 
     
+    Phone();
+    Header();
     Earth();
-    Header();    
 })
