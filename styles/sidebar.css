@@ -13,10 +13,10 @@ aside {
 
     padding: 40px 0;
  
-    background: var(--sdBackground);
-    color: var(--accentColor);
-    box-shadow: var(--headerShadow);
-
+    background: var(--sd-background);
+    color: var(--based-color);
+    box-shadow: var(--edge-shadow);
+ 
     z-index: 1;
 } 
 aside > * {
@@ -40,15 +40,15 @@ aside ul {
 }
 aside ul::-webkit-scrollbar {
     width: 7px;
-    background: var(--accentColor);
+    background: var(--based-color);
 }
 aside ul::-webkit-scrollbar-thumb { 
-    background: var(--sdThumbBgc); 
+    background: var(--list-scrollbar-background); 
 }
 aside ul > li { 
     margin: 4px 0; 
-    padding: 4px 10px; 
-    background: var(--sdListBgc);
+    padding: 4px 8px 4px 10px; 
+    background: var(--list-background);
     border-radius: 4px;
 }
 aside ul > li:first-child {
@@ -58,24 +58,30 @@ aside ul > li:last-child {
     margin-bottom: 0; 
 }
 aside ul a:active {
-    color: var(--sdLinkColor);
+    color: var(--list-linkColor);
 }
 
 
 
 ul#areaList h6 {
     display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
 
     width: 100%;
 
     margin: 0;
     padding: 0;
 
-    color: var(--accentColor);
-    font-size: 20px;
-    font-weight: var(--sdFontWeight);
+    color: var(--based-color);
+    font-size: 19px;
+    font-weight: var(--list-fontWeight);
     font-family: var(--mainFont);
-}
+
+    transition-property: color;
+    transition-duration: var(--transition-color);
+    transition-timing-function: ease-out;
+} 
 ul#areaList div {
     display: flex;
     flex-direction: column;
@@ -92,7 +98,7 @@ ul#areaList div {
 ul#areaList a {
     margin: 2px 0;
 
-    color: var(--sdLinkColor);
+    color: var(--list-linkColor);
     font-size: 22px;
     font-weight: 900;
     line-height: 20px;
@@ -104,12 +110,12 @@ ul#areaList a {
 ul#areaList a:last-child {
     margin-bottom: 6px;
 }
-ul#areaList span {
+ul#areaList a span {
     display: inline-block;
 
     margin-right: 8px;
 
-    color: var(--accentColor);
+    color: var(--based-color);
     font-family: 'Neris';
     font-size: 16px;
     
@@ -121,10 +127,9 @@ ul#areaList a:hover > span {
 ul#areaList a:hover {
     transform: translateX(20px) scale(1.07); 
 }
-ul#areaList ins {
+ul#areaList a ins {
     font-family: var(--addFont);
 }
-
 
 
 
@@ -132,7 +137,7 @@ ul#riverList {
     display: none; 
 }  
 ul#riverList a {
-    color: var(--sdLinkColor);
+    color: var(--list-linkColor);
     font-size: 22px;
     font-weight: 900;
     font-family: var(--addFont);
@@ -157,7 +162,7 @@ div.sidebar-input-wrapper {
 
     margin-bottom: 30px;
     
-    border-bottom: 4px solid var(--accentColor);
+    border-bottom: 4px solid var(--based-color);
 }
 #searchInput {
     position: relative;
@@ -166,7 +171,7 @@ div.sidebar-input-wrapper {
     padding: 6px 2px;
     margin-bottom: -6px;
 
-    color: var(--accentColor);
+    color: var(--based-color);
     font-size: 26px; 
     font-family: var(--addFont); 
     font-weight: 900;
@@ -179,10 +184,10 @@ div.sidebar-input-wrapper {
 
 
 #searchInput::-webkit-input-placeholder {
-    color:var(--sdPlaceholder);
+    color:var(--placeholder-color);
     font-family: var(--addFont);
     font-size: 30px;
-    font-weight: 100;
+    font-weight: 100; 
 }
 
 span.input-btn {
@@ -198,11 +203,11 @@ span.input-btn {
     margin: 0px 1px 2px 1px;
 
     border-radius: 3px;
-    background: var(--sdListBgc);
+    background: var(--list-background);
 
     font-size: 20px;
     font-family: 'Neris';
-    font-weight: var(--sdFontWeight);
+    font-weight: var(--list-fontWeight);
 } 
 span.input-btn:last-child {
     height: 21px;

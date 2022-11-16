@@ -31,6 +31,7 @@ class ThemesObj {
         '--sdThumbBgc': '#19aeef',
         '--sdHeaderColor': '#000',
         '--sdLinkColor': '#0142b9',
+        '--sdSvgColor': '#6f54ed', 
         '--sdFontWeight': '900'
     }
     static Dark = {
@@ -57,6 +58,7 @@ class ThemesObj {
         '--sdThumbBgc': '#2d66c5',
         '--sdHeaderColor': '#fffc',
         '--sdLinkColor': '#93c3ff',
+        '--sdSvgColor': '#4f94fd', 
         '--sdFontWeight': '100'
     } 
 

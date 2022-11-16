@@ -4,60 +4,68 @@ function ObjEquals(obj1, obj2) {
 
 class ThemesObj {
     static Light = {
-        '--mainBackground': '#fef9f2',
-        '--accentColor': '#444',
-        '--revertColor': '#fff',
+        '--based-color': '#444',
+        '--revert-color': '#fff',
+        '--accent-color': '#93c3ff',
+
+        '--transition-background': '.35s',
+        '--transition-color': '.15s',
+
+        '--main-background': '#fef9f2',
+        '--main-opacity': '0',
+        '--edge-shadow': '0px 1px 14px -7px #777',
+        
     
-        '--headerBgc': '#fff', 
-        '--headerShadow': '0px 1px 14px -7px #777',
-        '--headerDisabledColor': '#585858',
-        '--headerButtonBgc': '#93c3ff',
-        '--headerDisableBtnBgc': '#b9b9b92b',
-        '--headerHoverBcg': '#e4e4e5',
-        '--headerSettingsBgc': '#d7ddf3c2', // ffffffdf
-                                            // #bec1e394
-                                            // linear-gradient(45deg, #a0beeb, white);
-                                            // repeating-linear-gradient(138deg, #b5d3ff85, #94b9df6e 50px);
-                                            // #f9ecdcc7
-                                            // linear-gradient(39deg, #ffe7bb, #ffffffad)
-                                            // #d7ddf3c2
-        '--headerSettingsFilter': 'drop-shadow(6px 8px 19px #bbb)',
-        '--headerLogoBtnBgc': '#e3dfdf', // #ddeaff #ebebeb
-        '--headerLogoBtnBorder': '1px solid #cfcfcf',
+        '--h-background': '#fff', 
+        '--controls-background': '#93c3ff',
+        '--controls-border': '#676767',
+        '--controls-disabledcolor': '#585858',
+        '--controls-hoverBackground': '#e4e4e5',
+        '--settings-background': '#d7ddf3c2', // ffffffdf // #bec1e394 // linear-gradient(45deg, #a0beeb, white) // repeating-linear-gradient(138deg, #b5d3ff85, #94b9df6e 50px) // #f9ecdcc7 // linear-gradient(39deg, #ffe7bb, #ffffffad) // #d7ddf3c2
+        '--settings-filter': 'drop-shadow(6px 8px 19px #bbb)',
+        '--settingsBtn-background': '#e3dfdf', // #ddeaff // #ebebeb
+        '--settingsBtn-border': '1px solid #cfcfcf',
     
-        '--sdBackground': '#f7f7f7',
-        '--sdPlaceholder': '#a0a0a0',
-        '--sdListBgc': '#5050502e',
-        '--sdThumbBgc': '#19aeef',
-        '--sdHeaderColor': '#000',
-        '--sdLinkColor': '#0142b9',
-        '--sdFontWeight': '900'
+        '--sd-background': '#f7f7f7',
+        '--placeholder-color': '#a0a0a0',
+        '--list-background': '#5050502e',
+        '--list-scrollbar-background': '#19aeef',
+        '--list-headerColor': '#000',
+        '--list-linkColor': '#0142b9',
+        '--list-svgColor': '#6f54ed', 
+        '--list-fontWeight': '900'
     }
     static Dark = {
-        '--mainBackground': 'linear-gradient(180deg, #484848, #15151e)',
-        '--accentColor': '#fffc',
-        '--revertColor': '#444',
+        '--based-color': '#fffc',
+        '--revert-color': '#444',
+        '--accent-color': '#93c3ff',
+ 
+        '--transition-background': '.7s',
+        '--transition-color': '.4s',
+
+        '--main-background': 'linear-gradient(180deg, #484848, #15151e)',
+        '--main-opacity': '1',
+        '--edge-shadow': '0px 1px 14px -7px #000', 
     
-        '--headerBgc': '#2e2e2e', 
-        '--headerShadow': '0px 1px 14px -7px #000',
-        '--headerDisabledColor': '#b9b9b9',
-        '--headerButtonBgc': '#93c3ff',
-        '--headerDisableBtnBgc': '#fff',
-        '--headerHoverBcg': '#5c5c5c',
-        '--headerSettingsBgc': '#82828b94', // #82828b94 
-                                            // linear-gradient(229deg, #6177b5, #2a2a2a)
-        '--headerSettingsFilter': 'drop-shadow(6px 8px 19px #000)',
-        '--headerLogoBtnBgc': '#59595f',
-        '--headerLogoBtnBorder': '1px solid #686868',
+        '--h-background': '#2e2e2e',
+        '--controls-background': '#93c3ff',
+        '--controls-border': '#676767',
+        '--controls-disabledcolor': '#b9b9b9',
+        '--controls-hoverBackground': '#5c5c5c',
+        '--settings-background': '#82828b94', // #82828b94  // linear-gradient(229deg, #6177b5, #2a2a2a)
+        '--settings-filter': 'drop-shadow(6px 8px 19px #000)',
+        '--settingsBtn-backgroung': '#59595f',
+        '--settingsBtn-border': '1px solid #686868',
 
     
-        '--sdBackground': '#00000047',
-        '--sdPlaceholder': '#a0a0a0',
-        '--sdListBgc': '#9d9d9d44',
-        '--sdThumbBgc': '#2d66c5',
-        '--sdHeaderColor': '#fffc',
-        '--sdLinkColor': '#93c3ff',
-        '--sdFontWeight': '100'
+        '--sd-background': '#00000047',
+        '--placeholder-color': '#a0a0a0',
+        '--list-background': '#9d9d9d44',
+        '--list-scrollbar-background': '#2d66c5',
+        '--list-headerColor': '#fffc',
+        '--list-linkColor': '#93c3ff',
+        '--list-svgColor': '#4f94fd', 
+        '--list-fontWeight': '100'
     } 
 
 
@@ -71,7 +79,7 @@ class ThemesObj {
             $(`#darkBtn`).addClass('active-btn');
 
 
-        $(`div.header-theme button`).click(function() {
+        $(`div.header-theme button`).click(function() { 
             if ($(this).hasClass(`active-btn`)) return;
 
             $(this).parent()
@@ -79,8 +87,8 @@ class ThemesObj {
                 .removeClass(`active-btn`);
             $(this).addClass(`active-btn`);
             
-
-            ThemesObj.setTheme($(this).attr('id'))
+            
+            ThemesObj.Animate($(this));
         });
     }
     static setTheme(id) {
@@ -102,6 +110,55 @@ class ThemesObj {
                 .setProperty(keys[i], styles[i]);
 
         localStorage.setItem('theme', JSON.stringify(CURRENT_THEME));
+    }
+    static Animate(jqObj) { 
+        const speed = '.6s' 
+        const transition = 'transform '+ speed +' ease-in-out, top '+ speed +', left '+ speed;
+        const coord = jqObj.find('span').offset();
+        const size = { 'width': $(`body`).outerWidth(), 'height': $(`body`).outerHeight()}
+        let maxSize = Math.max(size.width, size.height);
+        let maxCoord = maxSize == size.width ? size.width - coord.left : coord.top;
+        let hypotenuse = Math.sqrt(size.width*size.width + size.height* size.height);
+
+        // 20 below is a size of jqObj.span (icon of theme)
+        const scale = 2 * (hypotenuse - maxCoord) / 20; 
+
+
+        $themeAnim.css({
+            'display': 'block',
+            'background': CURRENT_THEME['--main-background'],
+            'top': coord.top + 'px', 
+            'left': coord.left + 'px'
+        }); 
+        setTimeout(() => {
+            $themeAnim.css({
+                'transform': 'scale('+ scale +')',
+                'transition': transition
+            });
+        }, 1); 
+        setTimeout(() => {
+            ThemesObj.setTheme(jqObj.attr('id'))
+            $themeAnim.css({ 
+                'top': size.height * 0.9 + 'px', 
+                'left': '100px',
+                'transition': '0s all' 
+            });
+            $themeAnim.css({
+                'top': size.height + 'px', 
+                'left': '-21px', 
+                'transform': 'scale(1)', 
+                'transition': transition
+            });
+
+            setTimeout(() => {
+                $themeAnim.css({
+                    'display': 'none',
+                    'transform': 'scale(1) translate(0, 0)', 
+                    'transition': '0s all'
+                }) 
+            }, parseFloat(speed) * 1000);
+        }, parseFloat(speed) * 1000 * 1.05);
+        
     }
 }
 
@@ -245,6 +302,7 @@ class AreaObj {
             AREA_TEXT.text(''); 
             AreaObj.setArea();
             AreaObj.setNames();
+            HELPER.RenderGlobe();
 
             Page.Recreate();
         })

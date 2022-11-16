@@ -51,12 +51,12 @@
 
         background: none;
         border-radius: 2px;
-        border: var(--headerLogoBtnBorder); 
+        border: var(--settingsBtn-border); 
 
         transition: .3s;
     } 
     button#settingsBtn.active-btn {
-        background-color: var(--headerLogoBtnBgc);
+        background-color: var(--settingsBtn-background);
         border: none;
         border-bottom-right-radius: 0;
         border-bottom-left-radius: 0;
@@ -68,7 +68,7 @@
         height: 3px;
         margin: 0 2px;
 
-        background: var(--accentColor);
+        background: var(--based-color);
         border-radius: 10px;
     }
 
@@ -90,8 +90,8 @@
 
         padding: 15px 30px;
         
-        background: var(--headerSettingsBgc);
-        filter: var(--headerSettingsFilter); 
+        background: var(--settings-background);
+        filter: var(--settings-filter); 
         border-radius: 4px;
         color: #fff;
 
@@ -111,13 +111,13 @@
 
 
     div.header-controls button {
-        background-color: var(--headerBgc); 
-        color: var(--headerDisabledColor);
+        background-color: var(--h-background); 
+        color: var(--controls-disabledcolor);
         font-size: 20px;
     }
     div.header-mobile-scroll button {
-        background-color: var(--headerBgc); 
-        color: var(--accentColor);
+        background-color: var(--h-background); 
+        color: var(--based-color);
         font-size: 20px;
         font-weight: 900;
         letter-spacing: 1px;

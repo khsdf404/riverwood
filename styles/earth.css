@@ -21,13 +21,15 @@ article canvas {
     border-radius: 1000px;
 
     overflow: hidden;
+    opacity: 0;
+    transition: .35s;
 }
 
 a#areaText {  
     min-height: 32px;
     margin-bottom: 50px;
     
-    color: var(--accentColor);
+    color: var(--based-color);
     text-align: center;
     font-size: 24px;
     font-family: var(--mainFont);

@@ -90,6 +90,8 @@ class d3Helper {
         polygonList = countries.features;
         borders = topojson.mesh(world, world.objects.countries, function(a, b) { return a != b; });
 
+        $(`main canvas`).css({'opacity': 1});
+
         this.setScale();
         this.setAngles();
         this.setTimer();
@@ -204,10 +206,8 @@ class d3Click {
     }
     OpenPage() {
         let name = getObj(currentPolygon) && getObj(currentPolygon).name || currentRegion && currentRegion.name;
-        log(name);
-        if (name) {
-            window.location.href = 'Area/area.html';
-        }
+        if (name)
+            AreaPage(name);
     }
 }
 class d3Hover {

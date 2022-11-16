@@ -45,6 +45,11 @@ const Header = () => {
 
 
 
-$(document).ready(() => {  
+$(document).ready(() => {
+    let areaStr = localStorage.getItem('areaName');  
+    $(`main h2`).text(`${areaStr} in development...`);
+    $(`section.header-logo a`).click(() => {
+        localStorage.removeItem('areaName');
+    })
     Header();
 })

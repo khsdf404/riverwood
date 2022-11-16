@@ -11,8 +11,7 @@ const START_AREA =      localStorage.getItem('area') ?
 var GLOBE_ACTIVE = true; var SETTINGS_ACTIVE = false;
 var CURRENT_THEME, CURRENT_LANG, CURRENT_AREA;
 var SIDEBAR_LIST, AREA_TEXT;
- 
- 
+const $themeAnim = $(`#themeAnimation`); 
 
 const COUNTRIES = [
     {'id': '12', 'en': 'Algeria', 'ru': 'Алжир'},
@@ -560,6 +559,11 @@ const NOT__FOUND = [
 
 
 
+const AreaPage = (areaStr) => {
+    localStorage.setItem('areaName', areaStr);
+    window.location.href = 'Area/area.html';
+}
+
 
 const findCountry = (id) => {
     let output = null;
@@ -578,3 +582,5 @@ const findCountry2 = (id) => {
     })
     return output;
 }
+
+
