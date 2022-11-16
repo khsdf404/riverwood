@@ -82,13 +82,14 @@ class ThemesObj {
         $(`div.header-theme button`).click(function() { 
             if ($(this).hasClass(`active-btn`)) return;
 
+
+            ThemesObj.Animate($(this));
+
+
             $(this).parent()
                 .find(`button.active-btn`)
                 .removeClass(`active-btn`);
             $(this).addClass(`active-btn`);
-            
-            
-            ThemesObj.Animate($(this));
         });
     }
     static setTheme(id) {
@@ -111,29 +112,42 @@ class ThemesObj {
 
         localStorage.setItem('theme', JSON.stringify(CURRENT_THEME));
     }
-    static Animate(jqObj) { 
-        const speed = '.6s' 
-        const transition = 'transform '+ speed +' ease-in-out, top '+ speed +', left '+ speed;
+    static getNextTheme(id) {
+        if (id == 'lightBtn' || ObjEquals(id, ThemesObj.Light)) 
+            return ThemesObj.Light;
+        else if (id == 'darkBtn' || ObjEquals(id, ThemesObj.Light))
+            return ThemesObj.Dark;
+        else 
+            return ThemesObj.Dark; // dynamic
+    }
+    static Animate(jqObj) {
+        const getTransition = (speed) => {
+            return  'transform '+ speed +'s ease-in-out,'+
+                    'top '+ speed +
+                    's, left '+ speed + 's';
+        }
+        const speed = 0.6;
         const coord = jqObj.find('span').offset();
         const size = { 'width': $(`body`).outerWidth(), 'height': $(`body`).outerHeight()}
         let maxSize = Math.max(size.width, size.height);
         let maxCoord = maxSize == size.width ? size.width - coord.left : coord.top;
         let hypotenuse = Math.sqrt(size.width*size.width + size.height* size.height);
-
         // 20 below is a size of jqObj.span (icon of theme)
         const scale = 2 * (hypotenuse - maxCoord) / 20; 
+
+        let nextBackground = ThemesObj.getNextTheme(jqObj.attr('id'))['--h-background']
 
 
         $themeAnim.css({
             'display': 'block',
-            'background': CURRENT_THEME['--main-background'],
+            'background': nextBackground,
             'top': coord.top + 'px', 
-            'left': coord.left + 'px'
+            'left': coord.left + 'px',
         }); 
         setTimeout(() => {
             $themeAnim.css({
                 'transform': 'scale('+ scale +')',
-                'transition': transition
+                'transition': getTransition(speed)
             });
         }, 1); 
         setTimeout(() => {
@@ -147,17 +161,16 @@ class ThemesObj {
                 'top': size.height + 'px', 
                 'left': '-21px', 
                 'transform': 'scale(1)', 
-                'transition': transition
+                'transition': getTransition(speed)
             });
 
             setTimeout(() => {
                 $themeAnim.css({
                     'display': 'none',
-                    'transform': 'scale(1) translate(0, 0)', 
                     'transition': '0s all'
                 }) 
-            }, parseFloat(speed) * 1000);
-        }, parseFloat(speed) * 1000 * 1.05);
+            }, speed * 1000);
+        }, speed * 1000 * 1.05);
         
     }
 }
