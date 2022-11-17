@@ -11,12 +11,9 @@ article canvas {
     display: flex;
     justify-content: center;
     align-items: flex-start;
-
-
-    width: 80%;
-    max-height: 70%;
+ 
     
-    background: linear-gradient(104deg, #74ace58f, transparent);
+    background: linear-gradient(104deg, #74ace58f, #001530);
     border: 2px solid #000;
     border-radius: 1000px;
 

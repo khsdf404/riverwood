@@ -9,7 +9,7 @@ class Page {
                         [${riversArr.length}]
                         </span>
                         <span class="listLink" style="font-size: 0; display: none">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18" style="align-self: center; height: 24px; color: var(--sdSvgColor)" fill="currentColor">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18" style="align-self: center; height: 24px; color: var(--list-linkColor)" fill="currentColor">
                             <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/> 
                             <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/>
                             </svg>
@@ -32,7 +32,7 @@ class Page {
 
         
         $(`#areaList`).empty();
-        SIDEBAR_LIST.forEach(e => 
+        AreaObj.currentList.forEach(e => 
             $(`#areaList`).append(CreateElem(e.name, e.rivers))
         );
         $(`#areaList li h6`).click(function(e) {
@@ -62,9 +62,6 @@ class Page {
 
 const Phone = () => {
     const scrollSpeed = 500; 
-    const isPhone = () => {
-        return (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent))
-    }
     const HideSettings = () => {
         if (SETTINGS_ACTIVE) {
             SETTINGS_ACTIVE = false; 
@@ -75,6 +72,14 @@ const Phone = () => {
         }
     }
 
+
+    if ($(window).outerWidth() < 750) {
+        GLOBE_ACTIVE = true; 
+        $(`main`).scrollTop($(`main`).outerHeight());       
+    }
+    
+
+    
     $(window).resize(() => { 
         if (isPhone() && $(window).outerWidth() < 750) {
             GLOBE_ACTIVE = $(`main`).scrollTop() > 0
@@ -82,10 +87,7 @@ const Phone = () => {
         }
     })
 
-    if ($(window).outerWidth() < 750) {
-        GLOBE_ACTIVE = true; 
-        $(`main`).scrollTop($(`main`).outerHeight());       
-    }
+   
 
     $(`button#settingsBtn`).click(function() {
         SETTINGS_ACTIVE ? 
@@ -98,27 +100,15 @@ const Phone = () => {
         SETTINGS_ACTIVE = !SETTINGS_ACTIVE;
     })
     $(`#mobileScroll`).click(function() {
-        GLOBE_ACTIVE = !GLOBE_ACTIVE;
-        LanguagesObj.TranslatePage();
-        // $(this).find('span').animate({
-        //     'opacity': '0'
-        // }, scrollSpeed / 2.3, () => {
-           
-        //     setTimeout(() => {
-        //         $(this).find('span').animate({
-        //             'opacity': '1'
-        //         }, scrollSpeed / 2.3)
-        //     }, scrollSpeed / 4.6);
-        // })
-        $(`main`).animate({
-            'scrollTop': !GLOBE_ACTIVE ? 
-                            '0px' : 
-                            $(`main`).outerHeight() + 'px'
-        }, scrollSpeed, 'easeInOutQuad');
-        
+        GLOBE_ACTIVE = !GLOBE_ACTIVE;  
+        $(GLOBE_ACTIVE ? 'article' : 'aside')[0].scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        }); 
 
         setTimeout(() => {
             HideSettings();
+            LanguagesObj.TranslatePage();
         }, scrollSpeed * (6/10));
     })
 
@@ -128,6 +118,7 @@ const Phone = () => {
         if (!isPhone()) return;
         HideSettings();
     }); 
+    
 }
 const Header = () => {
     LanguagesObj.Start(START_LANG);
@@ -135,25 +126,15 @@ const Header = () => {
     ThemesObj.Start(START_THEME);
     Page.Recreate();
 }
-const Earth = () => { 
-    // canvas & d3 variables
-    canvas =        d3.select('#globe')
-    canvasDOM =     document.getElementById('globe');
-    context =       canvas.node().getContext('2d');
-    projection =    d3.geoOrthographic().precision(0.1); 
-    path =          d3.geoPath(projection).context(context);
-
-
-    HELPER = new d3Helper();
+const Earth = () => {
     HELPER.QueueData();
 
     new d3Drag().setDrag();
-    new d3Hover().setHover();
-    new d3Click().setClick();
-
+    new d3Hover().setHover(); 
+    if (!isPhone()) new d3Click().setClick();
     
     $(`main canvas`).mouseleave(() => {
-        AREA_TEXT.text('');
+        $areaName.text('');
 
         currentPolygon = null;
         currentRegion = null;
@@ -171,11 +152,48 @@ const Earth = () => {
 
 
 
-$(document).ready(() => {
-    AREA_TEXT =     $('#areaText');
-
-    
+$(document).ready(() => { 
     Phone();
     Header();
     Earth();
 })
+
+
+/*
+@keyframes color {
+	0%   { background: #101010; }
+  50%  { background: #93acff; } 
+	100% { background: #101010; }
+}
+@keyframes stars {
+	0%   { opacity: 1; }
+  1%   { opacity: .9; }
+  2%   { opacity: .6; }
+  3%   { opacity: .85; }
+  4%   { opacity: 1; }
+  5%   { opacity: .4; }
+  6%   { opacity: .7; }
+  7%   { opacity: 1; }
+  8%   { opacity: .8; }
+  9%   { opacity: .3; }
+  10%  { opacity: 0; } 
+  90%  {  opacity: 0; } 
+	100% {  opacity: 1; }
+}
+
+body { 
+  animation: color 45s infinite linear;
+  text-align: center;
+  padding: 2em;
+}
+span {
+  width: 2px;
+  height: 2px;
+  position: absolute;
+  display: flex;
+  background: #fff;
+  animation: stars 45s infinite linear;
+}
+
+div {}
+*/

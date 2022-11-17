@@ -26,8 +26,8 @@ main {
     flex-direction: row; 
     justify-content: center;
     align-items: center;
-    background: var(--mainBackground);
-    color: var(--accentColor);
+    background: var(--main-background);
+    color: var(--based-color);
     flex: 1;
     overflow: hidden;
 }

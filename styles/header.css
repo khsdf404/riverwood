@@ -3,8 +3,7 @@
 }
 button#settingsBtn {
     display: none;
-}
-
+} 
 
 
 header {
@@ -18,8 +17,7 @@ header {
 
     background: var(--h-background);
     color: var(--based-color);
-    box-shadow: var(--edge-shadow);
- 
+    box-shadow: var(--edge-shadow); 
     z-index: 2;
 }
  
@@ -39,8 +37,12 @@ section.header-logo {
     margin-left: 10px; 
 }
 section.header-logo img {
-    height: 44px;
-    margin-right: 15px;
+    height: 40px;
+    margin-right: 10px;
+    padding: 4px;
+
+    background: var(--accent-color);
+    border-radius: 100%;
 }
 section.header-logo h1 {
     margin: 0;
@@ -78,7 +80,7 @@ div.header-mobile-scroll {
     height: 30px;
     margin-right: 4px;
 
-    border: 1px solid var(--based-color);
+    border: var(--controls-border);
     border-radius: 3px;
     
     overflow: hidden;
@@ -121,7 +123,7 @@ div.header-controls button:hover {
     background: var(--controls-hoverBackground); 
 } 
 div.header-controls button.active-btn {
-    background: var(--controls-background);
+    background: var(--accent-color);
     color: #000;
 } 
 
@@ -146,7 +148,7 @@ div.header-mobile-scroll button {
 
 
 
-div.header-controls button:not(:last-child)::after{
+div.header-language button:not(:last-child)::after{
     content: '';
     position: absolute;
     height: 60%;
@@ -157,7 +159,7 @@ div.header-controls button:not(:last-child)::after{
     background-color: var(--based-color);
     opacity: .5;
 }
-div.header-controls button.active-btn::after { 
+div.header-language button.active-btn::after { 
     content: '';
     position: absolute;
     height: 60%;
@@ -180,15 +182,19 @@ div.header-controls button.active-btn {
 div.header-theme span {
     position: absolute;
     display: block;
+
     width: 21px;
     height: 21px;
+
     border-radius: 21px;
 
-    transition: 1.5s background, 1.5s box-shadow; 
-    transition-delay: .6s;
+    z-index: 2;
+    transition: 1.5s background, 1.5s box-shadow;
 }
 button#lightBtn span {
     background: linear-gradient(45deg, #ff3b00, #ffe000);
+    box-shadow: inset 3px -3px 4px -1px #00000094, 
+                -4px 3px 12px -3px #000
 }
 button#lightBtn.active-btn span {
     box-shadow: inset 1px -1px 3px 0px #743000, 
@@ -196,8 +202,8 @@ button#lightBtn.active-btn span {
 }
 button#dynamicBtn span {
     background: linear-gradient(166deg, #00ffd0, #0095ff);
-    box-shadow: inset -4px -2px 4px -1px #00000094, 
-                9px 4px 12px -3px #000;
+    box-shadow: inset 3px -3px 4px -1px #00000094, 
+                9px 4px 13px -5px #000
 }
 button#dynamicBtn.active-btn span {
     box-shadow: inset -1px -1px 4px -1px #000, 
@@ -205,12 +211,17 @@ button#dynamicBtn.active-btn span {
 }
 button#darkBtn span {
     background: linear-gradient(-27deg, #9b9b9b 20%, #e9e9e9 70%);
-    box-shadow: inset -4px -2px 4px -1px #00000094, 9px 3px 12px -3px #000
+    box-shadow: inset -4px -2px 4px -1px #00000094, 
+                9px 4px 13px -5px #000
 }
 button#darkBtn.active-btn span {
-    background: linear-gradient(25deg, #9b9b9b 20%, #e9e9e9 70%);
-    box-shadow: inset 4px -4px 7px -3px #000000f4, 
-                30px -51px 29px 52px #f5f5f5;
+    background: linear-gradient(195deg, white, #545454);
+    box-shadow: inset 2px -2px 2px 0px #00000061, 
+                45px 0px 30px 52px #b3b3b3;
+
+    /* dynamic dark
+    box-shadow: inset -1px -1px 4px -1px #000, 10px 0px 55px 33px #67b9ff;
+    */
 }
 
 div#themeAnimation {
@@ -224,20 +235,5 @@ div#themeAnimation {
     border-radius: 100%;
     transform: scale(1);
 
-    
     z-index: 3; 
-}
-div#themeIcon {
-    position: absolute;
-    display: none;
-
-    width: 21px;
-    height: 21px;
-
-    top: 0;
-    right: 0;
-    border-radius: 100%; 
-
-    transform: scale(1) rotate(0deg);
-    z-index: 4; 
 }

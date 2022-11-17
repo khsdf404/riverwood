@@ -32,7 +32,7 @@
         min-width: 0px;
     }
     section.header-logo img { 
-        height: 40px;
+        height: 36px;
     }
     
 
@@ -99,9 +99,10 @@
         z-index: 10; 
     } 
     div.header-controls,
+    div.header-theme,
     div.header-mobile-scroll {
         margin: 2px 0;
-        border: 1px solid #00000057
+        border: none;
     } 
     div.header-mobile-scroll {
         display: flex;
@@ -110,7 +111,7 @@
     
 
 
-    div.header-controls button {
+    div.header-controls button, div.header-theme button {
         background-color: var(--h-background); 
         color: var(--controls-disabledcolor);
         font-size: 20px;

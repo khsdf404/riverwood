@@ -11,8 +11,7 @@ aside {
     min-height: calc(100% - 80px);
     max-height: calc(100% - 80px);
 
-    padding: 40px 0;
- 
+    padding: 40px 0; 
     background: var(--sd-background);
     color: var(--based-color);
     box-shadow: var(--edge-shadow);
@@ -43,7 +42,7 @@ aside ul::-webkit-scrollbar {
     background: var(--based-color);
 }
 aside ul::-webkit-scrollbar-thumb { 
-    background: var(--list-scrollbar-background); 
+    background: var(--accent-color); 
 }
 aside ul > li { 
     margin: 4px 0; 
@@ -58,7 +57,7 @@ aside ul > li:last-child {
     margin-bottom: 0; 
 }
 aside ul a:active {
-    color: var(--list-linkColor);
+    color: var(--accent-color);
 }
 
 
@@ -93,14 +92,17 @@ ul#areaList div {
     margin: 0px 37px 0 25px;
     
     overflow: hidden;
-    transition: max-height .6s;
+    transition: max-height .6s ease-out;
+}
+ul#areaList li.sidebar-active-item div {
+    transition: max-height .6s ease-in;
 }
 ul#areaList a {
     margin: 2px 0;
 
     color: var(--list-linkColor);
     font-size: 22px;
-    font-weight: 900;
+    font-weight: var(--list-fontWeight);
     line-height: 20px;
     letter-spacing: .5px; 
 
@@ -174,7 +176,7 @@ div.sidebar-input-wrapper {
     color: var(--based-color);
     font-size: 26px; 
     font-family: var(--addFont); 
-    font-weight: 900;
+    font-weight: var(--list-fontWeight);
 
     outline: none;
     background: none;

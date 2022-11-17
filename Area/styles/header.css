@@ -16,10 +16,10 @@ header {
     width: 100%;
     min-height: 75px;
 
-    background: var(--headerBgc);
-    color: var(--accentColor);
-    box-shadow: 0px 1px 14px -7px #727272;
-
+    background: var(--h-background);
+    color: var(--based-color);
+    box-shadow: var(--edge-shadow);
+ 
     z-index: 2;
 }
  
@@ -40,7 +40,7 @@ section.header-logo {
     margin-left: 10px; 
 }
 section.header-logo img {
-    height: 36px;
+    height: 44px;
     margin-right: 15px;
 }
 section.header-logo h1 {
@@ -48,13 +48,17 @@ section.header-logo h1 {
     font-size: 36px;
     font-family: var(--logoFont);
     letter-spacing: 9px;
+
+    transition: .35s color;
 }
 section.header-logo a {
     position: absolute;
-    z-index: 1;
-    opacity: 0;
+
     width: 100%;
     height: 100%;
+
+    top: 0;
+    left: 0;
 }
 
 
@@ -72,6 +76,7 @@ section.header-settings {
     padding: 0 2%;
 } 
 div.header-controls, 
+div.header-theme,
 div.header-mobile-scroll {
     position: relative;
     display: flex;
@@ -82,7 +87,7 @@ div.header-mobile-scroll {
     height: 30px;
     margin-right: 4px;
 
-    border: 1px solid var(--accentColor);
+    border: var(--controls-border);
     border-radius: 3px;
     
     overflow: hidden;
@@ -98,6 +103,7 @@ div.header-mobile-scroll {
 
 
 div.header-controls button,
+div.header-theme button,
 div.header-mobile-scroll button {
     position: relative; 
     display: flex;
@@ -111,7 +117,7 @@ div.header-mobile-scroll button {
     border: 0;
     background: none; 
     
-    color: var(--accentColor);
+    color: var(--based-color);
     font-size: 20px; 
     font-weight: 100;
     font-family: var(--addFont);
@@ -121,10 +127,10 @@ div.header-mobile-scroll button {
     transition: .45s all;
 } 
 div.header-controls button:hover {
-    background: var(--headerHoverBcg); 
+    background: var(--controls-hoverBackground); 
 } 
 div.header-controls button.active-btn {
-    background: var(--headerButtonBgc);
+    background: var(--controls-background);
     color: #000;
 } 
 
@@ -157,7 +163,7 @@ div.header-controls button:not(:last-child)::after{
 
     right: 0px; 
 
-    background-color: var(--accentColor);
+    background-color: var(--based-color);
     opacity: .5;
 }
 div.header-controls button.active-btn::after { 
@@ -168,7 +174,7 @@ div.header-controls button.active-btn::after {
     
     left: -1px;
     
-    background-color: var(--headerBgc);
+    background-color: var(--h-background);
     opacity: 1;
 }
 
@@ -178,6 +184,54 @@ div.header-controls button.active-btn::after {
 div.header-controls button.active-btn {
     font-weight: 900; 
 }
-div.header-theme img {
-    transform: scale(0.9);
-} 
+
+
+div.header-theme span {
+    position: absolute;
+    display: block;
+    width: 21px;
+    height: 21px;
+    border-radius: 21px;
+
+    transition: 1.5s background, 1.5s box-shadow; 
+    transition-delay: .6s;
+}
+button#lightBtn span {
+    background: linear-gradient(45deg, #ff3b00, #ffe000);
+}
+button#lightBtn.active-btn span {
+    box-shadow: inset 1px -1px 3px 0px #743000, 
+                -13px 1px 40px 31px #ffa500ba 
+}
+button#dynamicBtn span {
+    background: linear-gradient(166deg, #00ffd0, #0095ff);
+    box-shadow: inset -4px -2px 4px -1px #00000094, 
+                9px 4px 12px -3px #000;
+}
+button#dynamicBtn.active-btn span {
+    box-shadow: inset -1px -1px 4px -1px #000, 
+                0px 0px 20px 20px #67b9ff;
+}
+button#darkBtn span {
+    background: linear-gradient(-27deg, #9b9b9b 20%, #e9e9e9 70%);
+    box-shadow: inset -4px -2px 4px -1px #00000094, 9px 3px 12px -3px #000
+}
+button#darkBtn.active-btn span {
+    background: linear-gradient(135deg, white, #545454);
+    box-shadow: inset -2px -2px 2px 0px #00000061, 
+                45px 0px 30px 52px #b3b3b3;
+}
+
+div#themeAnimation {
+    position: absolute;
+    display: none;
+    width: 21px;
+    height: 21px;
+
+    top: 0;
+    right: 0;
+    border-radius: 100%;
+    transform: scale(1);
+
+    z-index: 3; 
+}

@@ -1,7 +1,8 @@
 // 
-const rotationDelay =     4000
+const rotationDelay =     1000
 const scaleFactor =       1
-const degPerSec =         -7
+const degPerSec =         7;
+const rotationDirection = -1
 const angles =            { x: 50, y: -20, z: 0}
 const colorWater =        '#0000FF33' //'#18123600' 
 const colorLand =         '#309d60'   //'#F19BFE'
@@ -18,7 +19,7 @@ let v0 // Mouse position in Cartesian coordinates at start of drag gesture.
 let r0 // Projection rotation as Euler angles at start.
 let q0 // Projection rotation as versor at start.
 let lastTime = d3.now()
-let xRotationSpeed = degPerSec / 1000
+let xRotationSpeed = degPerSec * rotationDirection / 1000
 let yzRotationSpeed = xRotationSpeed * 5;
 let autorotate, now, diff, rotation, rotateAvailable = true, restartTimer;
 // canvas & d3 variables
@@ -32,11 +33,33 @@ var HELPER;
 
 
 
+function haversine(lat2, lon2, lat1 = -20, lon1 = 50) {
+        // distance between latitudes
+        // and longitudes
+        let dLat = (lat2 - lat1) * Math.PI / 180.0;
+        let dLon = (lon2 - lon1) * Math.PI / 180.0;
+           
+        // convert to radiansa
+        lat1 = (lat1) * Math.PI / 180.0;
+        lat2 = (lat2) * Math.PI / 180.0;
+         
+        // apply formulae
+        let a = Math.pow(Math.sin(dLat / 2), 2) +
+                   Math.pow(Math.sin(dLon / 2), 2) *
+                   Math.cos(lat1) *
+                   Math.cos(lat2);
+        let rad = 32;
+        let c = 2 * Math.asin(Math.sqrt(a));
+        return rad * c;
+}
+
+
+
 const getObj = (countryPolygon) => {
     if (!countryPolygon) return null;
     if (AreaObj.isRegion()) {
         let b;
-        REGIONS.forEach(reg => {
+        AreaObj.REGIONS.forEach(reg => {
             if (b) return;
             b = reg.obj.find(country => {
                 return parseInt(country.id) == parseInt(countryPolygon.id)
@@ -44,7 +67,7 @@ const getObj = (countryPolygon) => {
         }) 
         return b;
     }
-    return COUNTRIES.find(function(e) {
+    return AreaObj.COUNTRIES.find(function(e) {
         return parseInt(e.id) == parseInt(countryPolygon.id)
     })
 }
@@ -53,9 +76,9 @@ const getPolygon = (countryObj) => {
         return parseInt(e.id) == parseInt(countryObj.id)
     })
 }
-const logCoord = (rotation) => {
-    return;
-    console.log(`{ x: ${Math.round(rotation[0])}, y: ${Math.round(rotation[1])}, z: ${Math.round(rotation[2])} }`);
+const getCoord = () => {
+    let rotation = projection.rotate(); 
+    return { 'x': Math.round(rotation[0]), 'y': Math.round(rotation[1]), 'z': Math.round(rotation[2])};
 }
 const getUserTime = () => {
     var currentdate = new Date(); 
@@ -118,9 +141,10 @@ class d3Helper {
         }
         
         context.clearRect(0, 0, width, height)
-
+        
         fill(globe, colorWater)
         fill(land, colorLand)
+        
 
         if (!AreaObj.isRegion())
             stroke(borders, styleBorders.color, styleBorders.thickness) 
@@ -135,16 +159,14 @@ class d3Helper {
     }
 
 
-    setScale = () => {
-        $(`#globe`).css({'width': '80%', 'height': '70%', 'max-height': '70%'});
+    setScale = () => { 
         width = Math.min(
             $(`main article`).width(), 
-            $(`main article canvas`).outerHeight()
+            $(`main article`).outerHeight() * 0.7
         );
         height = width;
         // .log(`w: ${width}, h: ${$(`main div`).outerHeight()}`);
         
-        $(`#globe`).css({'width': width + 'px', 'max-height': height + 'px'});
         canvas.attr('width', width).attr('height', height)
         projection
             .scale((scaleFactor * (Math.min(width, height)) / 2))
@@ -170,9 +192,8 @@ class d3Helper {
         now = d3.now()
         diff = now - lastTime
         if (diff < elapsed && rotateAvailable) {
-            
-            rotation = projection.rotate()
-            logCoord(rotation);
+            if (!degPerSec) return;
+            rotation = projection.rotate() 
 
 
             let xSpeed = diff * xRotationSpeed;
@@ -190,12 +211,27 @@ class d3Helper {
                 rotation[1] += yzSpeed * Math.abs(yEquation)/(yEquation)
             if (Math.abs(zEquation) > yzSpeed && zEquation != 0)
                 rotation[2] += yzSpeed * Math.abs(zEquation)/(zEquation)
+
+            if (yCoord != Math.round(rotation[1]) || zCoord != Math.round(rotation[2])) {
+                if (ThemesObj.isDynamic) 
+                    HELPER.AssignBackground();
+            }
     
-            projection.rotate(rotation);            
-            this.RenderGlobe()
+            projection.rotate(rotation);       
+            this.RenderGlobe() 
         }
         lastTime = now
     }  
+
+
+
+    // for dynamic theme
+    AssignBackground() { 
+        let coord = getCoord(); 
+        let delay = (0.01 * haversine(coord.y, coord.x))  * (360 / degPerSec || 1);
+        delay *= -1; // for css animation
+        $(`main`).css({'animation-delay': `${delay}s`})
+    }
 }
 
 
@@ -235,7 +271,7 @@ class d3Hover {
         // water hover 
         if (!countryPolygon) { 
             if (currentPolygon) {
-                AREA_TEXT.text('');
+                $areaName.text('');
                 currentPolygon = undefined
                 HELPER.RenderGlobe()
             } 
@@ -254,7 +290,7 @@ class d3Hover {
         let polygon = this.getPolygon(canvasDOM);
         if (!polygon) { 
             if (currentRegion) {
-                AREA_TEXT.text('');
+                $areaName.text('');
                 currentRegion = undefined
                 currentPolygon = undefined
                 HELPER.RenderGlobe()
@@ -264,7 +300,7 @@ class d3Hover {
         let obj = getObj(polygon);
         
         let output = false;
-        REGIONS.forEach(region => {
+        AreaObj.REGIONS.forEach(region => {
             region.obj.forEach(country => { 
                 if (parseInt(country.id) == parseInt(obj.id)) {
                     if (currentRegion == region) { 
@@ -309,8 +345,8 @@ class d3Hover {
     }
     setName = () => {
         if (currentPolygon)
-            return AREA_TEXT.text(getObj(currentPolygon).name)
-        AREA_TEXT.text(currentRegion.name) 
+            return $areaName.text(getObj(currentPolygon).name)
+        $areaName.text(currentRegion.name) 
     }
 }
 class d3Drag { 
@@ -335,8 +371,9 @@ class d3Drag {
         let q1 = versor.multiply(q0, versor.delta(v0, v1))
         let r1 = versor.rotation(q1)
         projection.rotate(r1)
-        HELPER.RenderGlobe();
-        logCoord( projection.rotate());
+        HELPER.RenderGlobe(); 
+        if (ThemesObj.isDynamic) 
+            HELPER.AssignBackground();
     }
     End() {
         if (!currentPolygon && !currentRegion)

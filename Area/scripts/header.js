@@ -4,63 +4,59 @@ function ObjEquals(obj1, obj2) {
 
 class ThemesObj {
     static Light = {
-        '--mainBackground': '#fef9f2',
-        '--accentColor': '#444',
-        '--revertColor': '#fff',
+        '--based-color': '#444',
+        '--revert-color': '#fff',
+        '--accent-color': '#93c3ff', 
+
+        '--main-background': '#fef9f2', 
+        '--edge-shadow': '0px 1px 14px -7px #777',
+        
     
-        '--headerBgc': '#fff', 
-        '--headerShadow': '0px 1px 14px -7px #777',
-        '--headerDisabledColor': '#585858',
-        '--headerButtonBgc': '#93c3ff',
-        '--headerDisableBtnBgc': '#b9b9b92b',
-        '--headerHoverBcg': '#e4e4e5',
-        '--headerSettingsBgc': '#d7ddf3c2', // ffffffdf
-                                            // #bec1e394
-                                            // linear-gradient(45deg, #a0beeb, white);
-                                            // repeating-linear-gradient(138deg, #b5d3ff85, #94b9df6e 50px);
-                                            // #f9ecdcc7
-                                            // linear-gradient(39deg, #ffe7bb, #ffffffad)
-                                            // #d7ddf3c2
-        '--headerSettingsFilter': 'drop-shadow(6px 8px 19px #bbb)',
-        '--headerLogoBtnBgc': '#e3dfdf', // #ddeaff #ebebeb
-        '--headerLogoBtnBorder': '1px solid #cfcfcf',
+        '--h-background': '#fff', 
+        '--controls-background': '#93c3ff',
+        '--controls-border': '1px solid #999',
+        '--controls-disabledcolor': '#585858',
+        '--controls-hoverBackground': '#e4e4e5',
+        '--settings-background': '#d7ddf3c2', // ffffffdf // #bec1e394 // linear-gradient(45deg, #a0beeb, white) // repeating-linear-gradient(138deg, #b5d3ff85, #94b9df6e 50px) // #f9ecdcc7 // linear-gradient(39deg, #ffe7bb, #ffffffad) // #d7ddf3c2
+        '--settings-filter': 'drop-shadow(6px 8px 19px #bbb)',
+        '--settingsBtn-background': '#e3dfdf', // #ddeaff // #ebebeb
+        '--settingsBtn-border': '1px solid #cfcfcf',
     
-        '--sdBackground': '#f7f7f7',
-        '--sdPlaceholder': '#a0a0a0',
-        '--sdListBgc': '#5050502e',
-        '--sdThumbBgc': '#19aeef',
-        '--sdHeaderColor': '#000',
-        '--sdLinkColor': '#0142b9',
-        '--sdSvgColor': '#6f54ed', 
-        '--sdFontWeight': '900'
+        '--sd-background': '#f7f7f7',
+        '--placeholder-color': '#a0a0a0',
+        '--list-background': '#5050502e',
+        '--list-scrollbar-background': '#19aeef',
+        '--list-headerColor': '#000',
+        '--list-linkColor': '#0142b9', 
+        '--list-fontWeight': '900'
     }
     static Dark = {
-        '--mainBackground': 'linear-gradient(180deg, #484848, #15151e)',
-        '--accentColor': '#fffc',
-        '--revertColor': '#444',
+        '--based-color': '#fffc',
+        '--revert-color': '#444',
+        '--accent-color': '#93c3ff', 
+
+        '--main-background': 'linear-gradient(180deg, #484848, #15151e)', 
+        '--edge-shadow': '0px 1px 14px -7px #000', 
     
-        '--headerBgc': '#2e2e2e', 
-        '--headerShadow': '0px 1px 14px -7px #000',
-        '--headerDisabledColor': '#b9b9b9',
-        '--headerButtonBgc': '#93c3ff',
-        '--headerDisableBtnBgc': '#fff',
-        '--headerHoverBcg': '#5c5c5c',
-        '--headerSettingsBgc': '#82828b94', // #82828b94 
-                                            // linear-gradient(229deg, #6177b5, #2a2a2a)
-        '--headerSettingsFilter': 'drop-shadow(6px 8px 19px #000)',
-        '--headerLogoBtnBgc': '#59595f',
-        '--headerLogoBtnBorder': '1px solid #686868',
+        '--h-background': '#2e2e2e',
+        '--controls-background': '#93c3ff',
+        '--controls-border': ' 1px solid #676767',
+        '--controls-disabledcolor': '#b9b9b9',
+        '--controls-hoverBackground': '#5c5c5c',
+        '--settings-background': '#82828b94', // #82828b94  // linear-gradient(229deg, #6177b5, #2a2a2a)
+        '--settings-filter': 'drop-shadow(6px 8px 19px #000)',
+        '--settingsBtn-background': '#59595f',
+        '--settingsBtn-border': '1px solid #686868',
 
     
-        '--sdBackground': '#00000047',
-        '--sdPlaceholder': '#a0a0a0',
-        '--sdListBgc': '#9d9d9d44',
-        '--sdThumbBgc': '#2d66c5',
-        '--sdHeaderColor': '#fffc',
-        '--sdLinkColor': '#93c3ff',
-        '--sdSvgColor': '#4f94fd', 
-        '--sdFontWeight': '100'
-    } 
+        '--sd-background': '#00000047',
+        '--placeholder-color': '#a0a0a0',
+        '--list-background': '#9d9d9d44',
+        '--list-scrollbar-background': '#2d66c5',
+        '--list-headerColor': '#fffc',
+        '--list-linkColor': '#93c3ff', 
+        '--list-fontWeight': '100'
+    }
 
 
 
