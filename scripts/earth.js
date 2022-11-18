@@ -1,14 +1,14 @@
 // 
-const rotationDelay =     1000
-const scaleFactor =       1
-const degPerSec =         7;
-const rotationDirection = -1
-const angles =            { x: 50, y: -20, z: 0}
-const colorWater =        '#0000FF33' //'#18123600' 
-const colorLand =         '#309d60'   //'#F19BFE'
-const colorActive =       '#00000099'          //'#F6C1BC'
-const styleBorders =      { 'color': '#000', 'thickness': 0.5  };
-const styleGlobeBorder =  { 'color': '#000',  'thickness': 2  };
+const rotationDelay =       3000
+const scaleFactor =         1
+const degPerSec =           7
+const rotationDirection =   -1
+const angles =              { x: 50, y: -20, z: 0 } 
+const colorWater =          '#0000FF33' //'#18123600' 
+const colorLand =           '#309d60'   //'#F19BFE'
+const colorActive =         '#00000099'          //'#F6C1BC'
+const styleBorders =        { 'color': '#000', 'thickness': 0.5  };
+const styleGlobeBorder =    { 'color': '#000',  'thickness': 2  };
 // all we need to work with
 let width, height
 let globe, land, countries, borders;
@@ -22,36 +22,18 @@ let lastTime = d3.now()
 let xRotationSpeed = degPerSec * rotationDirection / 1000
 let yzRotationSpeed = xRotationSpeed * 5;
 let autorotate, now, diff, rotation, rotateAvailable = true, restartTimer;
+
+let dragging = false;
 // canvas & d3 variables
 var canvas;
 var canvasDOM;
 var context;
 var projection;
-var path;
+var path; 
 var HELPER;
- 
+  
 
 
-
-function haversine(lat2, lon2, lat1 = -20, lon1 = 50) {
-        // distance between latitudes
-        // and longitudes
-        let dLat = (lat2 - lat1) * Math.PI / 180.0;
-        let dLon = (lon2 - lon1) * Math.PI / 180.0;
-           
-        // convert to radiansa
-        lat1 = (lat1) * Math.PI / 180.0;
-        lat2 = (lat2) * Math.PI / 180.0;
-         
-        // apply formulae
-        let a = Math.pow(Math.sin(dLat / 2), 2) +
-                   Math.pow(Math.sin(dLon / 2), 2) *
-                   Math.cos(lat1) *
-                   Math.cos(lat2);
-        let rad = 32;
-        let c = 2 * Math.asin(Math.sqrt(a));
-        return rad * c;
-}
 
 
 
@@ -76,27 +58,32 @@ const getPolygon = (countryObj) => {
         return parseInt(e.id) == parseInt(countryObj.id)
     })
 }
+// for dynamic theme
 const getCoord = () => {
     let rotation = projection.rotate(); 
     return { 'x': Math.round(rotation[0]), 'y': Math.round(rotation[1]), 'z': Math.round(rotation[2])};
 }
-const getUserTime = () => {
-    var currentdate = new Date(); 
-    return [
-        currentdate.getHours(),
-        currentdate.getMinutes()
-    ]
-} 
-const setRotation = (state) => {
-    clearTimeout(restartTimer);
-    if (state) {
-        restartTimer = setTimeout(() => {
-            rotateAvailable = true; 
-        }, rotationDelay);
-    }
-    else 
-        rotateAvailable = false;
+const haversine = (lat2, lon2, lat1 = -20, lon1 = 50) => {
+    // distance between latitudes
+    // and longitudes
+    let dLat = (lat2 - lat1) * Math.PI / 180.0;
+    let dLon = (lon2 - lon1) * Math.PI / 180.0;
+       
+    // convert to radiansa
+    lat1 = (lat1) * Math.PI / 180.0;
+    lat2 = (lat2) * Math.PI / 180.0;
+     
+    // apply formulae
+    let a = Math.pow(Math.sin(dLat / 2), 2) +
+               Math.pow(Math.sin(dLon / 2), 2) *
+               Math.cos(lat1) *
+               Math.cos(lat2);
+    let rad = 3.1415;
+    let c = 2 * Math.asin(Math.sqrt(a));
+    return rad * c;
 }
+
+
 
 
 class d3Helper {
@@ -186,51 +173,59 @@ class d3Helper {
             }, rotationDelay);
         }
         else
-            autorotate = d3.timer(this.timerTick, rotationDelay); 
+            autorotate = d3.timer(this.timerTick, 0); 
     }
     timerTick = (elapsed) => {
         now = d3.now()
         diff = now - lastTime
-        if (diff < elapsed && rotateAvailable) {
+        lastTime = now
+        if (diff < elapsed && rotateAvailable) { 
             if (!degPerSec) return;
-            rotation = projection.rotate() 
-
+            rotation = projection.rotate()
 
             let xSpeed = diff * xRotationSpeed;
             let yzSpeed = Math.abs(diff * yzRotationSpeed);
 
-            let xCoord = Math.round(rotation[0]);
+            
             let yCoord = Math.round(rotation[1]);
             let zCoord = Math.round(rotation[2]);
     
             let yEquation = angles.y - yCoord;
-            let zEquation = angles.z - zCoord;
+            let zEquation = angles.z - zCoord; 
     
-            rotation[0] += xSpeed
+            
+            rotation[0] += xSpeed;
             if (Math.abs(yEquation) > yzSpeed && yEquation != 0)
                 rotation[1] += yzSpeed * Math.abs(yEquation)/(yEquation)
             if (Math.abs(zEquation) > yzSpeed && zEquation != 0)
-                rotation[2] += yzSpeed * Math.abs(zEquation)/(zEquation)
-
-            if (yCoord != Math.round(rotation[1]) || zCoord != Math.round(rotation[2])) {
-                if (ThemesObj.isDynamic) 
-                    HELPER.AssignBackground();
-            }
+                rotation[2] += yzSpeed * Math.abs(zEquation)/(zEquation) 
+                
+            if (ThemesObj.isDynamic) 
+                HELPER.AssignBackground(); 
+            
     
             projection.rotate(rotation);       
             this.RenderGlobe() 
         }
-        lastTime = now
     }  
+    setRotation = (state) => {
+        clearTimeout(restartTimer);
+        if (state) {
+            restartTimer = setTimeout(() => {
+                rotateAvailable = true; 
+            }, rotationDelay);
+        }
+        else {
+            rotateAvailable = false;
+        }
+    } 
 
 
 
-    // for dynamic theme
     AssignBackground() { 
         let coord = getCoord(); 
-        let delay = (0.01 * haversine(coord.y, coord.x))  * (360 / degPerSec || 1);
-        delay *= -1; // for css animation
-        $(`main`).css({'animation-delay': `${delay}s`})
+        let distancePercent = (haversine(coord.y, coord.x)) * 10;
+        $(`main`).css({'background-position': `${distancePercent}% ${distancePercent}%`});
     }
 }
 
@@ -260,9 +255,9 @@ class d3Hover {
                 return;
         }
         
+        HELPER.setRotation(false);
         HELPER.RenderGlobe()
         this.setName();
-        setRotation(false);
     }
 
     setCountry = () => {
@@ -360,23 +355,24 @@ class d3Drag {
     }
 
 
-    Start() { 
-        setRotation(false)
+    Start() {
+        HELPER.setRotation(false) 
         v0 = versor.cartesian(projection.invert(d3.mouse(canvasDOM)))
         r0 = projection.rotate()
-        q0 = versor(r0)
+        q0 = versor(r0);
     }
     Drag() {
+
         let v1 = versor.cartesian(projection.rotate(r0).invert(d3.mouse(canvasDOM)))
         let q1 = versor.multiply(q0, versor.delta(v0, v1))
         let r1 = versor.rotation(q1)
-        projection.rotate(r1)
-        HELPER.RenderGlobe(); 
+        projection.rotate(r1) 
+        HELPER.RenderGlobe();
         if (ThemesObj.isDynamic) 
-            HELPER.AssignBackground();
+            HELPER.AssignBackground(); 
     }
-    End() {
+    End() { 
         if (!currentPolygon && !currentRegion)
-            setRotation(true)
+            HELPER.setRotation(true)
     } 
 }

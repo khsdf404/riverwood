@@ -122,7 +122,6 @@ class ThemesObj {
         '--accent-color': '#8cb9f1', 
 
         '--main-background': '#fef9f2', 
-        '--main-background-animation': 'none',
         '--main-backgrond-size': 'initial',
         '--edge-shadow': '0px 1px 14px -7px #777',
         
@@ -148,8 +147,7 @@ class ThemesObj {
         '--revert-color': '#444',
         '--accent-color': '#8cb9f1', 
 
-        '--main-background': 'linear-gradient(130deg, #484848, #15151e)', 
-        '--main-background-animation': 'none',
+        '--main-background': 'linear-gradient(130deg, #484848, #15151e)',
         '--main-backgrond-size': 'initial',
         '--edge-shadow': '0px 1px 14px -7px #000', 
     
@@ -163,7 +161,7 @@ class ThemesObj {
         '--settingsBtn-border': '1px solid #686868',
 
     
-        '--sd-background': '#202020', // #00000059
+        '--sd-background': '#232324', // #00000059
         '--placeholder-color': '#a0a0a0',
         '--list-background': '#9d9d9d44',
         '--list-headerColor': '#fffc',
@@ -175,8 +173,8 @@ class ThemesObj {
         '--revert-color': '#fff',
         '--accent-color': '#8cb9f1', 
 
-        '--main-background': 'linear-gradient(-226deg, #ca6366 29%, #162756 70%, #1b0b58 85%, #1c0640 100%)', 
-        '--main-background-animation': 'DynamicBG '+ 360/(degPerSec || 1) +'s linear infinite',
+        //'--main-background': 'linear-gradient(-226deg, #ca6366 29%, #162756 70%, #1b0b58 85%, #1c0640 100%)', 
+        '--main-background' : 'linear-gradient(135deg, #ffffff 0%,#afe1ff 20%, #46abf5 35%,#1879fb 45%, #4060ff 50%, #1d49ad 60%,  #131c6e 70%, #040f46 80%,#000000 100%)',
         '--main-backgrond-size': '200% 200%',
         '--edge-shadow': '0px 1px 14px -7px #777',
         
@@ -190,7 +188,7 @@ class ThemesObj {
         '--settingsBtn-background': '#e3dfdf',
         '--settingsBtn-border': '1px solid #cfcfcf',
     
-        '--sd-background': '#fff9',
+        '--sd-background': '#fff7',
         '--placeholder-color': '#444',
         '--list-background': '#fff',
         '--list-headerColor': '#000',
@@ -202,8 +200,7 @@ class ThemesObj {
         '--revert-color': '#444',
         '--accent-color': '#8cb9f1', 
         
-        '--main-background': 'linear-gradient(-226deg, #ca6366 29%, #162756 70%, #1b0b58 85%, #1c0640 100%)', 
-        '--main-background-animation': 'DynamicBG '+ 360/(degPerSec || 1) +'s linear infinite',
+        '--main-background': 'linear-gradient(135deg, #ffffff 0%,#afe1ff 20%, #46abf5 35%,#1879fb 45%, #4060ff 50%, #1d49ad 60%,  #131c6e 70%, #040f46 80%,#000000 100%)', 
         '--main-backgrond-size': '200% 200%',
         '--edge-shadow': '0px 1px 14px -7px #000', 
     
@@ -217,9 +214,9 @@ class ThemesObj {
         '--settingsBtn-border': '1px solid #686868',
 
     
-        '--sd-background': '#00000059', 
+        '--sd-background': '#0009', 
         '--placeholder-color': '#ccc',
-        '--list-background': '#9d9d9d44',
+        '--list-background': '#00000070',
         '--list-headerColor': '#fffc',
         '--list-linkColor': '#93c3ff', 
         '--list-fontWeight': '100'
