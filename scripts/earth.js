@@ -1,11 +1,10 @@
 // 
-const starsAmount =         150;
+const starsAmount =         150
 const scaleFactor =         1
-const rotationDelay =       5000
+const rotationDelay =       5000 // * 1000
 const rotationDirection =   -1
 const degPerSec =           5
-const angles =              { x: 50, y: -20, z: 0 } 
-const colorWater =          '#0000FF33' //'#18123600' 
+const angles =              { x: 50, y: -20, z: 0 }
 const colorLand =           '#309d60'   //'#F19BFE'
 const colorActive =         '#00000099'          //'#F6C1BC'
 const styleBorders =        { 'color': '#000', 'thickness': 0.5  };
@@ -182,7 +181,6 @@ class d3Helper {
         
         context.clearRect(0, 0, width, height)
         
-        fill(globe, colorWater)
         fill(land, colorLand)
         
 
@@ -227,7 +225,7 @@ class d3Helper {
             }, rotationDelay);
         }
         else
-            autorotate = d3.timer(this.timerTick, 0); 
+            autorotate = d3.timer(this.timerTick, rotationDelay); 
     }
     timerTick = (elapsed) => {
         now = d3.now()

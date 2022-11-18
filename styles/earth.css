@@ -22,8 +22,8 @@ canvas#globe {
     align-items: flex-start;
  
     
-    background: linear-gradient(104deg, #74ace58f, #001530);
-    border: 2px solid #000;
+    background: var(--globe-background);
+    border: 1px solid #000;
     border-radius: 1000px;
 
     overflow: hidden;
@@ -59,7 +59,7 @@ div#stars {
 div#stars.night-active {
     opacity: 1;
 }
-div#stars span {
+div#stars.night-active span {
     position: absolute;
     display: flex;
 
