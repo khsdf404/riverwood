@@ -1,8 +1,9 @@
 // 
-const rotationDelay =       3000
+const starsAmount =         150;
 const scaleFactor =         1
-const degPerSec =           7
+const rotationDelay =       5000
 const rotationDirection =   -1
+const degPerSec =           5
 const angles =              { x: 50, y: -20, z: 0 } 
 const colorWater =          '#0000FF33' //'#18123600' 
 const colorLand =           '#309d60'   //'#F19BFE'
@@ -20,16 +21,15 @@ let r0 // Projection rotation as Euler angles at start.
 let q0 // Projection rotation as versor at start.
 let lastTime = d3.now()
 let xRotationSpeed = degPerSec * rotationDirection / 1000
-let yzRotationSpeed = xRotationSpeed * 5;
+let yzRotationSpeed = xRotationSpeed * 3;
 let autorotate, now, diff, rotation, rotateAvailable = true, restartTimer;
-
-let dragging = false;
 // canvas & d3 variables
 var canvas;
 var canvasDOM;
 var context;
 var projection;
 var path; 
+var canvasPos;
 var HELPER;
   
 
@@ -37,7 +37,7 @@ var HELPER;
 
 
 
-const getObj = (countryPolygon) => {
+function getObj(countryPolygon) {
     if (!countryPolygon) return null;
     if (AreaObj.isRegion()) {
         let b;
@@ -53,17 +53,17 @@ const getObj = (countryPolygon) => {
         return parseInt(e.id) == parseInt(countryPolygon.id)
     })
 }
-const getPolygon = (countryObj) => {
+function getPolygon(countryObj) {
     return polygonList.find(function(e) {
         return parseInt(e.id) == parseInt(countryObj.id)
     })
 }
 // for dynamic theme
-const getCoord = () => {
+function getCoord() {
     let rotation = projection.rotate(); 
     return { 'x': Math.round(rotation[0]), 'y': Math.round(rotation[1]), 'z': Math.round(rotation[2])};
 }
-const haversine = (lat2, lon2, lat1 = -20, lon1 = 50) => {
+function haversine (lat2, lon2, lat1 = -20, lon1 = 50) {
     // distance between latitudes
     // and longitudes
     let dLat = (lat2 - lat1) * Math.PI / 180.0;
@@ -82,6 +82,56 @@ const haversine = (lat2, lon2, lat1 = -20, lon1 = 50) => {
     let c = 2 * Math.asin(Math.sqrt(a));
     return rad * c;
 }
+function setStars() {
+    $(`#stars`).empty();
+    const randInt = (min, max) => { 
+        return Math.floor(Math.random() * (max - min + 1) + min)
+    }
+    const getStarCoord = () => {
+        const GetRandomCoord = (banX, banY) => {
+            let rndX = Math.random();
+            let rndY = Math.random();
+            if (rndX > banX.start && rndX < banX.end) {
+                if (rndY > banY.start && rndY < banY.end)
+                return GetRandomCoord(banX, banY);
+            }
+            return [rndX, rndY]
+        }
+        let avialableX = canvasPos.left * 2 + canvasPos.width;
+        let avialableY = canvasPos.top * 2 + canvasPos.height;
+        let banX = { start: canvasPos.left / avialableX, end: (canvasPos.left + canvasPos.width) / avialableX }
+        let banY = { start: canvasPos.top / avialableY, end: (canvasPos.top + canvasPos.height) / avialableY }
+    
+        let coordPercent = GetRandomCoord(banX, banY);
+    
+        return [avialableX * coordPercent[0], avialableY * coordPercent[1]];
+    }
+    const CreateStar = () => {
+        let coord = getStarCoord();
+
+        $(`#stars`).append(`
+            <span style="
+                    left: ${coord[0]}px; 
+                    top: ${coord[1]}px;
+                    animation: StarsBlinking ${randInt(3, 12)}s linear infinite
+            ">
+            </span>
+        `)
+    }
+    let childPos = canvasDOM.getBoundingClientRect(),
+    parentPos = $('main article')[0].getBoundingClientRect();
+
+    if (!canvasPos) canvasPos = {};
+        canvasPos.top = childPos.top - parentPos.top;
+        canvasPos.left = childPos.left - parentPos.left;
+        canvasPos.height = childPos.height;
+        canvasPos.width = childPos.width;
+    
+    for (let i = 0; i < starsAmount; i++) {
+        CreateStar();
+    }
+}
+
 
 
 
@@ -106,6 +156,9 @@ class d3Helper {
         this.setAngles();
         this.setTimer();
         this.RenderGlobe();
+
+
+        setStars();
     }
     RenderGlobe() {
         function fill(obj, color) {
@@ -152,12 +205,13 @@ class d3Helper {
             $(`main article`).outerHeight() * 0.7
         );
         height = width;
-        // .log(`w: ${width}, h: ${$(`main div`).outerHeight()}`);
-        
+
         canvas.attr('width', width).attr('height', height)
         projection
             .scale((scaleFactor * (Math.min(width, height)) / 2))
-            .translate([width / 2, height / 2])
+            .translate([width / 2, height / 2]) 
+
+        setStars();
     }
     setAngles() {
         let rotation = projection.rotate()
@@ -226,6 +280,11 @@ class d3Helper {
         let coord = getCoord(); 
         let distancePercent = (haversine(coord.y, coord.x)) * 10;
         $(`main`).css({'background-position': `${distancePercent}% ${distancePercent}%`});
+
+        if (distancePercent >= 63 && distancePercent <= 65)
+            $(`#stars`).removeClass('night-active')
+        if (distancePercent > 65) 
+            $(`#stars`).addClass('night-active')
     }
 }
 

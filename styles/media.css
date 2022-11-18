@@ -24,6 +24,12 @@
 }
 
 @media (max-width: 750px) {
+    header {
+        min-height: 65px;
+    }
+
+
+
     section.header-logo {
         justify-content: flex-start; 
 
@@ -82,7 +88,7 @@
         justify-content: center;
         align-items: flex-start;
         
-        top: 50px;
+        top: 46px;
         right: -250px;
 
         width: auto;

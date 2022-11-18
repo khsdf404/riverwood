@@ -1,4 +1,13 @@
-article {
+@keyframes StarsBlinking {
+	0%      {opacity: 0}
+    50%     {opacity: 1} 
+    100%    {opacity: 0}
+}
+
+
+
+main article {
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -7,7 +16,7 @@ article {
     flex: 1;
     padding: 0 7.5%;
 }
-article canvas {
+canvas#globe {
     display: flex;
     justify-content: center;
     align-items: flex-start;
@@ -33,3 +42,30 @@ a#areaText {
     font-weight: 900;
     text-decoration: none;
 } 
+
+div#stars {
+    position: absolute;
+    
+    width: 100%;
+    height: 100%;
+
+    top: 0;
+    left: 0;
+
+    opacity: 0;
+    transition: 5s opacity ease-in-out;
+    z-index: -1;
+}
+div#stars.night-active {
+    opacity: 1;
+}
+div#stars span {
+    position: absolute;
+    display: flex;
+
+    width: 2px;
+    height: 2px; 
+
+    background: #fff;
+    border-radius: 50%;
+}

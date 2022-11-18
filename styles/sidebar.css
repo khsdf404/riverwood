@@ -38,11 +38,10 @@ aside ul {
     overflow: auto;
 }
 aside ul::-webkit-scrollbar {
-    width: 7px;
-    background: var(--based-color);
+    width: 2px; 
 }
 aside ul::-webkit-scrollbar-thumb { 
-    background: var(--accent-color); 
+    background: var(--based-color); 
 }
 aside ul > li { 
     margin: 4px 0; 
@@ -164,7 +163,7 @@ div.sidebar-input-wrapper {
 
     margin-bottom: 30px;
     
-    border-bottom: 4px solid var(--based-color);
+    border-bottom: 2px solid var(--based-color);
 }
 #searchInput {
     position: relative;

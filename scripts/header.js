@@ -175,7 +175,7 @@ class ThemesObj {
 
         //'--main-background': 'linear-gradient(-226deg, #ca6366 29%, #162756 70%, #1b0b58 85%, #1c0640 100%)', 
         '--main-background' : 'linear-gradient(135deg, #ffffff 0%,#afe1ff 20%, #46abf5 35%,#1879fb 45%, #4060ff 50%, #1d49ad 60%,  #131c6e 70%, #040f46 80%,#000000 100%)',
-        '--main-backgrond-size': '200% 200%',
+        '--main-backgrond-size': '250% 250%',
         '--edge-shadow': '0px 1px 14px -7px #777',
         
     
@@ -184,7 +184,7 @@ class ThemesObj {
         '--controls-disabledcolor': '#585858',
         '--controls-hoverBackground': '#e4e4e5',
         '--settings-background': '#d7ddf3c2',
-        '--settings-filter': 'drop-shadow(6px 8px 19px #bbb)',
+        '--settings-filter': 'drop-shadow(6px 8px 19px #00000094)',
         '--settingsBtn-background': '#e3dfdf',
         '--settingsBtn-border': '1px solid #cfcfcf',
     
@@ -201,7 +201,7 @@ class ThemesObj {
         '--accent-color': '#8cb9f1', 
         
         '--main-background': 'linear-gradient(135deg, #ffffff 0%,#afe1ff 20%, #46abf5 35%,#1879fb 45%, #4060ff 50%, #1d49ad 60%,  #131c6e 70%, #040f46 80%,#000000 100%)', 
-        '--main-backgrond-size': '200% 200%',
+        '--main-backgrond-size': '250% 250%',
         '--edge-shadow': '0px 1px 14px -7px #000', 
     
         '--h-background': '#2e2e2e', 
@@ -209,7 +209,7 @@ class ThemesObj {
         '--controls-disabledcolor': '#b9b9b9',
         '--controls-hoverBackground': '#5c5c5c',
         '--settings-background': '#82828b94',
-        '--settings-filter': 'drop-shadow(6px 8px 19px #000)',
+        '--settings-filter': 'drop-shadow(6px 8px 19px #00000073)',
         '--settingsBtn-background': '#59595f',
         '--settingsBtn-border': '1px solid #686868',
 

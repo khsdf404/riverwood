@@ -140,7 +140,7 @@ const Earth = () => {
         currentRegion = null;
         HELPER.RenderGlobe();
 
-        setRotation(true);
+        HELPER.setRotation(true);
     });
 
 
