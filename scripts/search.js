@@ -1,122 +1,125 @@
-const input =       $(`#searchInput`);
-const controls =    $(`.input-btn`);
-const counter =     controls.eq(0);
-const prevMark =    controls.eq(1);
-const nextMark =    controls.eq(2);
-const cleanInput =  controls.eq(3);
+const removeOthers = false;
+let newSearch = true;
+let currentIndex = -1;
+let clock;
 
 
-const riverList = $(`#riverList`);
-const areaList = $(`#areaList`);
+const $input =       $js(`#searchInput`);
+const $controls =    $js(`.input-btn`);
+const $counter =     $controls.find(0);
+const $prevMark =    $controls.find(1);
+const $nextMark =    $controls.find(2);
+const $cleanInput =  $controls.find(3);
 
+
+$controls.fadeOut(0);
 RIVERS__RU.forEach(river => {
-    riverList.append(`
-        <li>
+    $riverList
+        .append(`<li></li>`)
+        .append(`
             <a href="${river.link}" target="_blank" rel="noopener noreferrer">
-                ${river.name}
+                ${river.name}<mark></mark><ins></ins>
             </a>
-        </li>
-    `)
+        `)
 });
+const $aList = $js(`#riverList a`);
+const $markList = $js(`#riverList mark`);
+const $insList = $js(`#riverList ins`);
 
-const aList = $(`#riverList a`);
 
 
-
-var scrollSpeed = 300;
-var removeOthers = false;
-var newSearch = true;
-var currentIndex = -1;
-var clock;
-const scrollToElem = (index) => {
-    let length = $(`.search-target`).length; 
+function ScrollToElem(index) {
+    let length = $js(`.search-target`).size();
     if (length > 0) {
-        let height = $(`#riverList li`).outerHeight() + 4;
-        let currentTarget = $(`.search-target`).eq(index % length); 
-        riverList.animate({
-            'scrollTop': height * aList.index(currentTarget)
-        }, scrollSpeed);
-        counter.text(`${index > -1 ? index % length + 1 : length - Math.abs(index + 1) % length}/${length}`)
+        let currentTarget = $js(`.search-target`).get(index % length); 
+        $riverList.get().scrollTo({
+            top: currentTarget.offsetTop,
+            behavior: "smooth", // or "auto" or "instant"
+            block: "start" // or "end"
+        });
+        $counter.text(`${index > -1 ? index % length + 1 : length - Math.abs(index + 1) % length}/${length}`)
     }
+}
+function HideSearch() {
+    $input.value('')
+
+    $riverList.scroll(0, 0);
+    $riverList.fadeOut(200);
+    $controls.fadeOut(200);
+
+    clearTimeout(clock);
+    clock = setTimeout(() => {
+        $areaList.fadeIn(200);
+    }, 250);
+
+    newSearch = true;
 }
 
 
 
-controls.fadeOut(0);
 
 
-input.on(`input`, () => {
-    let val = input.val();
-    if (!val) {
-        riverList.scrollTop(0);
-        riverList.fadeOut(200);
-        controls.fadeOut(200);
+$input.onEvent(`input`, () => {
+    let val = $input.value();
+    if (!val) return HideSearch();
 
-        clearTimeout(clock);
-        clock = setTimeout(() => {
-            areaList.fadeIn(200);
-        }, 250);
-    
-        newSearch = true;
-        return;
-    }
+
     if (newSearch == true) {
-        areaList.fadeOut(200);
+        $areaList.fadeOut(200);
 
         clearTimeout(clock);
-        controls.fadeIn(200);
+        $controls.fadeIn(200);
         clock = setTimeout(() => {
-            riverList.fadeIn(200, () => {
+            $riverList.fadeIn(200, () => {
                 currentIndex = -1;
-                nextMark.trigger('click');
+                $nextMark.trigger('click');
             });
         }, 250);
     }
 
-    counter.text(`0/0`);
-    $(`.search-target`).removeClass('search-target');
-    if (removeOthers) riverList.find('li').css({'display': 'list-item'});
-    aList.each(function() { 
-        let text = $(this).text();
-        $(this).html(text.replace(/<[/]*mark>/g, ``));
+    $counter.text(`0/0`);
+    $js(`.search-target`).removeClass('search-target');
+    if (removeOthers) $riverList.find('li').css({'display': 'list-item'});
+    
+    $aList.each((e, i) => { 
+        let text = e.text();
         let indexOf = text.toUpperCase().indexOf(val.toUpperCase());
         if (indexOf > -1) {
-            $(this).addClass('search-target');
-            let part = text.slice(indexOf, indexOf + val.length)
-            $(this).html(text.replace(part, `<mark>${part}</mark>`));
+            e.text(text.slice(0, indexOf))
+                .addClass('search-target');
+            $markList.get(i).innerText = text.slice(indexOf, indexOf + val.length);
+            $insList.get(i).innerText = text.slice(indexOf + val.length, text.length);
         }
-        else if (removeOthers) $(this).parent('li').css({'display': 'none'});
+        else if (removeOthers) e.parent('li').css({'display': 'none'});
     });
    
-
     
     if (!newSearch) {
         currentIndex = -1;
-        nextMark.trigger('click');
+        ScrollToElem(++currentIndex);
     }
     newSearch = false;
 });
-input.on('keyup', e => { 
-    if (e.key == 'Enter')
-        nextMark.trigger('click');
-    else if (e.key == 'ArrowDown')
-        nextMark.trigger('click');
-    else if (e.key == 'ArrowUp')
-        prevMark.trigger('click');
-    else if (e.key == 'Escape')
-        cleanInput.trigger('click');
+$input.onEvent('keyup', (e, event) => {
+    if (event.key == 'Enter')
+        ScrollToElem(++currentIndex); // $nextMark.trigger('click')
+    else if (event.key == 'ArrowDown')
+        ScrollToElem(++currentIndex); // $nextMark.trigger('click')
+    else if (event.key == 'ArrowUp')
+        ScrollToElem(--currentIndex); // $prevMark.trigger('click')
+    else if (event.key == 'Escape') { // $cleanInput.trigger('click')
+        HideSearch()
+    } 
 })
 
 
 
-nextMark.click(() => {
-    scrollToElem(++currentIndex);
-   
+$nextMark.onClick((e) => { 
+    ScrollToElem(++currentIndex);
 })
-prevMark.click(() => {
-    scrollToElem(--currentIndex); 
+$prevMark.onClick((e) => {
+    ScrollToElem(--currentIndex); 
 })
-cleanInput.click(() => {
-    input.val('');
-    input.trigger('input');
+$cleanInput.onClick((e) => {
+    HideSearch()
 })

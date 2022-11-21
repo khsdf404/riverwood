@@ -1,7 +1,3 @@
-function ObjEquals(obj1, obj2) {
-    return JSON.stringify(obj1) == JSON.stringify(obj2)
-}
-
 class ThemesObj {
     static current;
     static isDynamic;
@@ -9,17 +5,25 @@ class ThemesObj {
     static Start(theme) {
         ThemesObj.setTheme(theme); 
 
+
         if (ThemesObj.current == ThemesObj.Light) 
-            $(`#lightBtn`).addClass('active-btn');
-        else if (ThemesObj.current == ThemesObj.Dark) 
-            $(`#darkBtn`).addClass('active-btn');
-        else
-            $(`#dynamicBtn`).addClass('active-btn');
+            $js(`#lightBtn`).addClass('active-btn');
+        else if (ThemesObj.current == ThemesObj.Dark)
+            $js(`#darkBtn`).addClass('active-btn');
+        else 
+            $js(`#dynamicBtn`).addClass('active-btn'); 
 
 
-        $(`div.header-theme button`).click(function() { 
-            if ($(this).hasClass(`active-btn`)) return;
-            ThemesObj.Animate($(this));
+        $js(`.header-theme button`).onEvent('click', (e) => {
+            if (e.hasClass(`active-btn`)) return;
+            
+            e.parent()
+                .find(`.active-btn`)
+                .removeClass(`active-btn`);
+            e.addClass(`active-btn`);
+
+            D3.RemoveStars();
+            ThemesObj.Animate(e);
         });
     }
     static getNextTheme = (id) => {
@@ -55,63 +59,50 @@ class ThemesObj {
             ThemesObj.current == ThemesObj.DynamicLight;
         localStorage.setItem('theme', JSON.stringify(ThemesObj.current));
     } 
-    static Animate(jqObj) {
+    static Animate($btn) {
         const getTransition = (speed) => {
-            return  'transform '+ speed +'s ease-in-out,'+
+            return  'transform '+ speed +'ms ease-in-out,'+
                     'top '+ speed +
-                    's, left '+ speed + 's';
-        }
-        const speed = 0.55;
-        const coord = jqObj.find('span').offset();
-        const size = { 'width': $(`body`).outerWidth(), 'height': $(`body`).outerHeight()}
+                    'ms, left '+ speed + 'ms';
+        } 
+        const speed = 550;
+        const coord = $btn.find('span').rect(); 
+        const size = $js('body').rect()
         let maxSize = Math.max(size.width, size.height);
         let maxCoord = maxSize == size.width ? size.width - coord.left : coord.top;
         let hypotenuse = Math.sqrt(size.width*size.width + size.height* size.height);
-        // 20 below is a size of jqObj.span (icon of theme)
+        // 20 below is a size of btnDOM.span (icon of theme)
         const scale = 2 * (hypotenuse - maxCoord) / 20; 
 
-        let nextBackground = ThemesObj.getNextTheme(jqObj.attr('id'))['--h-background']
-
+        let nextBackground = ThemesObj.getNextTheme($btn.id())['--h-background']
 
         $themeAnim.css({
             'display': 'block',
             'background': nextBackground,
             'top': coord.top + 'px', 
             'left': coord.left + 'px',
-        }); 
+        });
         setTimeout(() => {
-            $themeAnim.css({
-                'transform': 'scale('+ scale +')',
-                'transition': getTransition(speed)
+            $themeAnim.animate({
+                'transform': 'scale('+ scale +')'
+            }, getTransition(speed), () => {
+                ThemesObj.setTheme($btn.id())
+                $themeAnim.animate({
+                    'top': size.height * 0.9 + 'px', 
+                    'left': '100px',
+                }, 0, () => {
+                    $themeAnim.animate({
+                        'top': size.height + 'px', 
+                        'left': '-21px', 
+                        'transform': 'scale(2)', 
+                    }, getTransition(speed), () => {
+                        $themeAnim.css({
+                            'display': 'none'
+                        })
+                    });
+                });
             });
-        }, 1);  
-        setTimeout(() => {
-            ThemesObj.setTheme(jqObj.attr('id'))
-            $themeAnim.css({ 
-                'top': size.height * 0.9 + 'px', 
-                'left': '100px',
-                'transition': '0s all' 
-            });
-            $themeAnim.css({
-                'top': size.height + 'px', 
-                'left': '-21px', 
-                'transform': 'scale(2)', 
-                'transition': getTransition(speed)
-            });
-
-            jqObj.parent()
-                    .find(`button.active-btn`)
-                    .removeClass(`active-btn`);
-                jqObj.addClass(`active-btn`);
-
-            setTimeout(() => {
-                $themeAnim.css({
-                    'display': 'none',
-                    'transition': '0s all'
-                })
-            }, speed * 1000);
-        }, speed * 1000 * 0.97);
-        
+        }, 1); 
     }
 
 
@@ -269,27 +260,27 @@ class LanguagesObj {
         LanguagesObj.TranslatePage();
 
         if (LanguagesObj.current == LanguagesObj.LANGTYPES.en)
-            $(`#enBtn`).addClass(`active-btn`);
+            $js(`#enBtn`).addClass(`active-btn`);
         else if (LanguagesObj.current == LanguagesObj.LANGTYPES.fr)
-            $(`#frBtn`).addClass(`active-btn`);
+            $js(`#frBtn`).addClass(`active-btn`);
         else if (LanguagesObj.current == LanguagesObj.LANGTYPES.sp)
-            $(`#spBtn`).addClass(`active-btn`);
+            $js(`#spBtn`).addClass(`active-btn`);
         else 
-            $(`#ruBtn`).addClass(`active-btn`);
+            $js(`#ruBtn`).addClass(`active-btn`);
         
         
         
-        $(`div.header-language button`).click(function() {
-            if ($(this).hasClass(`active-btn`)) return;
+        $js(`.header-language button`).onEvent('click', (e) => {
+            if (e.hasClass(`active-btn`)) return;
 
-            $(this).parent()
-                .find(`button.active-btn`)
+            e.parent()
+                .find(`.active-btn`)
                 .removeClass(`active-btn`);
-            $(this).addClass(`active-btn`);
+            e.addClass(`active-btn`);
 
 
             $areaName.text('');
-            LanguagesObj.setLang($(this).attr('id'));
+            LanguagesObj.setLang(e.getID());
             AreaObj.setNames();
 
             Page.Recreate();
@@ -318,10 +309,10 @@ class LanguagesObj {
         localStorage.setItem('lang', JSON.stringify(LanguagesObj.current))
     }
     static TranslatePage() { 
-        $(`#countryBtn`).text(LanguagesObj.CONTENT[0]);
-        $(`#regionBtn`).text(LanguagesObj.CONTENT[1]);
-        $(`#mobileScroll`).text(LanguagesObj.CONTENT[2][GLOBE_ACTIVE ? 1 : 0])
-        $(`#searchInput`).attr('placeholder', LanguagesObj.CONTENT[3])
+        $js(`#countryBtn`).text(LanguagesObj.CONTENT[0]);
+        $js(`#regionBtn`).text(LanguagesObj.CONTENT[1]);
+        $js(`#mobileScroll`).text(LanguagesObj.CONTENT[2][GLOBE_ACTIVE ? 1 : 0])
+        $js(`#searchInput`).attr('placeholder', LanguagesObj.CONTENT[3])
     }
     static TranslateObj(obj) {
         if (LanguagesObj.current == LanguagesObj.LANGTYPES.en)
@@ -345,25 +336,24 @@ class AreaObj {
         AreaObj.setNames();
 
         if (AreaObj.isRegion())
-            $(`#regionBtn`).addClass(`active-btn`);
+            $js(`#regionBtn`).addClass(`active-btn`);
         else 
-            $(`#countryBtn`).addClass(`active-btn`);
+            $js(`#countryBtn`).addClass(`active-btn`);
 
 
-        $(`div.header-choosetype button`).click(function() {
-            if ($(this).hasClass(`active-btn`)) return;
+        $js(`.header-choosetype button`).onEvent('click', (e) => {
+            if (e.hasClass(`active-btn`)) return;
 
-            $(this).parent()
-                .find(`button.active-btn`)
+            e.parent()
+                .find(`.active-btn`)
                 .removeClass(`active-btn`);
-            $(this).addClass(`active-btn`);
-
+            e.addClass(`active-btn`);
 
 
             $areaName.text(''); 
             AreaObj.setArea();
             AreaObj.setNames();
-            HELPER.RenderGlobe();
+            D3.RenderGlobe();
 
             Page.Recreate();
         })
@@ -873,3 +863,5 @@ class AreaObj {
             }
         ).sort((a, b) => a.name < b.name ? -1 : 1);
 }
+
+ 

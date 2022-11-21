@@ -41,7 +41,8 @@ section.header-logo img {
     margin-right: 10px;
     padding: 4px;
 
-    background: var(--accent-color);
+    /* background: var(--accent-color); */
+    transform: scale(1.4) translate(-3px, 1px);
     border-radius: 100%;
 }
 section.header-logo h1 {

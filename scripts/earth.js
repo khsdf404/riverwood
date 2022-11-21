@@ -10,28 +10,48 @@ const colorActive =         '#00000099'          //'#F6C1BC'
 const styleBorders =        { 'color': '#000', 'thickness': 0.5  };
 const styleGlobeBorder =    { 'color': '#000',  'thickness': 2  };
 // all we need to work with
-let width, height
-let globe, land, countries, borders;
 var polygonList, currentPolygon, currentRegion;
-
+let globe, land, countries, borders;
+let width, height
 // rotation part
-let v0 // Mouse position in Cartesian coordinates at start of drag gesture.
-let r0 // Projection rotation as Euler angles at start.
-let q0 // Projection rotation as versor at start.
+let v0          // Mouse position in Cartesian coordinates at start of drag gesture.
+let r0          // Projection rotation as Euler angles at start.
+let q0          // Projection rotation as versor at start.
 let lastTime = d3.now()
 let xRotationSpeed = degPerSec * rotationDirection / 1000
 let yzRotationSpeed = xRotationSpeed * 3;
-let autorotate, now, diff, rotation, rotateAvailable = true, restartTimer;
+let rotateAvailable = true, autorotate, now, diff, rotation, restartTimer;
+let canvasPos;
 // canvas & d3 variables
-var canvas;
-var canvasDOM;
-var context;
-var projection;
-var path; 
-var canvasPos;
-var HELPER;
-  
+var canvas =        d3.select('#globe')
+var context =       canvas.node().getContext('2d');
+var projection =    d3.geoOrthographic().precision(0.1); 
+var path =          d3.geoPath(projection).context(context);
 
+
+const EarthReady = () => {
+    D3.QueueData();
+
+    D3_DRAG.setDrag();
+    D3_HOVER.setHover(); 
+    if (!isPhone()) D3_CLICK.setClick();
+    
+    $canvas.onEvent('mouseleave', () => {
+        $areaName.text('');
+
+        currentPolygon = null;
+        currentRegion = null;
+        D3.RenderGlobe();
+
+        D3.setRotation(true);
+    });
+
+
+    window.addEventListener('resize', () => {
+        D3.setScale();
+        D3.RenderGlobe();
+    });
+}
 
 
 
@@ -62,7 +82,7 @@ function getCoord() {
     let rotation = projection.rotate(); 
     return { 'x': Math.round(rotation[0]), 'y': Math.round(rotation[1]), 'z': Math.round(rotation[2])};
 }
-function haversine (lat2, lon2, lat1 = -20, lon1 = 50) {
+function haversine(lat2, lon2, lat1 = -20, lon1 = 50) {
     // distance between latitudes
     // and longitudes
     let dLat = (lat2 - lat1) * Math.PI / 180.0;
@@ -82,7 +102,7 @@ function haversine (lat2, lon2, lat1 = -20, lon1 = 50) {
     return rad * c;
 }
 function setStars() {
-    $(`#stars`).empty();
+    $stars.empty();
     const randInt = (min, max) => { 
         return Math.floor(Math.random() * (max - min + 1) + min)
     }
@@ -108,7 +128,7 @@ function setStars() {
     const CreateStar = () => {
         let coord = getStarCoord();
 
-        $(`#stars`).append(`
+        $stars.append(`
             <span style="
                     left: ${coord[0]}px; 
                     top: ${coord[1]}px;
@@ -117,8 +137,8 @@ function setStars() {
             </span>
         `)
     }
-    let childPos = canvasDOM.getBoundingClientRect(),
-    parentPos = $('main article')[0].getBoundingClientRect();
+    let childPos = $canvas.rect();
+    let parentPos = $globeWrap.rect();
 
     if (!canvasPos) canvasPos = {};
         canvasPos.top = childPos.top - parentPos.top;
@@ -135,13 +155,13 @@ function setStars() {
 
 
 
-class d3Helper {
-    QueueData() {
+class D3 {
+    static QueueData() {
         d3.queue()
             .defer(d3.json, "/src/countriesInfo.json")
-            .await(this.LoadData);
+            .await(D3.LoadData);
     }
-    LoadData = (error, world) => {
+    static LoadData = (error, world) => {
         if (error) throw error;
         globe = { type: 'Sphere' } 
         land = topojson.feature(world, world.objects.land);
@@ -149,17 +169,17 @@ class d3Helper {
         polygonList = countries.features;
         borders = topojson.mesh(world, world.objects.countries, function(a, b) { return a != b; });
 
-        $(`main canvas`).css({'opacity': 1});
+        $canvas.css({'opacity': 1});
 
-        this.setScale();
-        this.setAngles();
-        this.setTimer();
-        this.RenderGlobe();
+        D3.setScale();
+        D3.setAngles();
+        D3.setTimer();
+        D3.RenderGlobe();
 
 
         setStars();
     }
-    RenderGlobe() {
+    static RenderGlobe() {
         function fill(obj, color) {
             context.beginPath()
             path(obj)
@@ -197,10 +217,10 @@ class d3Helper {
     }
 
 
-    setScale = () => { 
+    static setScale = () => { 
         width = Math.min(
-            $(`main article`).width(), 
-            $(`main article`).outerHeight() * 0.7
+            $globeWrap.rect().width, 
+            $globeWrap.rect().height * 0.7
         );
         height = width;
 
@@ -211,23 +231,23 @@ class d3Helper {
 
         setStars();
     }
-    setAngles() {
+    static setAngles() {
         let rotation = projection.rotate()
             rotation[0] = angles.x
             rotation[1] = angles.y
             rotation[2] = angles.z
         projection.rotate(rotation)
     }
-    setTimer() {
+    static setTimer() {
         if (autorotate) {
             setTimeout(() => {
-                autorotate.restart(this.timerTick, 0);  
+                autorotate.restart(D3.timerTick, 0);  
             }, rotationDelay);
         }
         else
-            autorotate = d3.timer(this.timerTick, rotationDelay); 
+            autorotate = d3.timer(D3.timerTick, rotationDelay); 
     }
-    timerTick = (elapsed) => {
+    static timerTick = (elapsed) => {
         now = d3.now()
         diff = now - lastTime
         lastTime = now
@@ -252,15 +272,13 @@ class d3Helper {
             if (Math.abs(zEquation) > yzSpeed && zEquation != 0)
                 rotation[2] += yzSpeed * Math.abs(zEquation)/(zEquation) 
                 
-            if (ThemesObj.isDynamic) 
-                HELPER.AssignBackground(); 
-            
-    
-            projection.rotate(rotation);       
-            this.RenderGlobe() 
+
+            projection.rotate(rotation);    
+            D3.AssignBackground();    
+            D3.RenderGlobe() 
         }
     }  
-    setRotation = (state) => {
+    static setRotation = (state) => {
         clearTimeout(restartTimer);
         if (state) {
             restartTimer = setTimeout(() => {
@@ -274,58 +292,62 @@ class d3Helper {
 
 
 
-    AssignBackground() { 
+    static AssignBackground() { 
+        if (!ThemesObj.isDynamic) return;
         let coord = getCoord(); 
         let distancePercent = (haversine(coord.y, coord.x)) * 10;
-        $(`main`).css({'background-position': `${distancePercent}% ${distancePercent}%`});
+        $js(`main`).css({'background-position': `${distancePercent}% ${distancePercent}%`});
 
         if (distancePercent >= 63 && distancePercent <= 65)
-            $(`#stars`).removeClass('night-active')
+            $stars.removeClass()
         if (distancePercent > 65) 
-            $(`#stars`).addClass('night-active')
+            $stars.addClass('night-active')
+    }
+    static RemoveStars() {
+        $stars.removeClass();
     }
 }
 
 
 
-class d3Click {
-    setClick() {
-        canvas.on('click', this.OpenPage)
+class D3_CLICK {
+    static setClick() {
+        canvas.on('click', D3_CLICK.OpenPage)
     }
-    OpenPage() {
+    static OpenPage() {
         let name = getObj(currentPolygon) && getObj(currentPolygon).name || currentRegion && currentRegion.name;
         if (name)
             AreaPage(name);
     }
 }
-class d3Hover {
-    setHover() {
-        canvas.on('mousemove', this.CountryHover)
+class D3_HOVER {
+    static setHover() {
+        canvas.on('mousemove', D3_HOVER.CountryHover)
     }
-    CountryHover = () => {
+    static CountryHover = () => {
         if (AreaObj.isRegion()) {
-            if (!(this.setRegion())) 
+            if (!(D3_HOVER.setRegion())) 
                 return;
         }
         else { 
-            if (!(this.setCountry())) 
+            if (!(D3_HOVER.setCountry())) 
                 return;
         }
         
-        HELPER.setRotation(false);
-        HELPER.RenderGlobe()
-        this.setName();
+        D3.setRotation(false);
+        D3.RenderGlobe()
+        D3_HOVER.setName();
     }
 
-    setCountry = () => {
-        let countryPolygon = this.getPolygon(canvasDOM)
+    static setCountry = () => {
+        let countryPolygon = D3_HOVER.getPolygon($canvas.get())
       
         // water hover 
         if (!countryPolygon) { 
             if (currentPolygon) {
                 $areaName.text('');
                 currentPolygon = undefined
-                HELPER.RenderGlobe()
+                D3.RenderGlobe()
             } 
             return false;
         }
@@ -338,14 +360,14 @@ class d3Hover {
         currentPolygon = countryPolygon;
         return true;
     }
-    setRegion = () => {
-        let polygon = this.getPolygon(canvasDOM);
+    static setRegion = () => {
+        let polygon = D3_HOVER.getPolygon($canvas.get());
         if (!polygon) { 
             if (currentRegion) {
                 $areaName.text('');
                 currentRegion = undefined
                 currentPolygon = undefined
-                HELPER.RenderGlobe()
+                D3.RenderGlobe()
             }
             return null;
         }
@@ -369,7 +391,7 @@ class d3Hover {
         });
         return output;
     }
-    getPolygon = (event) => { 
+    static getPolygon = (event) => { 
         function polygonContains(polygon, point) {
             let n = polygon.length
             let p = polygon[n - 1]
@@ -395,41 +417,39 @@ class d3Hover {
             })
         })
     }
-    setName = () => {
+    static setName = () => {
         if (currentPolygon)
             return $areaName.text(getObj(currentPolygon).name)
         $areaName.text(currentRegion.name) 
     }
 }
-class d3Drag { 
-    setDrag() {
+class D3_DRAG { 
+    static setDrag() {
         canvas.call(
             d3.drag()
-                .on('start', this.Start)
-                .on('drag', this.Drag)
-                .on('end', this.End)
+                .on('start', D3_DRAG.Start)
+                .on('drag', D3_DRAG.Drag)
+                .on('end', D3_DRAG.End)
         )
     }
 
 
-    Start() {
-        HELPER.setRotation(false) 
-        v0 = versor.cartesian(projection.invert(d3.mouse(canvasDOM)))
+    static Start() {
+        D3.setRotation(false) 
+        v0 = versor.cartesian(projection.invert(d3.mouse($canvas.get())))
         r0 = projection.rotate()
         q0 = versor(r0);
     }
-    Drag() {
-
-        let v1 = versor.cartesian(projection.rotate(r0).invert(d3.mouse(canvasDOM)))
+    static Drag() {
+        let v1 = versor.cartesian(projection.rotate(r0).invert(d3.mouse($canvas.get())))
         let q1 = versor.multiply(q0, versor.delta(v0, v1))
         let r1 = versor.rotation(q1)
         projection.rotate(r1) 
-        HELPER.RenderGlobe();
-        if (ThemesObj.isDynamic) 
-            HELPER.AssignBackground(); 
+        D3.RenderGlobe();
+        D3.AssignBackground(); 
     }
-    End() { 
+    static End() { 
         if (!currentPolygon && !currentRegion)
-            HELPER.setRotation(true)
+            D3.setRotation(true)
     } 
 }

@@ -91,11 +91,20 @@ ul#areaList div {
     margin: 0px 37px 0 25px;
     
     overflow: hidden;
-    transition: max-height .6s ease-out;
+    transition: max-height .6s;
 }
 ul#areaList li.sidebar-active-item div {
-    transition: max-height .6s ease-in;
+    transition: max-height .6s;
 }
+ul#areaList span.arealist-href-icon,
+ul#areaList li.sidebar-active-item span.arealist-amount {
+    display: none;
+}
+ul#areaList span.arealist-amount,
+ul#areaList li.sidebar-active-item span.arealist-href-icon  {
+    display: flex;
+}
+
 ul#areaList a {
     margin: 2px 0;
 
@@ -120,10 +129,12 @@ ul#areaList a span {
     font-family: 'Neris';
     font-size: 16px;
     
+   
     transition: .5s transform, .5s color;
+    transition-delay: 0.05s;
 }
 ul#areaList a:hover > span {  
-    transform: translateX(10px) scale(0.95);
+    transform: translateX(6px) scale(0.9);
 }
 ul#areaList a:hover {
     transform: translateX(20px) scale(1.07); 
@@ -137,7 +148,7 @@ ul#areaList a ins {
 ul#riverList {
     display: none; 
 }  
-ul#riverList a {
+ul#riverList a, ul#riverList ins {
     color: var(--list-linkColor);
     font-size: 22px;
     font-weight: 900;
@@ -146,6 +157,10 @@ ul#riverList a {
 } 
 ul#riverList mark {
     background: #ffa0b6b0; 
+    font-family: var(--addFont);
+    font-size: 22px;
+    font-weight: 900;
+    letter-spacing: .5px;
 }
 
 
