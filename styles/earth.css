@@ -6,15 +6,24 @@
 
 
 
-main article {
+article#globeWrap {
     position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
 
+    width: 100%;
+    min-height: 100%;
+    height: 100%;
+
+    margin: 0;
+    
     flex: 1;
     padding: 0 7.5%;
+
+    overflow: hidden;
+    z-index: 0;
 }
 canvas#globe {
     display: flex;
@@ -34,6 +43,9 @@ canvas#globe {
 a#areaText {  
     min-height: 32px;
     margin-bottom: 50px;
+
+    background: var(--area-title-background);
+    border-radius: 6px;
     
     color: var(--based-color);
     text-align: center;

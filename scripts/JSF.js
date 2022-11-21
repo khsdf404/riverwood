@@ -142,6 +142,23 @@ class JSFeatures {
            
         return this;
     }
+    fadeIn(speed, f) {
+        this.savedDisplay = this.savedDisplay == 'none' ? 'initial' : this.savedDisplay;
+        this.css({'display': this.savedDisplay || 'initial'})
+        delete this.savedDisplay;
+        this.animate({
+            'opacity': '1'
+        }, speed, f)
+    }
+    fadeOut(speed, f) {
+        this.animate({
+            'opacity': '0'
+        }, speed, f)
+        setTimeout(() => { 
+            this.savedDisplay = window.getComputedStyle(this.get()).display;
+            this.css({'display': 'none'})
+        }, speed);
+    }
     scroll(y = null, duration = 0) {
         if (y == null) return this.get().scrollTop;
         let startScroll = this.get().scrollTop < 0 ? 0 : this.get().scrollTop;
@@ -181,14 +198,14 @@ class JSFeatures {
 
     
     addClass(classname) { 
-        for (let i = 0; i < this.e.length; i++) 
+        for (let i = 0; i < this.size(); i++) 
             this.get(i).classList.add(classname); 
         return this;
     }
     removeClass(classname = null) { 
-        for (let i = 0; i < this.e.length; i++) {
-            if (classname)
-                this.get(i).classList.remove(classname); 
+        for (let i = 0; i < this.size(); i++) {
+            if (classname != null) 
+                this.e[i].classList.remove(classname);
             else 
                 this.get(i).className = ' ';
         }
@@ -196,10 +213,7 @@ class JSFeatures {
     }
     toggleClass(classname) {
         for (let i = 0; i < this.size(); i++) {
-            if (this.get(i).classList.contains(classname))
-                this.e[i].classList.remove(classname);
-            else
-                this.e[i].classList.add(classname);
+            this.e[i].classList.toggle(classname);
         }
         return this;
     }
@@ -211,22 +225,24 @@ class JSFeatures {
     // getters & setters
     text(text = null) {
         if (text == null) return this.get().innerText;
-        this.get().innerText = text;
+        this.every((e) => {
+            e.innerText = text;
+        })
         return this;
     }
     value(value) {
         if (value == null) return this.get().value;
-        this.get().value = value;
+        this.every((e) => {
+            e.value = value;
+        })
         return this;
     }
     html(text = null) {
         if (text == null)
             return this.get().innerHTML;
-        let html = '';
         this.every((e) => {
-            html += e.innerHTML();
+            e.innerHTML = text;
         }) 
-        this.get().innerHTML = html;
         return this;
     }
     outerHtml(text = null) {
@@ -239,22 +255,25 @@ class JSFeatures {
         this.get().outerHTML = html;
         return this;
     }
-    attr() {
-        return this.get().getAttribute(attr);
-    }
-    attr(attr, value) {
-        this.get().setAttribute(attr, value);
+    attr(attr, value = null) {
+        if (!attr) return this.Exeption('Invaid attr name');
+        if (!value) return this.get().getAttribute(attr);
+        this.every((e) => {
+            e.setAttribute(attr, value);
+        })
         return this;
     }
-    id() {
-        return this.get().id 
+    id(str = null) {
+        if (!str) return this.get().id 
+        this.attr('id', str);
     }
     index(obj) {
-        if (obj.e) // Convert to DOM
-            obj = obj.get()
+        if (typeof(obj) == 'string') obj = this.find(obj).get();
+        else if (obj.e) obj = obj.get()
         for (let i = 0; i < this.size(); i++) 
-                if (obj == this.get(i))
-                    return i;
+            if (obj == this.get(i))
+                return i;
+        return null;
     }
     classes() { 
         return this.get().classList
@@ -318,9 +337,8 @@ class JSFeatures {
     }
     // fixme try it
     append_OLD2(obj) {
-        if (typeof(obj) != 'string') obj = obj.outerHTML();
-        else this.get().innerHTML = this.get().innerHTML + obj;
-        return this;
+        JSF_HTML = document.innerHTML();
+        
     }
     appendObj(obj) {
         for(let i = 0; i < obj.e.length; i++) {
@@ -355,23 +373,7 @@ class JSFeatures {
 
 
 
-    fadeIn(speed, f) {
-        this.savedDisplay = this.savedDisplay == 'none' ? 'initial' : this.savedDisplay;
-        this.css({'display': this.savedDisplay || 'initial'})
-        delete this.savedDisplay;
-        this.animate({
-            'opacity': '1'
-        }, speed, f)
-    }
-    fadeOut(speed, f) {
-        this.animate({
-            'opacity': '0'
-        }, speed, f)
-        setTimeout(() => { 
-            this.savedDisplay = window.getComputedStyle(this.get()).display;
-            this.css({'display': 'none'})
-        }, speed);
-    }
+    
 
     
     // EVENTS
@@ -396,11 +398,15 @@ class JSFeatures {
         for(let i = 0; i < this.size(); i++) { 
             f(new JSFeatures([this.get(i)]), i)
         }
-    } 
-    // private
+    }
     every(f) {
         for (let i = 0; i < this.size(); i++) 
             f(this.get(i), i)
+    }
+
+    // private
+    Exeption(text) {
+        throw 'JSF: ' + text;
     }
 }
 
@@ -409,3 +415,9 @@ const $js = (str = null) => {
     if (str == null) return staticEx;
     return new JSFeatures(str);
 }; 
+const $JSF_RENDER = () => {
+    setTimeout(() => {
+
+    }, 1000);
+}
+let JSF_HTML = '';

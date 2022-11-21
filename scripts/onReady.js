@@ -13,46 +13,37 @@ const START_AREA =      localStorage.getItem('area') ?
 
 class Page { 
     static CreateListElem(text, riversArr) { 
-        let cell = $js().create(`<li></li>`);
-        let title = $js()
-            .create(`<h6 class="list-title">${text}</h6>`)
-        //     .append(`
-        //         <span class="arealist-amount non-select">
-        //             [${riversArr.length}]
-        //         </span>
-        //         <span class="arealist-href-icon non-select"></span>
-        //    `);
-        let titleAmount = $js().create(
-            `<span class="arealist-amount non-select">
-                [${riversArr.length}]
-            </span>`
-        );
-        let titleIcon = $js().create(` 
-            <span class="arealist-href-icon non-select"> </span>
-        `);
-        
-
-        title.appendObj(titleAmount);
-        title.appendObj(titleIcon);
-        cell.appendObj(title);
-
-        let cellRiversWrap = $js().create(`<div></div>`);
+        let cell = `
+            <li>
+                <h6 class="list-title">${text}
+                    <span class="arealist-amount non-select">
+                        [${riversArr.length}]
+                    </span>
+                    <span class="arealist-href-icon non-select"></span>
+                </h6>
+                <div>`
         riversArr.forEach(el => {
-            let riverCell = $js()
-                .create(`<a class="non-select" href="${el.link}" target="_blank" rel="noopener noreferrer"></a>`)
-            //    .append(`<span>➝</span><ins>${el.name}</ins>`)
-            let riverContent = $js().create(`<span>➝</span><ins>${el.name}</ins>`)
-             riverCell.appendObj(riverContent);
-            cellRiversWrap.appendObj(riverCell);
+            cell += `
+            <a class="non-select" href="${el.link}" target="_blank" rel="noopener noreferrer">
+                <span>➝</span>
+                <ins>${el.name}</ins>
+            </a>
+            `
         }); 
-        cell.appendObj(cellRiversWrap)
+        cell += ` 
+                </div>
+            </li>
+        `
         return cell;
     }
     static Recreate() {
         $areaList.empty();
-        AreaObj.currentList.forEach(e => 
-            $areaList.appendObj(Page.CreateListElem(e.name, e.rivers))
-        );
+        let newHTML = ''
+        AreaObj.currentList.forEach(e => {
+            newHTML += Page.CreateListElem(e.name, e.rivers);
+        });
+        $areaList.html(newHTML);
+
         $js(`.list-title`).onEvent('click', (e) => { 
             let parent = e.parent('li');
             let div = parent.find('div'); 
@@ -67,7 +58,7 @@ class Page {
             else 
                 div.find('div').css({'max-height': '0px'}); 
         })
-        $js(`.listLink`).onEvent('click', (e) => {
+        $areaList.find(`.arealist-href-icon`).onEvent('click', (e) => {
             AreaPage(e.parent('li').find('h6').text())
         })
 
@@ -98,22 +89,19 @@ const Phone = () => {
         });      
         LanguagesObj.TranslatePage();
     }
-    
-
-    
-    // $(window).resize(() => { 
-    //     if (isPhone() && $(window).outerWidth() < 750) {
-    //         $globeWrap.get().scrollIntoView({
-    //             behavior: "smooth",
-    //             block: "start"
-    //         }); 
-    //         GLOBE_ACTIVE = true; 
-    //         LanguagesObj.TranslatePage()
-    //     }
-    // })
+    window.onresize = (e) => {
+        if (!isPhone() && window.innerWidth < 750) {
+            $globeWrap.get().scrollIntoView({
+                behavior: "auto",
+                block: "start"
+            }); 
+            
+            GLOBE_ACTIVE = true; 
+            LanguagesObj.TranslatePage()
+        }
+    }
 
    
-    log($js(`#settingsBtn`))
     $js(`#settingsBtn`).onClick((e) => {
         log('sdf')
         SETTINGS_ACTIVE ? 
@@ -127,7 +115,7 @@ const Phone = () => {
     })
     $js(`#mobileScroll`).onClick((e) => {
         GLOBE_ACTIVE = !GLOBE_ACTIVE;  
-        $js(GLOBE_ACTIVE ? 'article' : 'aside').get().scrollIntoView({
+        $js(GLOBE_ACTIVE ? '#globeWrap' : 'aside').get().scrollIntoView({
             behavior: "smooth",
             block: "start"
         }); 
@@ -158,4 +146,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     Phone(); 
     EarthReady();
+    
+    
 });  

@@ -2,7 +2,7 @@ var GLOBE_ACTIVE =      true;
 var SETTINGS_ACTIVE =   false;
 // DOM elements
 const $main =           $js(`main`);
-const $globeWrap =      $main.find(`article`);
+const $globeWrap =      $main.find(`#globeWrap`);
 const $canvas =         $globeWrap.find(`#globe`);
 const $areaName =       $globeWrap.find(`#areaText`);
 const $stars =          $globeWrap.find(`#stars`); 
@@ -26,7 +26,7 @@ function AreaPage(areaStr) {
     window.location.href = 'Area/area.html';
 }
 function isPhone() {
-    return (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent))
+    return (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgentData))
 }
 function ObjEquals(obj1, obj2) {
     return JSON.stringify(obj1) == JSON.stringify(obj2)

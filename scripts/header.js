@@ -115,6 +115,7 @@ class ThemesObj {
         '--main-background': '#fef9f2', 
         '--main-backgrond-size': 'initial',
         '--globe-background': 'linear-gradient(104deg, #a0c7ef8f, #0070ffad)',
+        '--area-title-background': '#0000',
         '--edge-shadow': '0px 1px 14px -7px #777',
         
     
@@ -142,6 +143,7 @@ class ThemesObj {
         '--main-background': 'linear-gradient(130deg, #484848, #15151e)',
         '--main-backgrond-size': 'initial',
         '--globe-background': 'linear-gradient(104deg, #007eff73, #00023ab3)', // linear-gradient(54deg, #00004c, #0000007a)
+        '--area-title-background': '#0000',
         '--edge-shadow': '0px 1px 14px -7px #000', 
     
         '--h-background': '#2e2e2e', 
@@ -169,6 +171,7 @@ class ThemesObj {
         '--main-background' : 'linear-gradient(135deg, #b4dcff 0%,#79c1ff 20%, #46abf5 35%,#1879fb 45%, #4060ff 50%, #1d49ad 60%, #131c6e 70%, #040f46 80%,#000000 90%)',
         '--main-backgrond-size': '250% 250%',
         '--globe-background': 'linear-gradient(114deg, #5bacffa1, #0e007e)',
+        '--area-title-background': '#fff7',
         '--edge-shadow': '0px 1px 14px -7px #777',
         
     
@@ -196,6 +199,7 @@ class ThemesObj {
         '--main-background': 'linear-gradient(135deg, #b4dcff 0%,#79c1ff 20%, #46abf5 35%,#1879fb 45%, #4060ff 50%, #1d49ad 60%, #131c6e 70%, #040f46 80%,#000000 90%)', 
         '--main-backgrond-size': '250% 250%',
         '--globe-background': 'linear-gradient(114deg, #5bacffa1, #0e007e)',
+        '--area-title-background': '#0009',
         '--edge-shadow': '0px 1px 14px -7px #000', 
     
         '--h-background': '#2e2e2e', 
@@ -280,7 +284,7 @@ class LanguagesObj {
 
 
             $areaName.text('');
-            LanguagesObj.setLang(e.getID());
+            LanguagesObj.setLang(e.id());
             AreaObj.setNames();
 
             Page.Recreate();

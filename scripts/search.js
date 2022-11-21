@@ -31,9 +31,9 @@ const $insList = $js(`#riverList ins`);
 function ScrollToElem(index) {
     let length = $js(`.search-target`).size();
     if (length > 0) {
-        let currentTarget = $js(`.search-target`).get(index % length); 
+        let currentTarget = $js(`.search-target`).get(index % length);
         $riverList.get().scrollTo({
-            top: currentTarget.offsetTop,
+            top: currentTarget.offsetTop - 6,
             behavior: "smooth", // or "auto" or "instant"
             block: "start" // or "end"
         });
@@ -64,7 +64,7 @@ $input.onEvent(`input`, () => {
     if (!val) return HideSearch();
 
 
-    if (newSearch == true) {
+    if (newSearch) {
         $areaList.fadeOut(200);
 
         clearTimeout(clock);
@@ -72,27 +72,39 @@ $input.onEvent(`input`, () => {
         clock = setTimeout(() => {
             $riverList.fadeIn(200, () => {
                 currentIndex = -1;
-                $nextMark.trigger('click');
+                ScrollToElem(++currentIndex); // $nextMark.trigger('click');
             });
         }, 250);
     }
 
     $counter.text(`0/0`);
-    $js(`.search-target`).removeClass('search-target');
-    if (removeOthers) $riverList.find('li').css({'display': 'list-item'});
-    
-    $aList.each((e, i) => { 
-        let text = e.text();
+    //if (removeOthers) $riverList.find('li').css({'display': 'list-item'});
+
+
+    let newHTML = ''
+    $aList.every((e, i) => {
+        let text =  e.innerText + $markList.get(i).innerText + $insList.get(i).innerText;
         let indexOf = text.toUpperCase().indexOf(val.toUpperCase());
+
+        newHTML += '<li>'
         if (indexOf > -1) {
-            e.text(text.slice(0, indexOf))
-                .addClass('search-target');
-            $markList.get(i).innerText = text.slice(indexOf, indexOf + val.length);
-            $insList.get(i).innerText = text.slice(indexOf + val.length, text.length);
+            newHTML += `<a class="search-target" href="${RIVERS__RU[i].link}" target="_blank" rel="noopener noreferrer">${text.slice(0, indexOf)}`
+                newHTML += `<mark>${text.slice(indexOf, indexOf + val.length)}</mark>`;
+                newHTML += `<ins>${text.slice(indexOf + val.length, text.length)}</ins>`;
+            newHTML += '</a>'
         }
-        else if (removeOthers) e.parent('li').css({'display': 'none'});
+        else {
+            // if (removeOthers) e.parent('li').css({'display': 'none'});
+            newHTML += `<a href="${RIVERS__RU[i].link}" target="_blank" rel="noopener noreferrer">${text}`
+                newHTML += `<mark></mark>`;
+                newHTML += `<ins></ins>`;
+            newHTML += '</a>'
+        }
+        newHTML += '</li>'
+       
     });
-   
+    $riverList.html(newHTML)
+    
     
     if (!newSearch) {
         currentIndex = -1;

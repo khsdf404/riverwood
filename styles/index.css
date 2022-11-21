@@ -5,7 +5,7 @@
 }
 
 
-html, body, article {
+html, body {
     position: relative;
 
     width: 100%;
@@ -36,11 +36,7 @@ main {
 } 
 
 
- article {  
 
-
-    z-index: 0;
- }
 
 .non-select {
     -webkit-touch-callout: none; /* iOS Safari */

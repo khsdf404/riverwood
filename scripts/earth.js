@@ -37,7 +37,7 @@ const EarthReady = () => {
     if (!isPhone()) D3_CLICK.setClick();
     
     $canvas.onEvent('mouseleave', () => {
-        $areaName.text('');
+        setName('')
 
         currentPolygon = null;
         currentRegion = null;
@@ -150,7 +150,12 @@ function setStars() {
         CreateStar();
     }
 }
-
+function setName(name = '') {
+    $areaName.text(name);
+    if (ThemesObj.isDynamic) {
+        $areaName.css({'padding': name == '' ? '0' : '0px 20px'})
+    }
+}
 
 
 
@@ -219,7 +224,7 @@ class D3 {
 
     static setScale = () => { 
         width = Math.min(
-            $globeWrap.rect().width, 
+            $globeWrap.rect().width * 0.9, 
             $globeWrap.rect().height * 0.7
         );
         height = width;
@@ -345,7 +350,7 @@ class D3_HOVER {
         // water hover 
         if (!countryPolygon) { 
             if (currentPolygon) {
-                $areaName.text('');
+                setName('')
                 currentPolygon = undefined
                 D3.RenderGlobe()
             } 
@@ -364,7 +369,7 @@ class D3_HOVER {
         let polygon = D3_HOVER.getPolygon($canvas.get());
         if (!polygon) { 
             if (currentRegion) {
-                $areaName.text('');
+                setName('')
                 currentRegion = undefined
                 currentPolygon = undefined
                 D3.RenderGlobe()
@@ -419,8 +424,8 @@ class D3_HOVER {
     }
     static setName = () => {
         if (currentPolygon)
-            return $areaName.text(getObj(currentPolygon).name)
-        $areaName.text(currentRegion.name) 
+            return setName(getObj(currentPolygon).name)
+        setName(currentRegion.name) 
     }
 }
 class D3_DRAG { 
