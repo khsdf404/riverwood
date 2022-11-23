@@ -6,14 +6,17 @@ class ThemesObj {
     static Light = {
         '--based-color': '#444',
         '--revert-color': '#fff',
-        '--accent-color': '#93c3ff', 
+        '--accent-color': '#8cb9f1', 
 
         '--main-background': '#fef9f2', 
+        '--main-backgrond-size': 'initial',
+        '--globe-background': 'linear-gradient(104deg, #a0c7ef8f, #0070ffad)',
+        '--area-title-background': '#0000',
+        '--about-background': '#f7f7f7',
         '--edge-shadow': '0px 1px 14px -7px #777',
         
     
-        '--h-background': '#fff', 
-        '--controls-background': '#93c3ff',
+        '--h-background': '#fff',
         '--controls-border': '1px solid #999',
         '--controls-disabledcolor': '#585858',
         '--controls-hoverBackground': '#e4e4e5',
@@ -22,10 +25,9 @@ class ThemesObj {
         '--settingsBtn-background': '#e3dfdf', // #ddeaff // #ebebeb
         '--settingsBtn-border': '1px solid #cfcfcf',
     
-        '--sd-background': '#f7f7f7',
+        '--sd-background': '#f7f7f7', // #ffffff45
         '--placeholder-color': '#a0a0a0',
         '--list-background': '#5050502e',
-        '--list-scrollbar-background': '#19aeef',
         '--list-headerColor': '#000',
         '--list-linkColor': '#0142b9', 
         '--list-fontWeight': '900'
@@ -33,14 +35,17 @@ class ThemesObj {
     static Dark = {
         '--based-color': '#fffc',
         '--revert-color': '#444',
-        '--accent-color': '#93c3ff', 
+        '--accent-color': '#8cb9f1', 
 
-        '--main-background': 'linear-gradient(180deg, #484848, #15151e)', 
+        '--main-background': 'linear-gradient(130deg, #484848, #15151e)',
+        '--main-backgrond-size': 'initial',
+        '--globe-background': 'linear-gradient(104deg, #007eff73, #00023ab3)', // linear-gradient(54deg, #00004c, #0000007a)
+        '--area-title-background': '#0000',
+        '--about-background': '#232324',
         '--edge-shadow': '0px 1px 14px -7px #000', 
     
-        '--h-background': '#2e2e2e',
-        '--controls-background': '#93c3ff',
-        '--controls-border': ' 1px solid #676767',
+        '--h-background': '#2e2e2e', 
+        '--controls-border': '1px solid #676767',
         '--controls-disabledcolor': '#b9b9b9',
         '--controls-hoverBackground': '#5c5c5c',
         '--settings-background': '#82828b94', // #82828b94  // linear-gradient(229deg, #6177b5, #2a2a2a)
@@ -49,10 +54,67 @@ class ThemesObj {
         '--settingsBtn-border': '1px solid #686868',
 
     
-        '--sd-background': '#00000047',
+        '--sd-background': '#232324', // #00000059
         '--placeholder-color': '#a0a0a0',
         '--list-background': '#9d9d9d44',
-        '--list-scrollbar-background': '#2d66c5',
+        '--list-headerColor': '#fffc',
+        '--list-linkColor': '#93c3ff', 
+        '--list-fontWeight': '100'
+    }
+    static DynamicLight = {
+        '--based-color': '#444',
+        '--revert-color': '#fff',
+        '--accent-color': '#8cb9f1', 
+
+        '--main-background' : 'linear-gradient(135deg, #b4dcff 0%,#79c1ff 20%, #46abf5 35%,#1879fb 45%, #4060ff 50%, #1d49ad 60%, #131c6e 70%, #040f46 80%,#000000 90%)',
+        '--main-backgrond-size': '250% 250%',
+        '--globe-background': 'linear-gradient(114deg, #5bacffa1, #0e007e)',
+        '--area-title-background': '#fff7',
+        '--about-background': '#f7f7f7',
+        '--edge-shadow': '0px 1px 14px -7px #777',
+        
+    
+        '--h-background': '#fff',
+        '--controls-border': '1px solid #999',
+        '--controls-disabledcolor': '#585858',
+        '--controls-hoverBackground': '#e4e4e5',
+        '--settings-background': '#d7ddf3c2',
+        '--settings-filter': 'drop-shadow(6px 8px 19px #00000094)',
+        '--settingsBtn-background': '#e3dfdf',
+        '--settingsBtn-border': '1px solid #cfcfcf',
+    
+        '--sd-background': '#fff7',
+        '--placeholder-color': '#444',
+        '--list-background': '#fff',
+        '--list-headerColor': '#000',
+        '--list-linkColor': '#0142b9', 
+        '--list-fontWeight': '900'
+    }
+    static DynamicDark = {
+        '--based-color': '#fffc',
+        '--revert-color': '#444',
+        '--accent-color': '#8cb9f1', 
+        
+        '--main-background': 'linear-gradient(135deg, #b4dcff 0%,#79c1ff 20%, #46abf5 35%,#1879fb 45%, #4060ff 50%, #1d49ad 60%, #131c6e 70%, #040f46 80%,#000000 90%)', 
+        '--main-backgrond-size': '250% 250%',
+        '--globe-background': 'linear-gradient(114deg, #5bacffa1, #0e007e)',
+        '--area-title-background': '#0009',
+        '--about-background': '#232324',
+        '--edge-shadow': '0px 1px 14px -7px #000', 
+    
+        '--h-background': '#2e2e2e', 
+        '--controls-border': '1px solid #676767',
+        '--controls-disabledcolor': '#b9b9b9',
+        '--controls-hoverBackground': '#5c5c5c',
+        '--settings-background': '#82828b94',
+        '--settings-filter': 'drop-shadow(6px 8px 19px #00000073)',
+        '--settingsBtn-background': '#59595f',
+        '--settingsBtn-border': '1px solid #686868',
+
+    
+        '--sd-background': '#0009', 
+        '--placeholder-color': '#ccc',
+        '--list-background': '#00000070',
         '--list-headerColor': '#fffc',
         '--list-linkColor': '#93c3ff', 
         '--list-fontWeight': '100'

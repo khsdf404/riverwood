@@ -45,7 +45,7 @@ section.header-logo img {
     transform: scale(1.4) translate(-3px, 1px);
     border-radius: 100%;
 }
-section.header-logo h1 {
+section.header-logo h1 { 
     margin: 0;
     font-size: 36px;
     font-family: var(--logoFont);
@@ -53,6 +53,13 @@ section.header-logo h1 {
 
     transition: .35s color;
 }
+section.header-logo h1 mark { 
+    position: relative; 
+    color: #93a6ff;
+    cursor: pointer; 
+} 
+
+
 
 
 
@@ -118,16 +125,19 @@ div.header-mobile-scroll button {
     font-family: var(--addFont);
     letter-spacing: .8px; 
     line-height: 1; 
-    
+     
     transition: .45s all;
 } 
-div.header-controls button:hover {
+div.header-controls button:not(.active-btn):hover,
+div.header-theme button:not(.active-btn):hover {
+    cursor: pointer;
     background: var(--controls-hoverBackground); 
 } 
 div.header-controls button.active-btn {
     background: var(--accent-color);
     color: #000;
-} 
+}  
+
 
 
 div.header-language button {

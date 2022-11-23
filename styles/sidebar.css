@@ -151,7 +151,7 @@ ul#riverList {
 ul#riverList a, ul#riverList ins {
     color: var(--list-linkColor);
     font-size: 22px;
-    font-weight: 900;
+    font-weight: var(--list-fontWeight);
     font-family: var(--addFont);
     letter-spacing: .5px;
 } 

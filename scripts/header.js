@@ -116,6 +116,7 @@ class ThemesObj {
         '--main-backgrond-size': 'initial',
         '--globe-background': 'linear-gradient(104deg, #a0c7ef8f, #0070ffad)',
         '--area-title-background': '#0000',
+        '--about-background': '#f7f7f7',
         '--edge-shadow': '0px 1px 14px -7px #777',
         
     
@@ -144,6 +145,7 @@ class ThemesObj {
         '--main-backgrond-size': 'initial',
         '--globe-background': 'linear-gradient(104deg, #007eff73, #00023ab3)', // linear-gradient(54deg, #00004c, #0000007a)
         '--area-title-background': '#0000',
+        '--about-background': '#232324',
         '--edge-shadow': '0px 1px 14px -7px #000', 
     
         '--h-background': '#2e2e2e', 
@@ -172,6 +174,7 @@ class ThemesObj {
         '--main-backgrond-size': '250% 250%',
         '--globe-background': 'linear-gradient(114deg, #5bacffa1, #0e007e)',
         '--area-title-background': '#fff7',
+        '--about-background': '#f7f7f7',
         '--edge-shadow': '0px 1px 14px -7px #777',
         
     
@@ -200,6 +203,7 @@ class ThemesObj {
         '--main-backgrond-size': '250% 250%',
         '--globe-background': 'linear-gradient(114deg, #5bacffa1, #0e007e)',
         '--area-title-background': '#0009',
+        '--about-background': '#232324',
         '--edge-shadow': '0px 1px 14px -7px #000', 
     
         '--h-background': '#2e2e2e', 

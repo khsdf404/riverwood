@@ -49,7 +49,7 @@ function HideSearch() {
 
     clearTimeout(clock);
     clock = setTimeout(() => {
-        $areaList.fadeIn(200);
+        $areaList.fadeIn(200, 'block');
     }, 250);
 
     newSearch = true;
@@ -68,9 +68,9 @@ $input.onEvent(`input`, () => {
         $areaList.fadeOut(200);
 
         clearTimeout(clock);
-        $controls.fadeIn(200);
+        $controls.fadeIn(200, 'flex');
         clock = setTimeout(() => {
-            $riverList.fadeIn(200, () => {
+            $riverList.fadeIn(200, 'block', () => {
                 currentIndex = -1;
                 ScrollToElem(++currentIndex); // $nextMark.trigger('click');
             });

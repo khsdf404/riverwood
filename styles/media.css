@@ -21,6 +21,15 @@
     div.header-theme button { 
         width: calc( var(--btnOneWidth) * (10/3 * 7/8) );
     }
+
+
+
+
+
+    #aboutWrap > section { 
+        margin-left: 15%;
+        margin-right: 15%;
+    }
 }
 
 @media (max-width: 750px) {
@@ -171,12 +180,69 @@
     canvas#globe {
         margin-bottom: 10%;
     }
+
+
+
+
+
+
+
+
+    :root {
+        --title-fs: 44px;
+        --slogan-fs: 18px;
+        --about-big-fs: 28px;
+        --about-small-fs: 24px;
+    }
+    #aboutWrap > section { 
+        margin-left: 5%;
+        margin-right: 5%;
+        width: 90%;
+    } 
+     #aboutWrap section.contactsWrap {
+        min-width: 0;
+        margin-top: 8%;
+        transform: translate(-44px);
+        width: calc(90% - 44px);
+     }
+     #vkLink:hover {
+        color: var(--based-color);  
+    } 
+    #tgLink:hover {
+        color: var(--based-color);   
+    } 
+    #waLink:hover {
+        color: var(--based-color);  
+    }
+    #gitLink:hover {
+        color: var(--based-color);  
+    }  
+    #aboutWrap::before,
+    #aboutWrap::after {
+        top: 5px;
+        left: 5px;
+    }
+    #aboutClose {
+        top: 10px;
+        left: 10px;
+    }
+
+    
 }
 
 
 
 
 @media (max-width: 600px) {
+    :root {
+        --title-fs: 40px;
+        --slogan-fs: 16px;
+        --about-big-fs: 24px;
+        --about-small-fs: 22px;
+    }
+
+
+
     section.header-logo h1 {
         font-size: 24px;
         letter-spacing: 4px;
@@ -223,6 +289,16 @@
         padding-bottom: 4px; 
     }
  
+
+
+
+    #aboutWrap section.contactsWrap {
+       max-width: 600px;
+     }
+     .about-info .about-title {
+        width: 90%;
+     }
+    
 
     
 }

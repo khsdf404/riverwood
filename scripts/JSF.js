@@ -142,13 +142,15 @@ class JSFeatures {
            
         return this;
     }
-    fadeIn(speed, f) {
-        this.savedDisplay = this.savedDisplay == 'none' ? 'initial' : this.savedDisplay;
-        this.css({'display': this.savedDisplay || 'initial'})
-        delete this.savedDisplay;
-        this.animate({
-            'opacity': '1'
-        }, speed, f)
+    fadeIn(speed, display, f) {
+        if (display)
+            this.css({'display': display})
+        this.css({'opacity': '0'})
+        setTimeout(() => {
+            this.animate({
+                'opacity': '1'
+            }, speed, f)
+        }, 1);
     }
     fadeOut(speed, f) {
         this.animate({
