@@ -26,7 +26,7 @@ function AreaPage(areaStr) {
     window.location.href = 'Area/area.html';
 }
 function isPhone() {
-    return (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgentData))
+    return (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent))
 }
 function ObjEquals(obj1, obj2) {
     return JSON.stringify(obj1) == JSON.stringify(obj2)
