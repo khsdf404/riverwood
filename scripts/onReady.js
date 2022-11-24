@@ -224,7 +224,14 @@ const About = () => {
 
 
    $sendEmail.onClick((e, event) => {
-        if (e.hasClass(`btn-active`)) { 
+        if (e.hasClass(`btn-active`)) {
+            Email.send({
+                SecureToken: "0e080ffd-8308-425e-8cf9-093fb6419f45",
+                To : 'kaarst@ya.ru',
+                From : "kaarst@ya.ru", // fixme 
+                Subject: 'Riverwood: ' + $emailName.value(),
+                Body : $emailLetter.value() + '\n\n From ' + $emailAddress.value()
+            })
             e.text('Sent!')
             $emailAddress.value('');
             $emailName.value('');
@@ -241,6 +248,9 @@ const About = () => {
                     'background': '#'
                 })
             }, 3000);
+        }
+        else {
+            showError(`Why did you... click me...`)
         }
     })
 
