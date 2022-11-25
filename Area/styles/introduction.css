@@ -1,0 +1,15 @@
+article h2 {
+    font-size: 44px;
+    margin-top: auto;
+    margin-bottom: 100px;
+    font-family: 'Aetherius';
+    font-weight: 100;
+}
+#introduction p {
+    font-size: 20px;
+   
+    font-family: neris;
+}
+#introduction section {
+    margin-bottom: auto;
+}

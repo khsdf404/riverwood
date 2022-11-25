@@ -1,8 +1,102 @@
+
 function ObjEquals(obj1, obj2) {
     return JSON.stringify(obj1) == JSON.stringify(obj2)
 }
 
+
 class ThemesObj {
+    static current; 
+
+    static Start(theme) {
+        ThemesObj.setTheme(theme); 
+
+
+        if (ThemesObj.current == ThemesObj.Light) 
+            $js(`#lightBtn`).addClass('active-btn');
+        else
+            $js(`#darkBtn`).addClass('active-btn');
+
+
+        $js(`.header-theme button`).onEvent('click', (e) => {
+            if (e.hasClass(`active-btn`)) return;
+            
+            e.parent()
+                .find(`.active-btn`)
+                .removeClass(`active-btn`);
+            e.addClass(`active-btn`);
+ 
+            ThemesObj.Animate(e);
+        });
+    }
+    static getNextTheme = (id) => {
+        if (id == 'darkBtn' || ObjEquals(id, ThemesObj.Dark))
+            return ThemesObj.Dark;
+        else
+            return ThemesObj.Light;
+    }
+
+
+
+    static setTheme(id) {
+        ThemesObj.current = ThemesObj.getNextTheme(id);
+
+        let keys = Object.keys(ThemesObj.current);
+        let styles =  Object.values(ThemesObj.current);
+        for (let i = 0; i < keys.length; i++)
+            document
+                .documentElement
+                .style
+                .setProperty(keys[i], styles[i]);
+        localStorage.setItem('theme', JSON.stringify(ThemesObj.current));
+    } 
+    static Animate($btn) {
+        const getTransition = (speed) => {
+            return  'transform '+ speed +'ms ease-in-out,'+
+                    'top '+ speed +
+                    'ms, left '+ speed + 'ms';
+        } 
+        const speed = 550;
+        const coord = $btn.find('span').rect(); 
+        const size = $js('body').rect()
+        let maxSize = Math.max(size.width, size.height);
+        let maxCoord = maxSize == size.width ? size.width - coord.left : coord.top;
+        let hypotenuse = Math.sqrt(size.width*size.width + size.height* size.height);
+        // 20 below is a size of btnDOM.span (icon of theme)
+        const scale = 2 * (hypotenuse - maxCoord) / 20; 
+
+        let nextBackground = ThemesObj.getNextTheme($btn.id())['--h-background']
+
+        $themeAnim.css({
+            'display': 'block',
+            'background': nextBackground,
+            'top': coord.top + 'px', 
+            'left': coord.left + 'px',
+        });
+        setTimeout(() => {
+            $themeAnim.animate({
+                'transform': 'scale('+ scale +')'
+            }, getTransition(speed), () => {
+                ThemesObj.setTheme($btn.id())
+                $themeAnim.animate({
+                    'top': size.height * 0.9 + 'px', 
+                    'left': '100px',
+                }, 0, () => {
+                    $themeAnim.animate({
+                        'top': size.height + 'px', 
+                        'left': '-21px', 
+                        'transform': 'scale(2)', 
+                    }, getTransition(speed), () => {
+                        $themeAnim.css({
+                            'display': 'none'
+                        })
+                    });
+                });
+            });
+        }, 1); 
+    }
+
+
+
     static Light = {
         '--based-color': '#444',
         '--revert-color': '#fff',
@@ -61,118 +155,12 @@ class ThemesObj {
         '--list-linkColor': '#93c3ff', 
         '--list-fontWeight': '100'
     }
-    static DynamicLight = {
-        '--based-color': '#444',
-        '--revert-color': '#fff',
-        '--accent-color': '#8cb9f1', 
-
-        '--main-background' : 'linear-gradient(135deg, #b4dcff 0%,#79c1ff 20%, #46abf5 35%,#1879fb 45%, #4060ff 50%, #1d49ad 60%, #131c6e 70%, #040f46 80%,#000000 90%)',
-        '--main-backgrond-size': '250% 250%',
-        '--globe-background': 'linear-gradient(114deg, #5bacffa1, #0e007e)',
-        '--area-title-background': '#fff7',
-        '--about-background': '#f7f7f7',
-        '--edge-shadow': '0px 1px 14px -7px #777',
-        
-    
-        '--h-background': '#fff',
-        '--controls-border': '1px solid #999',
-        '--controls-disabledcolor': '#585858',
-        '--controls-hoverBackground': '#e4e4e5',
-        '--settings-background': '#d7ddf3c2',
-        '--settings-filter': 'drop-shadow(6px 8px 19px #00000094)',
-        '--settingsBtn-background': '#e3dfdf',
-        '--settingsBtn-border': '1px solid #cfcfcf',
-    
-        '--sd-background': '#fff7',
-        '--placeholder-color': '#444',
-        '--list-background': '#fff',
-        '--list-headerColor': '#000',
-        '--list-linkColor': '#0142b9', 
-        '--list-fontWeight': '900'
-    }
-    static DynamicDark = {
-        '--based-color': '#fffc',
-        '--revert-color': '#444',
-        '--accent-color': '#8cb9f1', 
-        
-        '--main-background': 'linear-gradient(135deg, #b4dcff 0%,#79c1ff 20%, #46abf5 35%,#1879fb 45%, #4060ff 50%, #1d49ad 60%, #131c6e 70%, #040f46 80%,#000000 90%)', 
-        '--main-backgrond-size': '250% 250%',
-        '--globe-background': 'linear-gradient(114deg, #5bacffa1, #0e007e)',
-        '--area-title-background': '#0009',
-        '--about-background': '#232324',
-        '--edge-shadow': '0px 1px 14px -7px #000', 
-    
-        '--h-background': '#2e2e2e', 
-        '--controls-border': '1px solid #676767',
-        '--controls-disabledcolor': '#b9b9b9',
-        '--controls-hoverBackground': '#5c5c5c',
-        '--settings-background': '#82828b94',
-        '--settings-filter': 'drop-shadow(6px 8px 19px #00000073)',
-        '--settingsBtn-background': '#59595f',
-        '--settingsBtn-border': '1px solid #686868',
-
-    
-        '--sd-background': '#0009', 
-        '--placeholder-color': '#ccc',
-        '--list-background': '#00000070',
-        '--list-headerColor': '#fffc',
-        '--list-linkColor': '#93c3ff', 
-        '--list-fontWeight': '100'
-    }
-
-
-
-    static Start(theme) {
-        ThemesObj.setTheme(theme); 
-
-        if (CURRENT_THEME == ThemesObj.Light) 
-            $(`#lightBtn`).addClass('active-btn');
-        else if (CURRENT_THEME == ThemesObj.Dark) 
-            $(`#darkBtn`).addClass('active-btn');
-
-
-        $(`div.header-theme button`).click(function() {
-            if ($(this).hasClass(`active-btn`)) return;
-
-            $(this).parent()
-                .find(`button.active-btn`)
-                .removeClass(`active-btn`);
-            $(this).addClass(`active-btn`);
-            
-
-            ThemesObj.setTheme($(this).attr('id'))
-        });
-    }
-    static setTheme(id) {
-        log(id)
-        log(ObjEquals(id, ThemesObj.Light))
-        log(JSON.stringify(id))
-        log(JSON.stringify(ThemesObj.Light))
-        if (id == 'lightBtn' || ObjEquals(id, ThemesObj.Light)) 
-            CURRENT_THEME = ThemesObj.Light;
-        else if (id == 'darkBtn' || ObjEquals(id, ThemesObj.Light))
-            CURRENT_THEME = ThemesObj.Dark;
-        else 
-            CURRENT_THEME = ThemesObj.Dark; // dynamic
-
-
-            
-        let keys = Object.keys(CURRENT_THEME);
-        let styles =  Object.values(CURRENT_THEME);
-        for (let i = 0; i < keys.length; i++)
-            document
-                .documentElement
-                .style
-                .setProperty(keys[i], styles[i]);
-
-        localStorage.setItem('theme', JSON.stringify(CURRENT_THEME));
-    }
 }
 
 
 class LanguagesObj {
+    static current;
     static CONTENT;
-
     static LANGTYPES = {
         'ru': 0,
         'en': 1,
@@ -211,53 +199,67 @@ class LanguagesObj {
         LanguagesObj.setLang(lang);
         LanguagesObj.TranslatePage();
 
-        if (CURRENT_LANG == LanguagesObj.LANGTYPES.en)
-            $(`#enBtn`).addClass(`active-btn`);
-        else if (CURRENT_LANG == LanguagesObj.LANGTYPES.fr)
-            $(`#frBtn`).addClass(`active-btn`);
-        else if (CURRENT_LANG == LanguagesObj.LANGTYPES.sp)
-            $(`#spBtn`).addClass(`active-btn`);
+        if (LanguagesObj.current == LanguagesObj.LANGTYPES.en)
+            $js(`#enBtn`).addClass(`active-btn`);
+        else if (LanguagesObj.current == LanguagesObj.LANGTYPES.fr)
+            $js(`#frBtn`).addClass(`active-btn`);
+        else if (LanguagesObj.current == LanguagesObj.LANGTYPES.sp)
+            $js(`#spBtn`).addClass(`active-btn`);
         else 
-            $(`#ruBtn`).addClass(`active-btn`);
+            $js(`#ruBtn`).addClass(`active-btn`);
         
         
         
-        $(`div.header-language button`).click(function() {
-            if ($(this).hasClass(`active-btn`)) return;
+        $js(`.header-language button`).onEvent('click', (e) => {
+            if (e.hasClass(`active-btn`)) return;
 
-            $(this).parent()
-                .find(`button.active-btn`)
+            e.parent()
+                .find(`.active-btn`)
                 .removeClass(`active-btn`);
-            $(this).addClass(`active-btn`);
+            e.addClass(`active-btn`);
 
+ 
+            LanguagesObj.setLang(e.id()); 
 
-            AREA_TEXT.text('');
-            LanguagesObj.setLang($(this).attr('id'));
+            // Page.Recreate();
         })
     }
     
 
     static setLang(id) {
         if (id == 'enBtn' || id == LanguagesObj.LANGTYPES.en) {
-            CURRENT_LANG = LanguagesObj.LANGTYPES.en;
+            LanguagesObj.current = LanguagesObj.LANGTYPES.en;
             LanguagesObj.CONTENT = LanguagesObj.TEXT.en;
         }
         else if (id == 'frBtn' || id == LanguagesObj.LANGTYPES.fr) {
-            CURRENT_LANG = LanguagesObj.LANGTYPES.fr;
+            LanguagesObj.current = LanguagesObj.LANGTYPES.fr;
             LanguagesObj.CONTENT = LanguagesObj.TEXT.fr;
         }
         else if (id == 'spBtn' || id == LanguagesObj.LANGTYPES.sp) {
-            CURRENT_LANG = LanguagesObj.LANGTYPES.sp;
+            LanguagesObj.current = LanguagesObj.LANGTYPES.sp;
             LanguagesObj.CONTENT = LanguagesObj.TEXT.sp;
         }
-        else {
-            CURRENT_LANG = LanguagesObj.LANGTYPES.ru;
+        else { 
+            LanguagesObj.current = LanguagesObj.LANGTYPES.ru;
             LanguagesObj.CONTENT = LanguagesObj.TEXT.ru;
         }
 
-        localStorage.setItem('lang', JSON.stringify(CURRENT_LANG))
+        localStorage.setItem('lang', JSON.stringify(LanguagesObj.current))
     }
     static TranslatePage() { 
-
+        // $js(`#countryBtn`).text(LanguagesObj.CONTENT[0]);
+        // $js(`#regionBtn`).text(LanguagesObj.CONTENT[1]);
+        // $js(`#mobileScroll`).text(LanguagesObj.CONTENT[2][GLOBE_ACTIVE ? 1 : 0])
+        // $js(`#searchInput`).attr('placeholder', LanguagesObj.CONTENT[3])
+    }
+    static TranslateObj(obj) {
+        if (LanguagesObj.current == LanguagesObj.LANGTYPES.en)
+            return obj.en;
+        else if (LanguagesObj.current == LanguagesObj.LANGTYPES.fr)
+            return obj.fr;
+        else if (LanguagesObj.current == LanguagesObj.LANGTYPES.sp)
+            return obj.sp;
+        else 
+            return obj.ru;
     }
 }

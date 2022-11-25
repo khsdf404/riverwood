@@ -23,13 +23,51 @@ body {
 
 main {
     display: flex;
-    flex-direction: row; 
-    justify-content: center;
+    flex-direction: column; 
+    justify-content: flex-start;
     align-items: center;
     background: var(--main-background);
     color: var(--based-color);
     flex: 1;
     overflow: hidden;
+}
+
+
+
+main article {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    width: 80%;
+    height: 100%;
+
+    transition: 1s transform ease-in-out;
+}
+
+
+
+
+#scrollNav {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    position: absolute;
+    height: 100%;
+    right: 10px;
+}
+#scrollNav span {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    margin: 4px 0;
+
+    background: var(--based-color);
+}
+#scrollNav span.active {
+    background: var(--accent-color);
 }
 
 
