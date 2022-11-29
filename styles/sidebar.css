@@ -20,28 +20,37 @@ aside {
 } 
 aside > * {
     margin: 0 10% 0 15%;
+    width: 75%;
+}
+
+
+section.list-wrap {
+    height: 100%; 
+    overflow-x: hidden;
+    position: relative;
+}
+section.list-wrap::-webkit-scrollbar {
+    width: 2px; 
+}
+section.list-wrap::-webkit-scrollbar-thumb { 
+    background: var(--based-color); 
 }
 
 
 
 
-
-
 aside ul {
-    position: relative;
+    position: absolute;
     width: -webkit-fill-available; 
     
     padding: 0;  
     padding-right: 4px;
 
     list-style: none;
+
+
+    /* transform: translateX(-100%); */
     overflow: auto;
-}
-aside ul::-webkit-scrollbar {
-    width: 2px; 
-}
-aside ul::-webkit-scrollbar-thumb { 
-    background: var(--based-color); 
 }
 aside ul > li { 
     margin: 4px 0; 
@@ -58,7 +67,6 @@ aside ul > li:last-child {
 aside ul a:active {
     color: var(--accent-color);
 }
-
 
 
 ul#areaList h6 {
@@ -86,16 +94,8 @@ ul#areaList div {
     justify-content: flex-start;
     align-items: flex-start;
 
-    max-height: 0;
-
-    margin: 0px 37px 0 25px;
-    
-    overflow: hidden;
-    transition: max-height .6s;
-}
-ul#areaList li.sidebar-active-item div {
-    transition: max-height .6s;
-}
+    margin: 0px 37px 0 25px; 
+} 
 ul#areaList span.arealist-href-icon,
 ul#areaList li.sidebar-active-item span.arealist-amount {
     display: none;
@@ -145,9 +145,12 @@ ul#areaList a ins {
 
 
 
+
+
+
 ul#riverList {
-    display: none; 
-}  
+    display: none;
+}
 ul#riverList a, ul#riverList ins {
     color: var(--list-linkColor);
     font-size: 22px;
@@ -168,16 +171,18 @@ ul#riverList mark {
 
 
 
-div.sidebar-input-wrapper {
+
+
+
+
+
+section.sidebar-input-wrapper {
     position: relative;
     display: flex;
     justify-content: flex-start;
     align-items: center;
 
-    width: -webkit-fill-available;
-
-    margin-bottom: 30px;
-    
+    margin-bottom: 30px;    
     border-bottom: 2px solid var(--based-color);
 }
 #searchInput {
@@ -197,8 +202,6 @@ div.sidebar-input-wrapper {
     border: none;
     overflow: hidden;
 }
-
-
 #searchInput::-webkit-input-placeholder {
     color:var(--placeholder-color);
     font-family: var(--addFont);
@@ -224,6 +227,8 @@ span.input-btn {
     font-size: 20px;
     font-family: 'Neris';
     font-weight: var(--list-fontWeight);
+    
+    opacity: 0;
 } 
 span.input-btn:last-child {
     height: 21px;

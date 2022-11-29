@@ -3,7 +3,6 @@
     --slogan-fs: 20px;
     --about-big-fs: 30px;
     --about-small-fs: 26px;
-
 }
 
 
@@ -11,7 +10,7 @@
     position: fixed;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
+    justify-content: flex-start;
     align-items: flex-start;
     width: 100%;
     height: 100%;
@@ -20,7 +19,10 @@
     background: var(--about-background);
 
     opacity: 0;
-    left: -100%;
+    transform: translateX(100%);
+    transition: 0s all;
+
+    overflow: auto;
     z-index: 100;
 }
 
@@ -32,7 +34,7 @@
     position: absolute;
 
     top: 20px;
-    left: 20px;
+    right: 20px;
 
     background: var(--based-color);
 }
@@ -55,7 +57,7 @@
     width: var(--title-fs);
 
     top: 25px;
-    left: 25px;
+    right: 25px;
 
     color: var(--based-color);
     font-family: none;
@@ -99,8 +101,8 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
-    flex: 2;
+    margin-top: auto;
+    margin-bottom: auto;
     color: var(--based-color)
 }
 .about-project-name {
@@ -135,9 +137,7 @@
     flex-direction: column;
     justify-content: flex-end;
     align-items: flex-start;
-
-    flex: 1; 
-
+    margin-top: auto;
     color: var(--based-color);
 }
 section.about-info ul {
@@ -187,7 +187,7 @@ section.about-info ul > li:last-child {
     width: 400px;
     max-width: 400px;
      
-    margin-bottom: max(5%, 35px);
+    margin-bottom: auto;
 }
 
 

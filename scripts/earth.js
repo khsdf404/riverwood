@@ -3,7 +3,7 @@ const starsAmount =         150
 const scaleFactor =         1
 const rotationDelay =       5000 // * 1000
 const rotationDirection =   -1
-const degPerSec =           5
+const degPerSec =           3
 const angles =              { x: 50, y: -20, z: 0 }
 const colorLand =           '#309d60'   //'#F19BFE'
 const colorActive =         '#00000099'          //'#F6C1BC'
@@ -27,6 +27,11 @@ var canvas =        d3.select('#globe')
 var context =       canvas.node().getContext('2d');
 var projection =    d3.geoOrthographic().precision(0.1); 
 var path =          d3.geoPath(projection).context(context);
+// DOM elements
+const $globeWrap =      $js(`#globeWrap`);
+const $canvas =         $globeWrap.find(`#globe`);
+const $areaName =       $globeWrap.find(`#areaText`);
+const $stars =          $globeWrap.find(`#stars`); 
 
 
 const EarthReady = () => {
@@ -128,14 +133,14 @@ function setStars() {
     const CreateStar = () => {
         let coord = getStarCoord();
 
-        $stars.append(`
+        return `
             <span style="
                     left: ${coord[0]}px; 
                     top: ${coord[1]}px;
                     animation: StarsBlinking ${randInt(3, 12)}s linear infinite
             ">
             </span>
-        `)
+        `
     }
     let childPos = $canvas.rect();
     let parentPos = $globeWrap.rect();
@@ -146,9 +151,11 @@ function setStars() {
         canvasPos.height = childPos.height;
         canvasPos.width = childPos.width;
     
+    let starsHTML = '';
     for (let i = 0; i < starsAmount; i++) {
-        CreateStar();
+        starsHTML += CreateStar();
     }
+    $stars.ihtml(starsHTML)
 }
 function setName(name = '') {
     $areaName.text(name);
@@ -312,7 +319,6 @@ class D3 {
         $stars.removeClass();
     }
 }
-
 
 
 class D3_CLICK {

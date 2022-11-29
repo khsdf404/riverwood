@@ -36,12 +36,10 @@ section.header-logo {
     min-width: 310px;
     margin-left: 10px; 
 }
-section.header-logo img {
-    height: 40px;
+section.header-logo svg { 
     margin-right: 10px;
     padding: 4px;
-
-    /* background: var(--accent-color); */
+ 
     transform: scale(1.4) translate(-3px, 1px);
     border-radius: 100%;
 }
@@ -52,13 +50,7 @@ section.header-logo h1 {
     letter-spacing: 9px;
 
     transition: .35s color;
-}
-section.header-logo h1 mark { 
-    position: relative; 
-    color: #93a6ff;
-    cursor: pointer; 
 } 
-
 
 
 
@@ -76,9 +68,10 @@ section.header-settings {
     flex: 1;
     padding: 0 2%;
 } 
-div.header-controls, 
+div.header-language, 
+div.header-choosetype, 
 div.header-theme,
-div.header-mobile-scroll {
+div.header-other {
     position: relative;
     display: flex;
     justify-content: flex-start;
@@ -98,15 +91,13 @@ div.header-mobile-scroll {
 div.header-theme {
     margin-left: auto;
 }
-div.header-mobile-scroll {
-    display: none;
-}
 
 
 
-div.header-controls button,
+div.header-language button, 
+div.header-choosetype button, 
 div.header-theme button,
-div.header-mobile-scroll button {
+div.header-other button {
     position: relative; 
     display: flex;
     justify-content: center;
@@ -117,26 +108,62 @@ div.header-mobile-scroll button {
     padding: 0;
     margin: 0;
     border: 0;
-    background: none; 
+    background: var(--h-background); 
     
     color: var(--based-color);
     font-size: 20px; 
     font-weight: 100;
     font-family: var(--addFont);
     letter-spacing: .8px; 
-    line-height: 1; 
-     
-    transition: .45s all;
+    line-height: 1;
 } 
-div.header-controls button:not(.active-btn):hover,
-div.header-theme button:not(.active-btn):hover {
+div.header-other button span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: scale(0.8);
+}
+
+div.header-language button::before, 
+div.header-choosetype button::before, 
+div.header-theme button::before,
+div.header-other button::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: var(--accent-color);
+    z-index: -1;
+    opacity: 0;
+    
+    transition: .45s all;
+}
+
+
+
+div.header-language button:not(.active-btn):hover,
+div.header-choosetype button:not(.active-btn):hover,
+div.header-theme button:not(.active-btn):hover,
+div.header-other button:not(.active-btn):hover {
     cursor: pointer;
     background: var(--controls-hoverBackground); 
-} 
-div.header-controls button.active-btn {
-    background: var(--accent-color);
-    color: #000;
-}  
+}
+
+
+div.header-language button.active-btn, 
+div.header-choosetype button.active-btn {
+    color: #444;
+    font-weight: 900;
+    background: none;
+}
+div.header-language button.active-btn::before, 
+div.header-choosetype button.active-btn::before {
+    opacity: 1;
+}
+
+
 
 
 
@@ -144,14 +171,16 @@ div.header-language button {
     width: calc( var(--btnOneWidth) * (10/4)  );
     font-size: 18px;
 }
-div.header-choosetype button { 
+div.header-theme button { 
     width: calc( var(--btnOneWidth) * (10/2) );
 }
-div.header-theme button { 
-    width: calc( var(--btnOneWidth) * (12/3) );
+div.header-other button#scrollBtn {
+    display: none;
+    width: calc( var(--btnOneWidth) * (3 * 10/4) );
 }
-div.header-mobile-scroll button {
-    width: calc( var(--btnOneWidth) * (10/1) );
+div.header-other button#aboutBtn {
+    width: calc( var(--btnOneWidth) * (11/5) );
+    font-size: 24px;
 }
 
  
@@ -182,13 +211,22 @@ div.header-language button.active-btn::after {
     background-color: var(--h-background);
     opacity: 1;
 }
+div.header-other button#scrollBtn::after {
+    content: '';
+    position: absolute;
+    height: 60%;
+    width: 1px;
 
+    right: 0px; 
 
-
-
-div.header-controls button.active-btn {
-    font-weight: 900; 
+    background-color: var(--based-color);
+    opacity: .5;
 }
+
+
+
+
+
 
 
 div.header-theme span {
@@ -249,3 +287,5 @@ div#themeAnimation {
 
     z-index: 3; 
 }
+
+

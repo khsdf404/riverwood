@@ -17,13 +17,11 @@ return /Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows P
 
 
 const Header = () => { 
-    
     LanguagesObj.Start(START_LANG); 
     ThemesObj.Start(START_THEME); 
     
 
-    if (isPhone()) {
-        const scrollSpeed = 500; 
+    if (isPhone()) { 
         const HideSettings = () => {
             if (SETTINGS_ACTIVE) {
                 SETTINGS_ACTIVE = false; 
@@ -47,23 +45,20 @@ const Header = () => {
         $js(`main`).onClick(() => {
             HideSettings();
         });
-    }
-     
+    }    
 }
 
 
-
-
-
-(function onReady() {
-    let allower = true;
+const InfiniteScroll = () => {
+    let scrollAllowed = true;
     let prevDelta = 0;
     const $main = $js(`main`)
     const $views = $js(`main article`);
+    const $viewsList = $views.toJSF(); 
     const $navs = $js(`#scrollNav span`);
     const $navsList = $navs.toJSF(); 
-    let currentIndex = 0; 
-
+    let currentIndex = 0;
+    let timer;
 
 
     function scrollNext(index = null) {
@@ -74,12 +69,12 @@ const Header = () => {
         $navsList.get(index).addClass(`active`)
 
         for(let i = currentIndex; i < index; i++) {
-            $views.find(i).css({
+            $viewsList.get(i).css({
                 'transform': `translateY(-${(i + 1) * 100}%)`
             });
         }
         currentIndex = index;
-        $views.find(currentIndex).css({
+        $viewsList.get(currentIndex).css({
             'transform': `translateY(${currentIndex * -1 * 100}%)`
         });
     }
@@ -92,56 +87,45 @@ const Header = () => {
 
 
         for(let i = currentIndex; i > index; i--) {
-            $views.find(i).css({
+            $viewsList.get(i).css({
                 'transform': `translateY(0%)`
             });
         }
         currentIndex = index;
-        $views.find(currentIndex).css({
+        $viewsList.get(currentIndex).css({
             'transform': `translateY(${currentIndex * -1 * 100}%)`
-        });
-        log(index)
-    } 
-
-
-
-
-
-    
-
-    let timer;
+        }); 
+    }
     $main.onEvent('mousewheel', (el, e) => {
-        if (!allower && Math.abs(e.deltaY) > prevDelta)
+        if (!scrollAllowed && Math.abs(e.deltaY) > prevDelta)
             prevDelta = Math.abs(e.deltaY);
         if (Math.abs(e.deltaY) == 0) prevDelta = 0;
-        if (allower && Math.abs(e.deltaY) > prevDelta) {
+        if (scrollAllowed && Math.abs(e.deltaY) > prevDelta) {
             prevDelta = Math.abs(e.deltaY);
-            allower = false; 
+            scrollAllowed = false; 
             e.deltaY >= 0 ? scrollNext() : scrollPrev()
             clearTimeout(timer)
             timer = setTimeout(() => { 
-                allower = true;
+                scrollAllowed = true;
             }, 1000);
         }
     });
 
 
-
-    log($navs)
     $navs.onClick((el, e, i) => {
         if (el.hasClass(`active`)) return;
-        // log(`moving from ${currentIndex} to ${i}`)
         if (i > currentIndex) scrollNext(i);
         else scrollPrev(i);
     })
+}
 
 
-
-
+(function onReady() { 
     let areaStr = localStorage.getItem('areaName');  
     $js(`#introduction h2`).text(`${areaStr} in development...`);
     $js(`.header-logo a`).onClick(() => {
         localStorage.removeItem('areaName');
     })
     Header();
+    InfiniteScroll()
 })()

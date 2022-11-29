@@ -1,20 +1,33 @@
+const START_THEME =     JSON.parse(localStorage.getItem('theme'))
+const START_LANG =      JSON.parse(localStorage.getItem('lang'))
+const START_AREA =      JSON.parse(localStorage.getItem('area'))
+
+
+
+function ObjEquals(obj1, obj2) {
+    return JSON.stringify(obj1) == JSON.stringify(obj2)
+}
+
 class ThemesObj {
     static current;
     static isDynamic;
+    static $themeAnim = $js(`#themeAnimation`); 
 
-    static Start(theme) {
-        ThemesObj.setTheme(theme); 
+    static Start() {
+        ThemesObj.setTheme(); 
 
 
-        if (ThemesObj.current == ThemesObj.Light) 
-            $js(`#lightBtn`).addClass('active-btn');
-        else if (ThemesObj.current == ThemesObj.Dark)
+        if (ObjEquals(ThemesObj.current, ThemesObj.Light)) 
+            $js(`#lightBtn`).addClass('active-btn')
+        else if (ObjEquals(ThemesObj.current, ThemesObj.Dark))
             $js(`#darkBtn`).addClass('active-btn');
         else 
-            $js(`#dynamicBtn`).addClass('active-btn'); 
+            $js(`#dynamicBtn`).addClass('active-btn') 
 
 
-        $js(`.header-theme button`).onEvent('click', (e) => {
+        $js(`.header-theme button`).onEvent('click', (e) => { 
+            log(e)
+            log('bebroid    ')
             if (e.hasClass(`active-btn`)) return;
             
             e.parent()
@@ -27,6 +40,7 @@ class ThemesObj {
         });
     }
     static getNextTheme = (id) => {
+        if (!id) return ThemesObj.Default;
         if (id == 'lightBtn' || ObjEquals(id, ThemesObj.Light)) 
             return ThemesObj.Light;
         else if (id == 'darkBtn' || ObjEquals(id, ThemesObj.Dark))
@@ -43,8 +57,8 @@ class ThemesObj {
 
 
 
-    static setTheme(id) {
-        ThemesObj.current = ThemesObj.getNextTheme(id);
+    static setTheme(id = null) {
+        ThemesObj.current = ThemesObj.getNextTheme(id || START_THEME)
 
         let keys = Object.keys(ThemesObj.current);
         let styles =  Object.values(ThemesObj.current);
@@ -76,27 +90,27 @@ class ThemesObj {
 
         let nextBackground = ThemesObj.getNextTheme($btn.id())['--h-background']
 
-        $themeAnim.css({
+        ThemesObj.$themeAnim.css({
             'display': 'block',
             'background': nextBackground,
             'top': coord.top + 'px', 
             'left': coord.left + 'px',
         });
         setTimeout(() => {
-            $themeAnim.animate({
+            ThemesObj.$themeAnim.animate({
                 'transform': 'scale('+ scale +')'
             }, getTransition(speed), () => {
                 ThemesObj.setTheme($btn.id())
-                $themeAnim.animate({
+                ThemesObj.$themeAnim.animate({
                     'top': size.height * 0.9 + 'px', 
                     'left': '100px',
                 }, 0, () => {
-                    $themeAnim.animate({
+                    ThemesObj.$themeAnim.animate({
                         'top': size.height + 'px', 
                         'left': '-21px', 
                         'transform': 'scale(2)', 
                     }, getTransition(speed), () => {
-                        $themeAnim.css({
+                        ThemesObj.$themeAnim.css({
                             'display': 'none'
                         })
                     });
@@ -222,18 +236,19 @@ class ThemesObj {
         '--list-headerColor': '#fffc',
         '--list-linkColor': '#93c3ff', 
         '--list-fontWeight': '100'
-    }
+    } 
+    static Default = ThemesObj.Light;
 }
-
+ThemesObj.Start()
 
 class LanguagesObj {
     static current;
     static CONTENT;
     static LANGTYPES = {
-        'ru': 0,
-        'en': 1,
-        'fr': 2,
-        'sp': 3
+        'ru': 'ru',
+        'en': 'en',
+        'fr': 'fr',
+        'sp': 'sp'
     };
     static TEXT = {
         'ru': [
@@ -263,8 +278,9 @@ class LanguagesObj {
     }
 
 
-    static Start(lang) {
-        LanguagesObj.setLang(lang);
+
+    static Start() {
+        LanguagesObj.setLang();
         LanguagesObj.TranslatePage();
 
         if (LanguagesObj.current == LanguagesObj.LANGTYPES.en)
@@ -287,19 +303,20 @@ class LanguagesObj {
             e.addClass(`active-btn`);
 
 
-            $areaName.text('');
             LanguagesObj.setLang(e.id());
+            LanguagesObj.TranslatePage(true);
             AreaObj.setNames();
 
-            Page.Recreate();
+            AsideObj.Recreate();
         })
     }
     
 
-    static setLang(id) {
-        if (id == 'enBtn' || id == LanguagesObj.LANGTYPES.en) {
-            LanguagesObj.current = LanguagesObj.LANGTYPES.en;
-            LanguagesObj.CONTENT = LanguagesObj.TEXT.en;
+    static setLang(id = null) {
+        id = id || START_LANG;
+        if (id == 'ruBtn' || id == LanguagesObj.LANGTYPES.ru) {
+            LanguagesObj.current = LanguagesObj.LANGTYPES.ru;
+            LanguagesObj.CONTENT = LanguagesObj.TEXT.ru;
         }
         else if (id == 'frBtn' || id == LanguagesObj.LANGTYPES.fr) {
             LanguagesObj.current = LanguagesObj.LANGTYPES.fr;
@@ -310,16 +327,16 @@ class LanguagesObj {
             LanguagesObj.CONTENT = LanguagesObj.TEXT.sp;
         }
         else { 
-            LanguagesObj.current = LanguagesObj.LANGTYPES.ru;
-            LanguagesObj.CONTENT = LanguagesObj.TEXT.ru;
+            LanguagesObj.current = LanguagesObj.LANGTYPES.en;
+            LanguagesObj.CONTENT = LanguagesObj.TEXT.en;
         }
 
         localStorage.setItem('lang', JSON.stringify(LanguagesObj.current))
     }
-    static TranslatePage() { 
+    static TranslatePage(GLOBE_ACTIVE) { 
         $js(`#countryBtn`).text(LanguagesObj.CONTENT[0]);
         $js(`#regionBtn`).text(LanguagesObj.CONTENT[1]);
-        $js(`#mobileScroll`).text(LanguagesObj.CONTENT[2][GLOBE_ACTIVE ? 1 : 0])
+        $js(`#scrollBtn`).text(LanguagesObj.CONTENT[2][GLOBE_ACTIVE ? 1 : 0])
         $js(`#searchInput`).attr('placeholder', LanguagesObj.CONTENT[3])
     }
     static TranslateObj(obj) {
@@ -333,14 +350,14 @@ class LanguagesObj {
             return obj.ru;
     }
 }
-
+LanguagesObj.Start()
 
 class AreaObj {
     static current;
     static currentList;
 
-    static Start(area) {
-        AreaObj.current = area; 
+    static Start() {
+        AreaObj.setArea();
         AreaObj.setNames();
 
         if (AreaObj.isRegion())
@@ -356,25 +373,27 @@ class AreaObj {
                 .find(`.active-btn`)
                 .removeClass(`active-btn`);
             e.addClass(`active-btn`);
+ 
 
-
-            $areaName.text(''); 
-            AreaObj.setArea();
+            AreaObj.setArea(e.id());
             AreaObj.setNames();
             D3.RenderGlobe();
 
-            Page.Recreate();
+            AsideObj.Recreate();
         })
     }
 
     static isRegion() { 
         return AreaObj.current == AreaObj.AREATYPES.region;
     }
-    static setArea() {
-        AreaObj.current = AreaObj.current == AreaObj.AREATYPES.region ?
-            AreaObj.AREATYPES.country :
-            AreaObj.AREATYPES.region;
-        
+    static setArea(id = null) {
+        id = id || START_AREA;
+        if (id == 'regionBtn' || ObjEquals(id, AreaObj.AREATYPES.region)) {
+            AreaObj.current = AreaObj.AREATYPES.region;
+        }
+        else {
+            AreaObj.current = AreaObj.AREATYPES.country
+        }
         localStorage.setItem('area', JSON.stringify(AreaObj.current));
     }
     static setNames() {
@@ -390,15 +409,12 @@ class AreaObj {
             })
             AreaObj.currentList = AreaObj.COUNTRIES.sort((a, b) => a.name < b.name ? -1 : 1);
         }
-    } 
-
-
-
+    }  
 
 
     static AREATYPES = {
-        'country': 0,
-        'region': 1
+        'country': 'country',
+        'region': 'region'
     };
     static COUNTRIES = [
         {'id': '12', 'en': 'Algeria', 'ru': 'Алжир'},
@@ -602,17 +618,7 @@ class AreaObj {
         {'id': '598', 'en': 'Papua New Guinea', 'ru': 'Папуа – Новая Гвинея'}, 
         {'id': '630', 'en': 'Puerto Rico', 'ru': 'Пуэрто-Рико'},
         {'id': '780', 'en': 'Trinidad and Tobago', 'ru': 'Тринидад и Тобаго'},   
-        ].map(country => {
-                country.name = LanguagesObj.TranslateObj(country);
-                country.rivers = RIVERS__RU
-                            .filter(river => {
-                                if (river.location.indexOf(country.ru) > -1)
-                                    return river.name;
-                            })
-                            .sort((a, b) => { return a.name < b.name ? -1 : 1 });
-                return country;
-            }
-        ).sort((a, b) => a.name < b.name ? -1 : 1);
+    ]
     static REGIONS = [
         {
             'obj': [
@@ -853,23 +859,8 @@ class AreaObj {
             'ru': 'Океания и острова',
             'en': 'Oceania and Islands'
         }
-        ].map(reg => {
-                reg.name = LanguagesObj.TranslateObj(reg);
-                reg.rivers = [];
-                reg.obj.forEach(country => {
-                    country.name = LanguagesObj.TranslateObj(country);
-                    country.rivers = RIVERS__RU
-                            .filter(river => {
-                                if (river.location.indexOf(country.ru) > -1)
-                                    return river.name;
-                            })
-                            .sort((a, b) => { return a.name < b.name ? -1 : 1 });
-                    reg.rivers = reg.rivers.concat(...country.rivers);
-                });
-                reg.rivers = reg.rivers.filter((el, id) => reg.rivers.indexOf(el) === id);
-                return reg;
-            }
-        ).sort((a, b) => a.name < b.name ? -1 : 1);
+    ]
 }
+AreaObj.Start()
 
- 
+

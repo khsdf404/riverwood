@@ -16,23 +16,29 @@
         width: calc( var(--btnOneWidth) * (10/4 * 14/16)  );
     }
     div.header-choosetype button { 
-        width: calc( var(--btnOneWidth) * (10/2 ) );
+        width: calc( var(--btnOneWidth) * (10/2 * 14/16) );
     }
     div.header-theme button { 
-        width: calc( var(--btnOneWidth) * (10/3 * 7/8) );
+        width: calc( var(--btnOneWidth) * (10/3 * 14/16) );
     }
 
 
 
 
-
+    :root {
+        --title-fs: 44px;
+        --slogan-fs: 20px;
+        --about-big-fs: 28px;
+        --about-small-fs: 24px;
+    }
+    
     #aboutWrap > section { 
         margin-left: 15%;
         margin-right: 15%;
     }
 }
 
-@media (max-width: 750px) {
+@media (max-width: 768px) {
     header {
         min-height: 65px;
     }
@@ -98,7 +104,8 @@
         align-items: flex-start;
         
         top: 46px;
-        right: -250px;
+        right: 10px;
+        transform: translateX(260px);
 
         width: auto;
         min-width: 0;
@@ -110,35 +117,29 @@
         border-radius: 4px;
         color: #fff;
 
-        overflow: hidden; 
+        overflow: hidden;
         z-index: 10; 
-    } 
-    div.header-controls,
+    }
+    div.header-language,
+    div.header-choosetype,
     div.header-theme,
-    div.header-mobile-scroll {
+    div.header-other {
         margin: 2px 0;
         border: none;
     } 
-    div.header-mobile-scroll {
-        display: flex;
+    div.header-other {
         margin-top: 20px;
     }
+    div.header-other button#scrollBtn  {
+        display: flex;
+    }
+    div.header-other button#aboutBtn {
+        width: calc( var(--btnOneWidth) * (10/4) );
+    }
+    
     
 
 
-    div.header-controls button, div.header-theme button {
-        background-color: var(--h-background); 
-        color: var(--controls-disabledcolor);
-        font-size: 20px;
-    }
-    div.header-mobile-scroll button {
-        background-color: var(--h-background); 
-        color: var(--based-color);
-        font-size: 20px;
-        font-weight: 900;
-        letter-spacing: 1px;
-    }
-    
 
 
     div.header-language button { 
@@ -166,6 +167,12 @@
     main {
         flex-direction: column;
     }
+    main > * {
+        transform: translateY(-100%);
+        transition: .5s all;
+    } 
+
+    
     aside {
         width: 100%;
         max-width: 100%;
@@ -189,23 +196,26 @@
 
 
     :root {
-        --title-fs: 44px;
+        --title-fs: 40px;
         --slogan-fs: 18px;
-        --about-big-fs: 28px;
-        --about-small-fs: 24px;
+        --about-big-fs: 26px;
+        --about-small-fs: 22px;
     }
     #aboutWrap > section { 
         margin-left: 5%;
         margin-right: 5%;
         width: 90%;
     } 
-     #aboutWrap section.contactsWrap {
-        min-width: 0;
-        margin-top: 8%;
+    #aboutWrap section.contactsWrap {
+        min-width: 0; 
         transform: translate(-44px);
         width: calc(90% - 44px);
-     }
-     #vkLink:hover {
+        margin-bottom: 0;
+    }
+    #aboutWrap .about-project-name {
+        font-size: 36px;
+    }
+    #vkLink:hover {
         color: var(--based-color);  
     } 
     #tgLink:hover {
@@ -220,11 +230,11 @@
     #aboutWrap::before,
     #aboutWrap::after {
         top: 5px;
-        left: 5px;
+        right: 5px;
     }
     #aboutClose {
         top: 10px;
-        left: 10px;
+        right: 10px;
     }
 
     
@@ -234,12 +244,7 @@
 
 
 @media (max-width: 600px) {
-    :root {
-        --title-fs: 40px;
-        --slogan-fs: 16px;
-        --about-big-fs: 24px;
-        --about-small-fs: 22px;
-    }
+    
 
 
 
@@ -292,13 +297,35 @@
 
 
 
-    #aboutWrap section.contactsWrap {
-       max-width: 600px;
-     }
-     .about-info .about-title {
+    :root {
+        --title-fs: 36px;
+        --slogan-fs: 16px;
+        --about-big-fs: 22px;
+        --about-small-fs: 20px;
+    }
+    #aboutWrap section.contactsWrap { 
+        margin-top: 0;
+        transform: none;
         width: 90%;
-     }
-    
+    }
+    #aboutWrap .contacts {
+        flex-direction: column-reverse; 
+        border-right: 3px solid var(--based-color);
+        padding: 0 10px;
+        margin: 0;
+        width: 90%;
+    }
+    #aboutWrap form {
+        padding: 0;
+        border: none;
+    }
+    #aboutWrap .contacts-links {
+        flex-direction: row;
+        justify-content: end;
+    }
+    #aboutWrap .contacts-links a {
+        margin: 0 2px;
+        padding: 4px;
+    }
 
-    
 }
