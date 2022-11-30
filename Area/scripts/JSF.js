@@ -245,6 +245,14 @@ class JSFeatures {
  
     index(obj) {
         if (!this.e || !this.size()) return -1;
+        if (!obj) {
+            if (!this.e || !this.size()) return -1;
+            let parentChilds = this.get().parentElement.children;
+            for (let i = 0; i < parentChilds.length; i++) 
+                if (parentChilds[i] == this.get())
+                    return i;
+            return -1;
+        }
         if (typeof(obj) == 'string') obj = this.find(obj).get();
         else if (obj.e) obj = obj.get()
         for (let i = 0; i < this.size(); i++) 
@@ -306,7 +314,7 @@ class JSFeatures {
     parent(str = null) {
         if (!this.e || !this.size()) return this.#Exeption('Object is empty');
         if (!str) return new JSFeatures([this.get().parentNode]);        
-        return new JSFeatures([this.get().closest(str)]);
+        return new JSFeatures([this.get().parentElement.closest(str)]);
     }
     
 

@@ -24,7 +24,7 @@
     background-image: url('../src/river2.jpg');
 }
 #significant section div.significant-background:nth-child(3) {
-    background-image: url('../src/river3.jpeg');
+    background-image: url('../src/river3.jpg');
 }
 #significant section div.significant-background::before {
     content: '';

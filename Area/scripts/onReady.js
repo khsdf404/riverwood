@@ -1,3 +1,4 @@
+let areaItem; 
 const isPhone = () => {
     return /Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)
 }
@@ -117,77 +118,71 @@ const InfiniteScroll = () => {
 }
 
 
-function TopByLength(areaItem) {
-    let arr = [];
-    for (let i = 0; i < areaItem.rivers.length; i++) {
-        let river = areaItem.rivers[i];
-        if (arr.length < 3) arr.push(river)
-        else {
-            let first = parseInt(arr[0].length.replace(/\s+/, ''));
-            let second = parseInt(arr[1].length.replace(/\s+/, ''));
-            let third = parseInt(arr[2].length.replace(/\s+/, ''));
-            let current = parseInt(river.length.replace(/\s+/, ''))
-            if (current > first) arr[0] = river
-            else if (current > second) arr[1] = river
-            else if (current > third) arr[2] = river
+
+const Significant = () => {
+    function TopByLength(areaItem) {
+        let arr = [];
+        for (let i = 0; i < areaItem.rivers.length; i++) {
+            let river = areaItem.rivers[i];
+            if (arr.length < 3) arr.push(river)
+            else {
+                let first = parseInt(arr[0].length.replace(/\s+/, ''));
+                let second = parseInt(arr[1].length.replace(/\s+/, ''));
+                let third = parseInt(arr[2].length.replace(/\s+/, ''));
+                let current = parseInt(river.length.replace(/\s+/, ''))
+                if (current > first) arr[0] = river
+                else if (current > second) arr[1] = river
+                else if (current > third) arr[2] = river
+            }
+        }
+        return arr;
+    }
+    function HidingText(topRivers) {
+        let rect = $js(`#significant section p`).rect();
+        let step = (Math.log(rect.width) * Math.log(rect.width) * rect.width / rect.height) * 1.5;
+        log(rect.width)
+        log(rect.height)
+        log(step)
+        for(let i = 0; i < topRivers.length; i++) {
+            let opacity = 1;
+            let html = '';
+            let words = topRivers[i].info.split(' ');
+            for(let j = 0; j < step; j++) {
+                html += `<span style="opacity:${opacity}">${words[j]} </span>`;
+                opacity -= 1/step;
+            }
+            $js(`#significant section p`).find(i).ihtml(html);
         }
     }
-    return arr;
-}
-function HidingText(topLength) {
-    let rect = $js(`#significant section p`).rect();
-    let step = (Math.log(rect.width) * Math.log(rect.width) * rect.width / rect.height) * 1.5;
-    log(rect.width)
-    log(rect.height)
-    log(step)
-    for(let i = 0; i < topLength.length; i++) {
-        let opacity = 1;
-        let html = '';
-        let words = topLength[i].info.split(' ');
-        for(let j = 0; j < step; j++) {
-            html += `<span style="opacity:${opacity}">${words[j]} </span>`;
-            opacity -= 1/step;
-        }
-        $js(`#significant section p`).find(i).ihtml(html);
+    let topRivers = TopByLength(areaItem); 
+    $js(`#significant section h3`).find(0).text(topRivers[0].name);
+    $js(`#significant section h3`).find(1).text(topRivers[1].name);
+    $js(`#significant section h3`).find(2).text(topRivers[2].name);
+
+
+    if (!isPhone() && !window.innerWidth < 768)
+        HidingText(topRivers) 
+    window.onresize = () => {
+        HidingText(topRivers)
     }
+
+    $js(`#significant section button`).onClick((e) => {
+        let index = e.parent('div').parent(`div`).index()
+        window.location.href = topRivers[index].link;
+    })
+    
 }
+
 
 
 
 
 document.addEventListener("DOMContentLoaded", () => { 
-    
-    let areaItem =  JSON.parse(localStorage.getItem('areaItem'));
+    areaItem =  JSON.parse(localStorage.getItem('areaItem'));
 
     $js(`#introduction h2`).text(`${areaItem.name} in development...`);
 
-
-    let topLength = TopByLength(areaItem); 
-    $js(`#significant section h3`).find(0).text(topLength[0].name);
-    $js(`#significant section h3`).find(1).text(topLength[1].name);
-    $js(`#significant section h3`).find(2).text(topLength[2].name);
-
-
-    
-
-
-
-    if (!isPhone() &&  !window.innerWidth < 768) { 
-        HidingText(topLength)
-    }
-    window.onresize = () => {
-        HidingText(topLength)
-    }
-
-
-
-
-
-
-
-
-
-
+    Significant();
 
     Phone();
     InfiniteScroll()

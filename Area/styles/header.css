@@ -123,6 +123,14 @@ div.header-other button span {
     align-items: center;
     transform: scale(0.8);
 }
+div.header-other button a {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 10;
+}
 
 div.header-language button::before, 
 div.header-choosetype button::before, 
