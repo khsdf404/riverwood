@@ -1,0 +1,156 @@
+#significant section {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center; 
+}
+#significant section div.significant-background {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    width: 32%;
+    background-size: contain;
+    background-repeat: round;
+
+    border-radius: 4px;
+    overflow: hidden;
+}
+#significant section div.significant-background:nth-child(1) {
+    background-image: url('../src/river1.jpg');
+}
+#significant section div.significant-background:nth-child(2) {
+    background-image: url('../src/river2.jpg');
+}
+#significant section div.significant-background:nth-child(3) {
+    background-image: url('../src/river3.jpeg');
+}
+#significant section div.significant-background::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: #000;
+    opacity: 0;
+
+    transition: .7s all;
+}
+
+
+
+#significant section div.significant-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    transform: translateY(84%);
+    transition: .4s all;
+}
+
+
+
+#significant section div.significant-background:hover div.significant-content {
+    transform: translateY(0%);
+}
+#significant section div.significant-background:hover::before {
+    opacity: .7;
+}
+#significant section div.significant-background:hover h3 {
+    color: var(--revert-color); 
+}
+#significant section div.significant-background:hover h3::before {
+    opacity: 0;
+}
+
+#significant section h3 {
+    position: relative;
+    color: var(--based-color);
+
+    padding: 2px 10px 6px 10px;
+    
+    
+    font-weight: 900;
+    font-size: 24px;
+    font-family: 'Neris';
+    color: var(--based-color);
+    z-index: 1;
+}
+#significant section h3::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+
+    opacity: 1;
+    background: var(--h-background);
+    border-radius: 2px;
+    transition: .4s all;
+    z-index: -1;
+}
+#significant section p {
+    position: relative;
+    max-height: 70%;
+    height: 70%;
+    width: 80%;
+    max-width: 80%;
+    overflow: hidden; 
+ 
+    
+    font-weight: 900;
+    font-size: 20px;
+    font-family: 'Neris';
+    color: var(--revert-color);
+    z-index: 1;
+}
+#significant section button {
+    position: relative; 
+    margin: 24px 0;
+    height: 40px;
+    padding: 4px 14px 8px 14px;
+
+    border: none;
+    border-radius: 4px;
+    background: none;
+    border: 1px solid var(--h-background);
+ 
+    font-weight: 900;
+    font-size: 20px;
+    font-family: 'Neris';
+    color: var(--revert-color);
+    transition: .25s all;
+    z-index: 1;
+}
+#significant section button::before {
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 100%; 
+    top: 0;
+    left: 0;
+
+    border-radius: 4px;
+
+    opacity: 0;
+    background: var(--accent-color);
+    transition: .25s all;
+    z-index: -1;
+}
+#significant section button:hover {
+    color: #000;
+    border: none;
+}
+#significant section button:hover::before { 
+    opacity: 1;
+}
+
+
+
+

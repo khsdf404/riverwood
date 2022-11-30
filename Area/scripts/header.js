@@ -1,44 +1,53 @@
+const START_THEME =     JSON.parse(localStorage.getItem('theme'))
+const START_LANG =      JSON.parse(localStorage.getItem('lang'))
+const START_AREA =      JSON.parse(localStorage.getItem('area'))
+
+
 
 function ObjEquals(obj1, obj2) {
     return JSON.stringify(obj1) == JSON.stringify(obj2)
 }
 
-
 class ThemesObj {
-    static current; 
+    static current;
+    static isDynamic;
+    static $themeAnim = $js(`#themeAnimation`); 
 
-    static Start(theme) {
-        ThemesObj.setTheme(theme); 
+    static Start() {
+        ThemesObj.setTheme(); 
 
 
-        if (ThemesObj.current == ThemesObj.Light) 
-            $js(`#lightBtn`).addClass('active-btn');
+        if (ObjEquals(ThemesObj.current, ThemesObj.Light)) 
+            $js(`#lightBtn`).addClass('active-btn')
         else
             $js(`#darkBtn`).addClass('active-btn');
 
 
-        $js(`.header-theme button`).onEvent('click', (e) => {
+        $js(`.header-theme button`).onEvent('click', (e) => { 
             if (e.hasClass(`active-btn`)) return;
             
             e.parent()
                 .find(`.active-btn`)
                 .removeClass(`active-btn`);
             e.addClass(`active-btn`);
- 
+
             ThemesObj.Animate(e);
         });
     }
     static getNextTheme = (id) => {
-        if (id == 'darkBtn' || ObjEquals(id, ThemesObj.Dark))
-            return ThemesObj.Dark;
-        else
+        if (!id) return ThemesObj.Default;
+        if (ObjEquals(id, ThemesObj.DynamicLight)) return ThemesObj.Default;
+        if (ObjEquals(id, ThemesObj.DynamicDark)) return ThemesObj.Default;
+        if (id == 'lightBtn' || ObjEquals(id, ThemesObj.Light)) 
             return ThemesObj.Light;
+        else (id == 'darkBtn' || ObjEquals(id, ThemesObj.Dark))
+            return ThemesObj.Dark;
     }
 
 
 
-    static setTheme(id) {
-        ThemesObj.current = ThemesObj.getNextTheme(id);
+    static setTheme(id = null) {
+        ThemesObj.current = ThemesObj.getNextTheme(id || START_THEME)
 
         let keys = Object.keys(ThemesObj.current);
         let styles =  Object.values(ThemesObj.current);
@@ -47,6 +56,10 @@ class ThemesObj {
                 .documentElement
                 .style
                 .setProperty(keys[i], styles[i]);
+
+        ThemesObj.isDynamic = 
+            ThemesObj.current == ThemesObj.DynamicDark || 
+            ThemesObj.current == ThemesObj.DynamicLight;
         localStorage.setItem('theme', JSON.stringify(ThemesObj.current));
     } 
     static Animate($btn) {
@@ -66,27 +79,27 @@ class ThemesObj {
 
         let nextBackground = ThemesObj.getNextTheme($btn.id())['--h-background']
 
-        $themeAnim.css({
+        ThemesObj.$themeAnim.css({
             'display': 'block',
             'background': nextBackground,
             'top': coord.top + 'px', 
             'left': coord.left + 'px',
         });
         setTimeout(() => {
-            $themeAnim.animate({
+            ThemesObj.$themeAnim.animate({
                 'transform': 'scale('+ scale +')'
             }, getTransition(speed), () => {
                 ThemesObj.setTheme($btn.id())
-                $themeAnim.animate({
+                ThemesObj.$themeAnim.animate({
                     'top': size.height * 0.9 + 'px', 
                     'left': '100px',
                 }, 0, () => {
-                    $themeAnim.animate({
+                    ThemesObj.$themeAnim.animate({
                         'top': size.height + 'px', 
                         'left': '-21px', 
                         'transform': 'scale(2)', 
                     }, getTransition(speed), () => {
-                        $themeAnim.css({
+                        ThemesObj.$themeAnim.css({
                             'display': 'none'
                         })
                     });
@@ -155,17 +168,76 @@ class ThemesObj {
         '--list-linkColor': '#93c3ff', 
         '--list-fontWeight': '100'
     }
-}
+    static DynamicLight = {
+        '--based-color': '#444',
+        '--revert-color': '#fff',
+        '--accent-color': '#8cb9f1', 
 
+        '--main-background' : 'linear-gradient(135deg, #b4dcff 0%,#79c1ff 20%, #46abf5 35%,#1879fb 45%, #4060ff 50%, #1d49ad 60%, #131c6e 70%, #040f46 80%,#000000 90%)',
+        '--main-backgrond-size': '250% 250%',
+        '--globe-background': 'linear-gradient(114deg, #5bacffa1, #0e007e)',
+        '--area-title-background': '#fff7',
+        '--about-background': '#f7f7f7',
+        '--edge-shadow': '0px 1px 14px -7px #777',
+        
+    
+        '--h-background': '#fff',
+        '--controls-border': '1px solid #999',
+        '--controls-disabledcolor': '#585858',
+        '--controls-hoverBackground': '#e4e4e5',
+        '--settings-background': '#d7ddf3c2',
+        '--settings-filter': 'drop-shadow(6px 8px 19px #00000094)',
+        '--settingsBtn-background': '#e3dfdf',
+        '--settingsBtn-border': '1px solid #cfcfcf',
+    
+        '--sd-background': '#fff7',
+        '--placeholder-color': '#444',
+        '--list-background': '#fff',
+        '--list-headerColor': '#000',
+        '--list-linkColor': '#0142b9', 
+        '--list-fontWeight': '900'
+    }
+    static DynamicDark = {
+        '--based-color': '#fffc',
+        '--revert-color': '#444',
+        '--accent-color': '#8cb9f1', 
+        
+        '--main-background': 'linear-gradient(135deg, #b4dcff 0%,#79c1ff 20%, #46abf5 35%,#1879fb 45%, #4060ff 50%, #1d49ad 60%, #131c6e 70%, #040f46 80%,#000000 90%)', 
+        '--main-backgrond-size': '250% 250%',
+        '--globe-background': 'linear-gradient(114deg, #5bacffa1, #0e007e)',
+        '--area-title-background': '#0009',
+        '--about-background': '#232324',
+        '--edge-shadow': '0px 1px 14px -7px #000', 
+    
+        '--h-background': '#2e2e2e', 
+        '--controls-border': '1px solid #676767',
+        '--controls-disabledcolor': '#b9b9b9',
+        '--controls-hoverBackground': '#5c5c5c',
+        '--settings-background': '#82828b94',
+        '--settings-filter': 'drop-shadow(6px 8px 19px #00000073)',
+        '--settingsBtn-background': '#59595f',
+        '--settingsBtn-border': '1px solid #686868',
+
+    
+        '--sd-background': '#0009', 
+        '--placeholder-color': '#ccc',
+        '--list-background': '#00000070',
+        '--list-headerColor': '#fffc',
+        '--list-linkColor': '#93c3ff', 
+        '--list-fontWeight': '100'
+    } 
+    static Default = ThemesObj.Light;
+}
+ThemesObj.Start()
 
 class LanguagesObj {
     static current;
     static CONTENT;
     static LANGTYPES = {
-        'ru': 0,
-        'en': 1,
-        'fr': 2,
-        'sp': 3
+        'ru': 'ru',
+        'en': 'en',
+        'fr': 'fr',
+        'sp': 'sp'
     };
     static TEXT = {
         'ru': [
@@ -195,8 +267,9 @@ class LanguagesObj {
     }
 
 
-    static Start(lang) {
-        LanguagesObj.setLang(lang);
+
+    static Start() {
+        LanguagesObj.setLang();
         LanguagesObj.TranslatePage();
 
         if (LanguagesObj.current == LanguagesObj.LANGTYPES.en)
@@ -218,18 +291,21 @@ class LanguagesObj {
                 .removeClass(`active-btn`);
             e.addClass(`active-btn`);
 
- 
-            LanguagesObj.setLang(e.id()); 
 
-            // Page.Recreate();
+            LanguagesObj.setLang(e.id());
+            LanguagesObj.TranslatePage(true);
+            AreaObj.setNames();
+
+            AsideObj.Recreate();
         })
     }
     
 
-    static setLang(id) {
-        if (id == 'enBtn' || id == LanguagesObj.LANGTYPES.en) {
-            LanguagesObj.current = LanguagesObj.LANGTYPES.en;
-            LanguagesObj.CONTENT = LanguagesObj.TEXT.en;
+    static setLang(id = null) {
+        id = id || START_LANG;
+        if (id == 'ruBtn' || id == LanguagesObj.LANGTYPES.ru) {
+            LanguagesObj.current = LanguagesObj.LANGTYPES.ru;
+            LanguagesObj.CONTENT = LanguagesObj.TEXT.ru;
         }
         else if (id == 'frBtn' || id == LanguagesObj.LANGTYPES.fr) {
             LanguagesObj.current = LanguagesObj.LANGTYPES.fr;
@@ -240,16 +316,16 @@ class LanguagesObj {
             LanguagesObj.CONTENT = LanguagesObj.TEXT.sp;
         }
         else { 
-            LanguagesObj.current = LanguagesObj.LANGTYPES.ru;
-            LanguagesObj.CONTENT = LanguagesObj.TEXT.ru;
+            LanguagesObj.current = LanguagesObj.LANGTYPES.en;
+            LanguagesObj.CONTENT = LanguagesObj.TEXT.en;
         }
 
         localStorage.setItem('lang', JSON.stringify(LanguagesObj.current))
     }
-    static TranslatePage() { 
+    static TranslatePage(GLOBE_ACTIVE) { 
         // $js(`#countryBtn`).text(LanguagesObj.CONTENT[0]);
         // $js(`#regionBtn`).text(LanguagesObj.CONTENT[1]);
-        // $js(`#mobileScroll`).text(LanguagesObj.CONTENT[2][GLOBE_ACTIVE ? 1 : 0])
+        // $js(`#scrollBtn`).text(LanguagesObj.CONTENT[2][GLOBE_ACTIVE ? 1 : 0])
         // $js(`#searchInput`).attr('placeholder', LanguagesObj.CONTENT[3])
     }
     static TranslateObj(obj) {
@@ -263,3 +339,7 @@ class LanguagesObj {
             return obj.ru;
     }
 }
+LanguagesObj.Start()
+
+
+

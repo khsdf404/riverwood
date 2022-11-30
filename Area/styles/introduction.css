@@ -1,4 +1,4 @@
-article h2 {
+#introduction h2 {
     font-size: 44px;
     margin-top: auto;
     margin-bottom: 100px;
@@ -11,5 +11,7 @@ article h2 {
     font-family: neris;
 }
 #introduction section {
+    flex-direction: column;
     margin-bottom: auto;
+    height: auto;
 }

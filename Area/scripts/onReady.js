@@ -1,53 +1,43 @@
-const START_THEME =     localStorage.getItem('theme') ? 
-        JSON.parse(localStorage.getItem('theme')) : 
-        ThemesObj.Light;
-const START_LANG =      localStorage.getItem('lang') ? 
-    JSON.parse(localStorage.getItem('lang')) : 
-    LanguagesObj.LANGTYPES.en;
-var SETTINGS_ACTIVE;
-var CURRENT_THEME, CURRENT_LANG;
-
-const $themeAnim = $js(`#themeAnimation`)
-
 const isPhone = () => {
-return /Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)
 }
 
 
 
-
-const Header = () => { 
-    LanguagesObj.Start(START_LANG); 
-    ThemesObj.Start(START_THEME); 
+const Phone = () => { 
+    const $settings =       $js(`.header-settings`) 
+    const settingsSpeed =   350;
+    const mediaWidth =      768;
+    let SETTINGS_ACTIVE =   false;
     
+ 
+    const ShowSettings = () => {
+        $js(`#settingsBtn`).addClass('active-btn');
+        $settings.animate({'transform': 'translateX(0px)'}, settingsSpeed);
+        SETTINGS_ACTIVE = true;
+    }
+    const HideSettings = () => {
+        $js(`#settingsBtn`).removeClass('active-btn');
+        $settings.animate({'transform': 'translateX(260px)'}, settingsSpeed / 1.5);
+        SETTINGS_ACTIVE = false;
+    }
+     
 
-    if (isPhone()) { 
-        const HideSettings = () => {
-            if (SETTINGS_ACTIVE) {
-                SETTINGS_ACTIVE = false; 
-                $js(`#settingsBtn`).removeClass('active-btn');
-                $js(`.header-settings`).animate({
-                    'right': '-250px' 
-                }, 200) 
-            }
-        }
-        $js(`#settingsBtn`).onClick(function(e) {
-            SETTINGS_ACTIVE ? 
-                e.removeClass('active-btn') :
-                e.addClass('active-btn')
-                
-            $js(`.header-settings`).animate({
-                'right': !SETTINGS_ACTIVE ? '10px' : '-250px' 
-            }, !SETTINGS_ACTIVE ? 300 : 200) 
-            SETTINGS_ACTIVE = !SETTINGS_ACTIVE;
-        })
-        
-        $js(`main`).onClick(() => {
-            HideSettings();
-        });
-    }    
+    (isPhone() || window.innerWidth < mediaWidth) &&  LanguagesObj.TranslatePage(true);
+
+
+
+
+    $js(`#settingsBtn`).onEvent('mousedown', () => { 
+        SETTINGS_ACTIVE ? 
+            HideSettings() : 
+            ShowSettings();
+    })
+    $js(`main`).onClick((e) => {
+        if (!isPhone()) return;
+        HideSettings();
+    });
 }
-
 
 const InfiniteScroll = () => {
     let scrollAllowed = true;
@@ -56,10 +46,17 @@ const InfiniteScroll = () => {
     const $views = $js(`main article`);
     const $viewsList = $views.toJSF(); 
     const $navs = $js(`#scrollNav span`);
-    const $navsList = $navs.toJSF(); 
+    const $navsList = $navs.toJSF();
     let currentIndex = 0;
-    let timer;
+    let timer; 
 
+
+    // hotfix for transitionless first scroll
+    for(let i = currentIndex; i < $viewsList.size(); i++) {
+        $viewsList.get(i).css({
+            'transform': `translateY(0%)`
+        });
+    }
 
     function scrollNext(index = null) {
         index = index != null ? index : (currentIndex + 1) % $navs.size()
@@ -120,12 +117,80 @@ const InfiniteScroll = () => {
 }
 
 
-(function onReady() { 
-    let areaStr = localStorage.getItem('areaName');  
-    $js(`#introduction h2`).text(`${areaStr} in development...`);
-    $js(`.header-logo a`).onClick(() => {
-        localStorage.removeItem('areaName');
-    })
-    Header();
+function TopByLength(areaItem) {
+    let arr = [];
+    for (let i = 0; i < areaItem.rivers.length; i++) {
+        let river = areaItem.rivers[i];
+        if (arr.length < 3) arr.push(river)
+        else {
+            let first = parseInt(arr[0].length.replace(/\s+/, ''));
+            let second = parseInt(arr[1].length.replace(/\s+/, ''));
+            let third = parseInt(arr[2].length.replace(/\s+/, ''));
+            let current = parseInt(river.length.replace(/\s+/, ''))
+            if (current > first) arr[0] = river
+            else if (current > second) arr[1] = river
+            else if (current > third) arr[2] = river
+        }
+    }
+    return arr;
+}
+function HidingText(topLength) {
+    let rect = $js(`#significant section p`).rect();
+    let step = (Math.log(rect.width) * Math.log(rect.width) * rect.width / rect.height) * 1.5;
+    log(rect.width)
+    log(rect.height)
+    log(step)
+    for(let i = 0; i < topLength.length; i++) {
+        let opacity = 1;
+        let html = '';
+        let words = topLength[i].info.split(' ');
+        for(let j = 0; j < step; j++) {
+            html += `<span style="opacity:${opacity}">${words[j]} </span>`;
+            opacity -= 1/step;
+        }
+        $js(`#significant section p`).find(i).ihtml(html);
+    }
+}
+
+
+
+
+document.addEventListener("DOMContentLoaded", () => { 
+    
+    let areaItem =  JSON.parse(localStorage.getItem('areaItem'));
+
+    $js(`#introduction h2`).text(`${areaItem.name} in development...`);
+
+
+    let topLength = TopByLength(areaItem); 
+    $js(`#significant section h3`).find(0).text(topLength[0].name);
+    $js(`#significant section h3`).find(1).text(topLength[1].name);
+    $js(`#significant section h3`).find(2).text(topLength[2].name);
+
+
+    
+
+
+
+    if (!isPhone() &&  !window.innerWidth < 768) { 
+        HidingText(topLength)
+    }
+    window.onresize = () => {
+        HidingText(topLength)
+    }
+
+
+
+
+
+
+
+
+
+
+
+    Phone();
     InfiniteScroll()
-})()
+});  
+
+ 

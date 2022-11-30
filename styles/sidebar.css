@@ -88,6 +88,9 @@ ul#areaList h6 {
     transition-duration: var(--transition-color);
     transition-timing-function: ease-out;
 } 
+ul#areaList span.list-title {
+    flex: 1;
+} 
 ul#areaList div {
     display: flex;
     flex-direction: column;
@@ -96,12 +99,12 @@ ul#areaList div {
 
     margin: 0px 37px 0 25px; 
 } 
-ul#areaList span.arealist-href-icon,
+ul#areaList svg.arealist-href-icon,
 ul#areaList li.sidebar-active-item span.arealist-amount {
     display: none;
 }
 ul#areaList span.arealist-amount,
-ul#areaList li.sidebar-active-item span.arealist-href-icon  {
+ul#areaList li.sidebar-active-item svg.arealist-href-icon  {
     display: flex;
 }
 

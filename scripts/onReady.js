@@ -1,9 +1,11 @@
 function isPhone() {
     return (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent))
 }
-function AreaPage(areaStr) {
-    localStorage.setItem('areaName', areaStr);
-    window.location.href = 'Area/area.html';
+function AreaPage(areaItem) {
+    if (areaItem) {
+        localStorage.setItem('areaItem', JSON.stringify(areaItem));
+        window.location.href = 'Area/area.html';
+    }
 }
 
 
@@ -19,16 +21,15 @@ class AsideObj {
     static CreateListElem(text, length) {
         return `
             <li>
-                <h6 class="list-title">${text}
+                <h6>
+                    <span class="list-title">${text}</span>
                     <span class="arealist-amount non-select">
                         [${length}]
                     </span>
-                    <span class="arealist-href-icon non-select">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18" style="align-self: center; height: 24px; color: var(--list-linkColor)" fill="currentColor">
-                            <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/> 
-                            <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/>
-                        </svg>
-                    </span>
+                    <svg class="arealist-href-icon non-select" viewBox="0 0 18 18" style="align-self: center; height: 24px; color: var(--list-linkColor)" fill="currentColor">
+                        <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/> 
+                        <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/>
+                    </svg>
                 </h6>
             </li>
         `;
@@ -48,12 +49,12 @@ class AsideObj {
     }
     static ClickEvent = (e) => {
         const $listWrap =       $js(`.list-wrap`);
-        let parent = e.parent('li'); 
+        let parent = e.parent('li');
         if (parent.hasClass((`sidebar-active-item`))) {
             return parent.removeClass().find('div').get().outerHTML = '';
         }
         $js(`.sidebar-active-item`).removeClass().find('div').ohtml('')
-
+        let index = $js(`#areaList li`).index(parent)
 
         $listWrap.get().scrollTo({
             top: parent.get().offsetTop,
@@ -62,9 +63,12 @@ class AsideObj {
         });
 
         parent.get().innerHTML += AsideObj.CreateRiversList(
-            AreaObj.currentList[$js(`#areaList li`).index(parent)].rivers
+            AreaObj.currentList[index].rivers
         )
-        parent.find('h6').onClick(AsideObj.ClickEvent)
+        parent.find('.list-title').onClick(AsideObj.ClickEvent) 
+        parent.find(`.arealist-href-icon`).onClick((e) => {
+            AreaPage(AreaObj.currentList[index]);
+        })
         parent.addClass('sidebar-active-item');
     }
 
@@ -77,7 +81,6 @@ class AsideObj {
         $areaList.ihtml(newHTML);
 
         AsideObj.$list = $js(`.list-title`);
-
         AsideObj.$list.onClick(AsideObj.ClickEvent)
     }
 }

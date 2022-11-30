@@ -3,7 +3,7 @@ const starsAmount =         150
 const scaleFactor =         1
 const rotationDelay =       5000 // * 1000
 const rotationDirection =   -1
-const degPerSec =           3
+const degPerSec =           7
 const angles =              { x: 50, y: -20, z: 0 }
 const colorLand =           '#309d60'   //'#F19BFE'
 const colorActive =         '#00000099'          //'#F6C1BC'
@@ -326,9 +326,7 @@ class D3_CLICK {
         canvas.on('click', D3_CLICK.OpenPage)
     }
     static OpenPage() {
-        let name = getObj(currentPolygon) && getObj(currentPolygon).name || currentRegion && currentRegion.name;
-        if (name)
-            AreaPage(name);
+        AreaPage(getObj(currentPolygon) || currentRegion);
     }
 }
 class D3_HOVER {
