@@ -137,7 +137,7 @@
         width: calc( var(--btnOneWidth) * (10/2) );
     }
     div.header-theme button { 
-        width: calc( var(--btnOneWidth) * (10/2) );
+        width: calc( var(--btnOneWidth) * (10/3) );
     }
     div.header-mobile-scroll button {
         width: calc( var(--btnOneWidth) * (10/1) );
@@ -188,4 +188,20 @@
         letter-spacing: 4px;
     }
 
+
+
+    #introduction h2 {
+        font-size: 30px;
+        margin-bottom: 50px;
+    }
+    #introduction p {
+        font-size: 16px;
+    }
+    #listControls {
+        width: 100%;
+    }
+
+    #list span { 
+        font-size: 14px; 
+    }
 }

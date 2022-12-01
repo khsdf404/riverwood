@@ -545,8 +545,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             } 
             reg.rivers = removeDuplicates(regArr, 'name').sort((a,b) => a.name > b.name ? 1 : -1)
-        } 
-     
+        }
         log(RIVERS.length)
 
 

@@ -5,7 +5,7 @@ const isPhone = () => {
 
 
 
-const Phone = () => { 
+const Settings = () => { 
     const $settings =       $js(`.header-settings`) 
     const settingsSpeed =   350;
     const mediaWidth =      768;
@@ -50,7 +50,9 @@ const InfiniteScroll = () => {
     const $navsList = $navs.toJSF();
     let currentIndex = 0;
     let timer; 
-
+    // phone touch events
+    let touchEvent = null;
+    let direction = null;
 
     // hotfix for transitionless first scroll
     for(let i = currentIndex; i < $viewsList.size(); i++) {
@@ -108,7 +110,18 @@ const InfiniteScroll = () => {
             }, 1000);
         }
     });
-
+    
+    $main.onEvent("touchmove", (e, event) => {
+        touchEvent = touchEvent || event;
+        direction = (event.touches[0].pageY - touchEvent.touches[0].pageY) > 0;
+    });
+    $main.onEvent("touchend", () => {
+        if (touchEvent) {
+            direction ? scrollPrev() : scrollNext();
+            touchEvent = null;
+            direction = null;  
+        }
+    });
 
     $navs.onClick((el, e, i) => {
         if (el.hasClass(`active`)) return;
@@ -140,9 +153,6 @@ const Significant = () => {
     function HidingText(topRivers) {
         let rect = $js(`#significant section p`).rect();
         let step = (Math.log(rect.width) * Math.log(rect.width) * rect.width / rect.height) * 1.5;
-        log(rect.width)
-        log(rect.height)
-        log(step)
         for(let i = 0; i < topRivers.length; i++) {
             let opacity = 1;
             let html = '';
@@ -155,9 +165,9 @@ const Significant = () => {
         }
     }
     let topRivers = TopByLength(areaItem); 
-    $js(`#significant section h3`).find(0).text(topRivers[0].name);
-    $js(`#significant section h3`).find(1).text(topRivers[1].name);
-    $js(`#significant section h3`).find(2).text(topRivers[2].name);
+    $js(`#significant section h3`).find(0).text(topRivers[0].name.replace(/\([\D\d^\)]+\)/g, ''));
+    $js(`#significant section h3`).find(1).text(topRivers[1].name.replace(/\([\D\d^\)]+\)/g, ''));
+    $js(`#significant section h3`).find(2).text(topRivers[2].name.replace(/\([\D\d^\)]+\)/g, ''));
 
 
     if (!isPhone() && !window.innerWidth < 768)
@@ -173,19 +183,163 @@ const Significant = () => {
     
 }
 
+const List = () => {
+    function CreateItem(river, index) {
+        return `<span id="${index == 0 ? 'listTemplate' : ''}" style="width: ${cellRect.width}px; height: ${cellRect.height}">${index + 1}. <a href="${river.link}">${river.name.replace(/\([\D\d^\)]+\)/g, '')}</a></span>`
+    }
+    function getCols() { 
+        if (window.innerWidth < 700) return 2;
+        else if (window.innerWidth < 900) return 3;
+        else return 4;
+    }
+    const $list = $js(`#listWrap`); 
+ 
+    let rect = $list.rect();
+    let cellRect = $js(`#nextBtn`).rect();
+    cellRect = {
+        width: Math.floor(Math.max(105, rect.width / getCols())),
+        height: $js(`#listTemplate`).rect().height + 4
+    }
+    log(cellRect)
+    
+
+    let col = getCols()
+    let row = Math.floor(rect.height / (cellRect.height + 4))
+
+    log(`wrap: ${rect.width}, ${rect.height}`)
+    log(`cell: ${cellRect.width}, ${cellRect.height}`)
+    log(`table: ${col}x${row}`)
 
 
+    let newHTML = '';
+    let current = 0;
+    let mod = 0;
+    let riversAmount = areaItem.rivers.length;
+    while (current < riversAmount) {
+        let pageHTML = '<div>';
+        for (let i = 0; i < col && current < riversAmount; i++) {
+            for (let j = 0; j < row && current < riversAmount; j++) {
+                current++;
+                pageHTML += CreateItem(areaItem.rivers[i * (row) + j + mod], i * (row) + j + mod);
+                // log(`${current}; ${i * col + j}`)
+            }
+        }
+        mod = current;
+        // log(pageHTML)
+        newHTML += pageHTML + '</div>';
+    }
+
+
+    $list.ihtml(newHTML);
+    ListSwipes();
+}
+const ListSwipes = () => { 
+    const $views = $js(`#listWrap div`);
+    const $viewsList = $views.toJSF();
+    const $listPage = $js(`#listPage`);
+    let currentIndex = 0; 
+
+
+    // hotfix for transitionless first scroll
+    for(let i = currentIndex; i < $viewsList.size(); i++) {
+        $viewsList.get(i).css({
+            'transform': `translateX(0%)`
+        });
+    }
+    $listPage.value(`1/${$views.size()}`);
+
+
+    function scrollNext(index = null) {
+        index = index != null ? index : (currentIndex + 1) % $views.size()
+        if (currentIndex == $views.size() - 1 && index == 0) return scrollPrev(0)
+
+        for(let i = currentIndex; i < index; i++) {
+            $viewsList.get(i).css({
+                'transform': `translateX(-${(i + 1) * 100}%)`
+            });
+        }
+        for (let i = index; i < $views.size(); i++) {
+            $viewsList.get(i).css({
+                'transform': `translateX(${(i - 1) * -1 * 100}%)`
+            });
+        }
+        currentIndex = index;
+        $viewsList.get(currentIndex).css({
+            'transform': `translateX(${currentIndex* -1 * 100}%)`
+        });
+        
+    }
+    function scrollPrev(index = null) {
+        index = index != null ? index : ($views.size() + currentIndex - 1) % $views.size()
+        if (currentIndex == 0 && index == $views.size() - 1) return scrollNext($views.size() - 1)
+
+        for(let i = currentIndex; i > index; i--) {
+            $viewsList.get(i).css({
+                'transform': `translateX(-${(i - 1) * 100}%)`
+            });
+        }
+        for (let i = index; i > 0; i--) {
+            $viewsList.get(i).css({
+                'transform': `translateX(${(i + 1) * -1 * 100}%)`
+            });
+        }
+        currentIndex = index;
+        $viewsList.get(currentIndex).css({
+            'transform': `translateX(${currentIndex* -1 * 100}%)`
+        });
+    }
+    function setText() {
+        $listPage.value(`${currentIndex + 1}/${$views.size()}`);
+    }
+
+    $js(`#prevBtn`).onClick(e => {
+        if ($views.size() > 1) {
+            scrollPrev();
+            setText();
+        }
+    })
+    $js(`#nextBtn`).onClick(e => {
+        if ($views.size() > 1) {
+            scrollNext();
+            setText()
+        }
+    })
+
+    $listPage.onClick((e) => {
+        e.value('');
+    })
+    $listPage.onEvent('keydown', (e, event) => {
+        log(event)
+        if (event.keyCode == 13) {
+            let num = parseInt(e.value()) - 1
+            if (num > $views.size() || num < 0 || num == currentIndex)
+                return setText();
+            num > currentIndex ? 
+                scrollNext(num) :
+                scrollPrev(num);
+            setText()
+            e.get().blur()
+        }
+    })
+}
 
 
 document.addEventListener("DOMContentLoaded", () => { 
     areaItem =  JSON.parse(localStorage.getItem('areaItem'));
+    Settings();
+    log(areaItem.rivers.length)
 
     $js(`#introduction h2`).text(`${areaItem.name} in development...`);
+    $js(`#list h2`).text(`Rivers of ${areaItem.name}`);
+    InfiniteScroll();
+
+
+    
+
 
     Significant();
-
-    Phone();
-    InfiniteScroll()
+    List();
+    window.onresize = List; 
 });  
 
  

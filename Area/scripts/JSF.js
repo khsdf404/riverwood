@@ -1,5 +1,8 @@
 const log = console.log.bind(document);
 // jquery-like-funcs
+const $js = (str = null) => {
+    return new JSFeatures(str);
+};
 class JSFeatures {
     e; deepthElem;
 
@@ -413,8 +416,3 @@ class JSFeatures {
     }
 
 }
-
-const staticEx = new JSFeatures();
-const $js = (str = null) => {
-    return new JSFeatures(str);
-};

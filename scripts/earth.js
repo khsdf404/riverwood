@@ -1,4 +1,3 @@
-// 
 const starsAmount =         150
 const scaleFactor =         1
 const rotationDelay =       5000 // * 1000
@@ -9,7 +8,7 @@ const colorLand =           '#309d60'   //'#F19BFE'
 const colorActive =         '#00000099'          //'#F6C1BC'
 const styleBorders =        { 'color': '#000', 'thickness': 0.5  };
 const styleGlobeBorder =    { 'color': '#000',  'thickness': 2  };
-// all we need to work with
+
 var polygonList, currentPolygon, currentRegion;
 let globe, land, countries, borders;
 let width, height
@@ -34,6 +33,8 @@ const $areaName =       $globeWrap.find(`#areaText`);
 const $stars =          $globeWrap.find(`#stars`); 
 
 
+
+// all we need to work with
 const EarthReady = () => {
     D3.QueueData();
 
@@ -42,10 +43,12 @@ const EarthReady = () => {
     if (!isPhone()) D3_CLICK.setClick();
     
     $canvas.onEvent('mouseleave', () => {
-        setName('')
-
-        currentPolygon = null;
-        currentRegion = null;
+        if (!isPhone()) {
+            setName('')
+            currentPolygon = null;
+            currentRegion = null;
+        }
+        
         D3.RenderGlobe();
 
         D3.setRotation(true);
@@ -159,9 +162,13 @@ function setStars() {
 }
 function setName(name = '') {
     $areaName.text(name);
-    if (ThemesObj.isDynamic) {
+    $areaName.onEvent('mousedown', () => { 
+        AreaPage(getObj(currentPolygon) || currentRegion);
+
+    });
+    // $areaName.onClick(AreaPage(getObj(currentPolygon) || currentRegion))
+    if (ThemesObj.isDynamic) 
         $areaName.css({'padding': name == '' ? '0' : '0px 20px'})
-    }
 }
 
 
@@ -286,7 +293,12 @@ class D3 {
                 
 
             projection.rotate(rotation);    
-            D3.AssignBackground();    
+            D3.AssignBackground();   
+            if (isPhone()) {
+                setName('')
+                currentPolygon = null;
+                currentRegion = null; 
+            }
             D3.RenderGlobe() 
         }
     }  
@@ -323,10 +335,9 @@ class D3 {
 
 class D3_CLICK {
     static setClick() {
-        canvas.on('click', D3_CLICK.OpenPage)
-    }
-    static OpenPage() {
-        AreaPage(getObj(currentPolygon) || currentRegion);
+        canvas.on('click', () => {
+            AreaPage(getObj(currentPolygon) || currentRegion)
+        })
     }
 }
 class D3_HOVER {
@@ -344,7 +355,7 @@ class D3_HOVER {
         }
         
         D3.setRotation(false);
-        D3.RenderGlobe()
+        D3.RenderGlobe(); // for highlight
         D3_HOVER.setName();
     }
 
@@ -364,8 +375,6 @@ class D3_HOVER {
         if (countryPolygon === currentPolygon) { 
             return false;
         }
-        // log(countryPolygon)
-        // log(getObj(countryPolygon))
         currentPolygon = countryPolygon;
         return true;
     }

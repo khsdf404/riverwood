@@ -255,28 +255,79 @@ class LanguagesObj {
             'Страна', 
             'Регион', 
             ['К Земле', 'См. в списке'], 
-            'Найти реку!'
+            'Найти реку!',
+            // contacts
+            'Реки по всему миру',
+            'Этот проект задумывался как билиотека всех рек на нашей планете, он c <a href="">открытым кодом</a> и бесплатен для всех. Пожалуйста, если вы носитель английского, французского или испанского и хотите помочь с переводом страницы, проследуйте по ссылкам снизу или пришлите мне письмо на почту, начав с «Помощь в переводе»',
+            'Информация о курсовой',
+            'Студент: Орлов Данил',
+            'Курс: 2, 1й семестр',
+            'Предмет: РКЧИР',
+            'Преподаватель: Дешко И.П',
+            'Дата: 12.12.2022',
+            'Свяжитесь со мной',
+            'Ваша-почта@пример.com',
+            'Ваше имя',
+            'Ваше важное сообщение'
         ], 
         'en': [
             'Country', 
             'Region', 
             ['To the Earth', 'See in list'], 
-            'Find river!'
+            'Find river!',
+            // contacts
+            'Rivers all over the world',
+            'This project was conceived as a library of all rivers on our planet, it\'s <a href="">opensourse</a> and free for everyone. Please, if you are a native speaker of English, French or Spanish and want to help with page translation follow links below or sent me en email, starting with "Translation help"',
+            'Coursework info',
+            'Student: Orlov Danil',
+            'Course: 2, 1st semester',
+            'Subject: Frontend',
+            'Professor: Deshko I.P',
+            'Date: 01.12.2022',
+            'Contact me',
+            'your-mail@example.com',
+            'your name',
+            'your important message'
         ],
         'fr': [
-            'Country', 
+            'Pays', 
             'Region', 
-            ['To the Earth', 'See in list'], 
-            'Find river!'
+            ['Vers La Terre', 'Voir la liste'], 
+            'Trouvez la riviere!',
+            // contacts
+            'Rivieres partout dans le monde',
+            'Ce projet a ete concu comme une bibliotheque de tous les fleuves de notre planete, il est <a href="">opensource</a> et gratuit pour tous. S\'il vous plait, si vous etes anglais, francais ou espagnol et que vous voulez aider a la traduction de la page, suivez les liens ci-dessous ou envoyez-moi un e-mail en commencant par «Aide a la traduction»',
+            'Redige  info',
+            'Etudiante: Orlov Danil',
+            'Annee: 2, 1st semester',
+            'Sujet: Frontend',
+            'Professeur: Deshko I.P.',
+            'Date: 01.12.2022',
+            'Contactez-moi',
+            'votre-email@exemple.com',
+            'votre nom',
+            'votre message important'
         ],
         'sp': [
-            'Country', 
+            'Pais', 
             'Region', 
-            ['To the Earth', 'See in list'], 
-            'Find river!'
+            ['A La Tierra', 'Ver en la lista'], 
+            'Encontrar el rio!',
+            // contacts
+            'Rios de todo el mundo',
+            'Este proyecto fue concebido como una biblioteca de todos los rios de nuestro planeta, es de codigo abierto y gratuito para todos. Por favor, si usted es un hablante nativo de Ingles, frances o espanol y desea ayudar con la traduccion de la pagina, siga los enlaces de abajo o enveeme un email, comenzando con «Ayuda en la traduccion»',
+            'Cursos info',
+            'Estudiante: Orlov Danil',
+            'Curso: 2, 1st semester',
+            'Tema: Frontend',
+            'Сatedratico: Deshko I.P.',
+            'Fecha: 01.12.2022',
+            'Pongase en contacto conmigo',
+            'su-email@ejemplo.com',
+            'su nombre',
+            'su mensaje importante'
         ]
     }
-
 
 
     static Start() {
@@ -316,28 +367,41 @@ class LanguagesObj {
         id = id || START_LANG;
         if (id == 'ruBtn' || id == LanguagesObj.LANGTYPES.ru) {
             LanguagesObj.current = LanguagesObj.LANGTYPES.ru;
-            LanguagesObj.CONTENT = LanguagesObj.TEXT.ru;
+            LanguagesObj.currentText = LanguagesObj.TEXT.ru;
         }
         else if (id == 'frBtn' || id == LanguagesObj.LANGTYPES.fr) {
             LanguagesObj.current = LanguagesObj.LANGTYPES.fr;
-            LanguagesObj.CONTENT = LanguagesObj.TEXT.fr;
+            LanguagesObj.currentText = LanguagesObj.TEXT.fr;
         }
         else if (id == 'spBtn' || id == LanguagesObj.LANGTYPES.sp) {
             LanguagesObj.current = LanguagesObj.LANGTYPES.sp;
-            LanguagesObj.CONTENT = LanguagesObj.TEXT.sp;
+            LanguagesObj.currentText = LanguagesObj.TEXT.sp;
         }
         else { 
             LanguagesObj.current = LanguagesObj.LANGTYPES.en;
-            LanguagesObj.CONTENT = LanguagesObj.TEXT.en;
+            LanguagesObj.currentText = LanguagesObj.TEXT.en;
         }
 
         localStorage.setItem('lang', JSON.stringify(LanguagesObj.current))
     }
-    static TranslatePage(GLOBE_ACTIVE) { 
-        $js(`#countryBtn`).text(LanguagesObj.CONTENT[0]);
-        $js(`#regionBtn`).text(LanguagesObj.CONTENT[1]);
-        $js(`#scrollBtn`).text(LanguagesObj.CONTENT[2][GLOBE_ACTIVE ? 1 : 0])
-        $js(`#searchInput`).attr('placeholder', LanguagesObj.CONTENT[3])
+    static TranslatePage(GLOBE_VIEW) { 
+        $js(`#countryBtn`).text(LanguagesObj.currentText[0]);
+        $js(`#regionBtn`).text(LanguagesObj.currentText[1]);
+        $js(`#scrollBtn`).text(LanguagesObj.currentText[2][GLOBE_VIEW ? 1 : 0])
+        $js(`#searchInput`).attr('placeholder', LanguagesObj.currentText[3]);
+        // contacts
+        $js(`.about-project-slogan`).text(LanguagesObj.currentText[4]);
+        $js(`.about-project-description`).ihtml(LanguagesObj.currentText[5]);
+        $js(`.about-info .about-title`).text(LanguagesObj.currentText[6]);
+        $js(`.about-info li`).find(0).text(LanguagesObj.currentText[7]);
+        $js(`.about-info li`).find(1).text(LanguagesObj.currentText[8]);
+        $js(`.about-info li`).find(2).text(LanguagesObj.currentText[9]);
+        $js(`.about-info li`).find(3).text(LanguagesObj.currentText[10]);
+        $js(`.about-info li`).find(4).text(LanguagesObj.currentText[11]);
+        $js(`#sendEmail`).text(LanguagesObj.currentText[12]);
+        $js(`#emailAddress`).attr('placeholder', LanguagesObj.currentText[13]);
+        $js(`#emailName`).attr('placeholder', LanguagesObj.currentText[14]);
+        $js(`#emailLetter`).attr('placeholder', LanguagesObj.currentText[15]);
     }
     static TranslateObj(obj) {
         if (LanguagesObj.current == LanguagesObj.LANGTYPES.en)
@@ -417,9 +481,9 @@ class AreaObj {
         'region': 'region'
     };
     static COUNTRIES = [
-        {'id': '12', 'en': 'Algeria', 'ru': 'Алжир'},
-        {'id': '24', 'en': 'Angola', 'ru': 'Ангола'},
-        {'id': '72', 'en': 'Botswana', 'ru': 'Ботсвана'},
+        {'id': '12', 'en': 'Algeria', 'fr': 'Algerie', 'sp': 'Argelia', 'ru': 'Алжир'},
+        {'id': '24', 'en': 'Angola', 'fr': 'Angola', 'sp': 'Angola', 'ru': 'Ангола'},
+        {'id': '72', 'en': 'Botswana', 'fr': 'Botswana', 'sp': 'Botswana', 'ru': 'Ботсвана'},
         {'id': '108', 'en': 'Burundi', 'ru': 'Бурунди'},
         {'id': '120', 'en': 'Cameroon', 'ru': 'Камерун'},
         {'id': '132', 'en': 'Cape Verde', 'ru': 'Кабо-Верде'},
@@ -677,9 +741,9 @@ class AreaObj {
         },
         {
             'obj': [
-                {'id': '12', 'en': 'Algeria', 'ru': 'Алжир'},
-                {'id': '24', 'en': 'Angola', 'ru': 'Ангола'},
-                {'id': '72', 'en': 'Botswana', 'ru': 'Ботсвана'},
+                {'id': '12', 'en': 'Algeria', 'fr': 'Algerie', 'sp': 'Argelia', 'ru': 'Алжир'},
+                {'id': '24', 'en': 'Angola', 'fr': 'Angola', 'sp': 'Angola', 'ru': 'Ангола'},
+                {'id': '72', 'en': 'Botswana', 'fr': 'Botswana', 'sp': 'Botswana', 'ru': 'Ботсвана'},
                 {'id': '108', 'en': 'Burundi', 'ru': 'Бурунди'},
                 {'id': '120', 'en': 'Cameroon', 'ru': 'Камерун'},
                 {'id': '132', 'en': 'Cape Verde', 'ru': 'Капе Верде'},

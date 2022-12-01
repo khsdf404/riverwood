@@ -34,7 +34,7 @@
     position: absolute;
 
     top: 20px;
-    right: 20px;
+    left: 20px;
 
     background: var(--based-color);
 }
@@ -57,7 +57,7 @@
     width: var(--title-fs);
 
     top: 25px;
-    right: 25px;
+    left: 25px;
 
     color: var(--based-color);
     font-family: none;

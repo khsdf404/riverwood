@@ -180,7 +180,7 @@ div.header-language button {
     font-size: 18px;
 }
 div.header-theme button { 
-    width: calc( var(--btnOneWidth) * (10/2) );
+    width: calc( var(--btnOneWidth) * (10/3) );
 }
 div.header-other button#scrollBtn {
     display: none;
