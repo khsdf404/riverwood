@@ -127,7 +127,7 @@ class ThemesObj {
         '--accent-color': '#8cb9f1', 
 
         '--main-background': '#fef9f2', 
-        '--main-backgrond-size': 'initial',
+        '--main-background-size': 'initial',
         '--globe-background': 'linear-gradient(104deg, #a0c7ef8f, #0070ffad)',
         '--area-title-background': '#0000',
         '--about-background': '#f7f7f7',
@@ -156,7 +156,7 @@ class ThemesObj {
         '--accent-color': '#8cb9f1', 
 
         '--main-background': 'linear-gradient(130deg, #484848, #15151e)',
-        '--main-backgrond-size': 'initial',
+        '--main-background-size': 'initial',
         '--globe-background': 'linear-gradient(104deg, #007eff73, #00023ab3)', // linear-gradient(54deg, #00004c, #0000007a)
         '--area-title-background': '#0000',
         '--about-background': '#232324',
@@ -184,8 +184,9 @@ class ThemesObj {
         '--revert-color': '#fff',
         '--accent-color': '#8cb9f1', 
 
-        '--main-background' : 'linear-gradient(135deg, #b4dcff 0%,#79c1ff 20%, #46abf5 35%,#1879fb 45%, #4060ff 50%, #1d49ad 60%, #131c6e 70%, #040f46 80%,#000000 90%)',
-        '--main-backgrond-size': '250% 250%',
+        '--main-background' : 'linear-gradient(135deg, #dcefff 0%,#79c1ff 20%, #46abf5 35%,#1879fb 45%, #4060ff 50%, #1d49ad 60%, #131c6e 70%, #040f46 80%,#000000 90%)',
+        '--main-background-size': '250% 250%',
+        '--main-background-position': '0% 0%',
         '--globe-background': 'linear-gradient(114deg, #5bacffa1, #0e007e)',
         '--area-title-background': '#fff7',
         '--about-background': '#f7f7f7',
@@ -214,7 +215,8 @@ class ThemesObj {
         '--accent-color': '#8cb9f1', 
         
         '--main-background': 'linear-gradient(135deg, #b4dcff 0%,#79c1ff 20%, #46abf5 35%,#1879fb 45%, #4060ff 50%, #1d49ad 60%, #131c6e 70%, #040f46 80%,#000000 90%)', 
-        '--main-backgrond-size': '250% 250%',
+        '--main-background-size': '250% 250%',
+        '--main-background-position': '75% 75%',
         '--globe-background': 'linear-gradient(114deg, #5bacffa1, #0e007e)',
         '--area-title-background': '#0009',
         '--about-background': '#232324',
