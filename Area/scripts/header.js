@@ -238,7 +238,7 @@ class ThemesObj {
     } 
     static Default = ThemesObj.Light;
 }
-ThemesObj.Start()
+
 
 class LanguagesObj {
     static current;
@@ -251,7 +251,19 @@ class LanguagesObj {
     };
     static TEXT = {
         'ru': [
-            
+            'в разработке...',
+            `
+                Если вы читаете это описание, значит, страница находится в разработке и вскоре будет исправлена для улучшения пользовательского опыта.
+                <br><br>
+                Если у Вас есть идеи/предложения как можно исправить страницу, пожалуйста, свяжитесь со мной. На главной странице, в разделе "Мои контакты", можно отрпавить электронное письмо или выбрать любую доступную для Вас медиа.
+                <br><br>
+                Носители английского, французского или испанского языков так же приветствуются для более корректного перевода страниц.
+                <br><br>
+                Спасибо.
+            `,
+            'Самые значимые реки',
+            'Подробнее',
+            'Реки в регионе'
         ], 
         'en': [
             'in development...',
@@ -265,19 +277,38 @@ class LanguagesObj {
                 Thanks.
             `,
             'The most significant rivers',
-            'Read more'
+            'Read more',
+            'Rivers of'
         ],
         'fr': [
-            'Country', 
-            'Region', 
-            ['To the Earth', 'See in list'], 
-            'Find river!'
+            'en developpement...',
+            `
+                Si vous lisez cette Description, cela signifie que la page est en developpement et sera bientot corrigee pour ameliorer l\'experience utilisateur.
+                <br><br>
+                Si vous avez des idées/suggestions sur la facon de corriger la page, veuillez me contacter. Sur la page d\'accueil, dans La section "Mes contacts", vous pouvez envoyer un e-mail ou selectionner n\'importe quel Media disponible pour vous.
+                <br><br>
+                Les locuteurs natifs de l\'anglais, du francais ou de l\'espagnol sont egalement les bienvenus pour une traduction plus correcte des pages.
+                <br><br>
+                Merci.
+            `,
+            'Les rivieres les plus importantes',
+            'Lire plus',
+            'Rivieres dans la region'
         ],
         'sp': [
-            'Country', 
-            'Region', 
-            ['To the Earth', 'See in list'], 
-            'Find river!'
+            'en desarrollo...',
+            `
+                Si esta leyendo esta descripcion, significa que la pagina esta en desarrollo y pronto se corregira para mejorar la experiencia del usuario.
+                <br><br>
+                Si Usted tiene alguna idea/sugerencia de como se puede arreglar la pagina, por favor pongase en contacto conmigo. En la pagina de Inicio, en la seccion "Mis contactos", puede enviar un email o seleccionar cualquier medio disponible para usted.
+                <br><br>
+                Los hablantes nativos de Ingles, frances o espanol tambien son bienvenidos para una traduccion mas correcta de las paginas.
+                <br><br>
+                Gracias.
+            `,
+            'Los rios mas significativos',
+            'Leer mas',
+            'Rios en la region'
         ]
     }
 
@@ -334,11 +365,14 @@ class LanguagesObj {
 
         localStorage.setItem('lang', JSON.stringify(LanguagesObj.current))
     }
-    static TranslatePage(GLOBE_ACTIVE) { 
-        // $js(`#countryBtn`).text(LanguagesObj.CONTENT[0]);
-        // $js(`#regionBtn`).text(LanguagesObj.CONTENT[1]);
-        // $js(`#scrollBtn`).text(LanguagesObj.CONTENT[2][GLOBE_ACTIVE ? 1 : 0])
-        // $js(`#searchInput`).attr('placeholder', LanguagesObj.CONTENT[3])
+    static TranslatePage() { 
+        $js(`#introduction h2`).text(`${areaItem.name} ${LanguagesObj.CONTENT[0]}`);
+        $js(`#introduction p`).ihtml(LanguagesObj.CONTENT[1]);
+        
+        $js(`#significant h2`).text(LanguagesObj.CONTENT[2]);
+        $js(`#significant button`).text(LanguagesObj.CONTENT[3]);
+
+        $js(`#list h2`).ihtml(`${LanguagesObj.CONTENT[4]} <i>«</i>${areaItem.name}<i>»</i>`);
     }
     static TranslateObj(obj) {
         if (LanguagesObj.current == LanguagesObj.LANGTYPES.en)
@@ -351,7 +385,8 @@ class LanguagesObj {
             return obj.ru;
     }
 }
-LanguagesObj.Start()
+
+
 
 
 

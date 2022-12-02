@@ -152,7 +152,7 @@ const Significant = () => {
     }
     function HidingText(topRivers) {
         let rect = $js(`#significant section p`).rect();
-        let step = (Math.log(rect.width) * Math.log(rect.width) * rect.width / rect.height) * 1.5;
+        let step = (Math.pow(Math.log(rect.width), 2.2) * rect.width / rect.height) * 1.5;
         for(let i = 0; i < topRivers.length; i++) {
             let opacity = 1;
             let html = '';
@@ -172,9 +172,9 @@ const Significant = () => {
 
     if (!isPhone() && !window.innerWidth < 768)
         HidingText(topRivers) 
-    window.onresize = () => {
+    $js([window]).onEvent('resize', e => {
         HidingText(topRivers)
-    }
+    })
 
     $js(`#significant section button`).onClick((e) => {
         let index = e.parent('div').parent(`div`).index()
@@ -183,9 +183,9 @@ const Significant = () => {
     
 }
 
-const List = () => {
+const ListLayout = () => {
     function CreateItem(river, index) {
-        return `<span id="${index == 0 ? 'listTemplate' : ''}" style="width: ${cellRect.width}px; height: ${cellRect.height}">${index + 1}. <a href="${river.link}">${river.name.replace(/\([\D\d^\)]+\)/g, '')}</a></span>`
+        return `<span id="${index == 0 ? 'listTemplate' : ''}" style="width: ${cellRect.width}px; height: ${cellRect.height}px">${index + 1}. <a href="${river.link}">${river.name.replace(/\([\D\d^\)]+\)/g, '')}</a></span>`
     }
     function getCols() { 
         if (window.innerWidth < 700) return 2;
@@ -204,7 +204,7 @@ const List = () => {
     
 
     let col = getCols()
-    let row = Math.floor(rect.height / (cellRect.height + 4))
+    let row = Math.floor(rect.height / (cellRect.height))
 
     log(`wrap: ${rect.width}, ${rect.height}`)
     log(`cell: ${cellRect.width}, ${cellRect.height}`)
@@ -231,26 +231,31 @@ const List = () => {
 
 
     $list.ihtml(newHTML);
-    ListSwipes();
+    ListSwipes(); 
 }
 const ListSwipes = () => { 
     const $views = $js(`#listWrap div`);
     const $viewsList = $views.toJSF();
     const $listPage = $js(`#listPage`);
-    const transition = 'all 500ms ease-in-out';
+    const transition = 'all 700ms ease-in-out';
     let currentIndex = 0; 
 
 
-    // hotfix for transitionless first scroll
-    for(let i = currentIndex; i < $viewsList.size(); i++) {
-        $viewsList.get(i).css({
-            'transform': `translateX(0%)`
+    
+    
+    if ($views.size() > 1) {
+        // hotfix for transitionless first scroll
+        for(let i = currentIndex; i < $viewsList.size(); i++) {
+            $viewsList.get(i).css({
+                'transform': `translateX(0%)`
+            });
+        }
+        // for cycle-effect
+        $viewsList.get($views.size() - 1).css({
+            'transform': `translateX(${$views.size() * -1 * 100}%)`
         });
     }
-    // for cycle-effect
-    $viewsList.get($views.size() - 1).css({
-        'transform': `translateX(${$views.size() * -1 * 100}%)`
-    });
+    
     $listPage.value(`1/${$views.size()}`);
 
 
@@ -260,11 +265,12 @@ const ListSwipes = () => {
             $viewsList.get(0).css({
                 'transform': `translateX(${(1) * 100}%)`
             });
+            currentIndex = index;
             setTimeout(() => {
-                $viewsList.get(currentIndex).animate({
-                    'transform': `translateX(${(currentIndex + 1) * -1 * 100}%)`
+                $viewsList.get($views.size() - 1).animate({
+                    'transform': `translateX(${$views.size() * -1 * 100}%)`
                 }, transition); 
-                currentIndex = index;
+                
                 $viewsList.get(currentIndex).animate({
                     'transform': `translateX(${currentIndex * -1 * 100}%)`
                 }, transition);
@@ -280,9 +286,9 @@ const ListSwipes = () => {
         } 
 
         for(let i = 0; i < currentIndex; i++) {
-            $viewsList.get(i).css({
+            $viewsList.get(i).animate({
                 'transform': `translateX(${(i + 1) * -1 * 100}%)`
-            });
+            }, transition);
         }
         $viewsList.get(currentIndex).animate({
             'transform': `translateX(${(currentIndex + 1) * -1 * 100}%)`
@@ -303,11 +309,11 @@ const ListSwipes = () => {
             $viewsList.get($views.size() - 1).css({
                 'transform': `translateX(${$views.size() * -1 * 100}%)`
             });
+            currentIndex = index;
             setTimeout(() => {
-                $viewsList.get(currentIndex).animate({
+                $viewsList.get(0).animate({
                     'transform': `translateX(100%)`
-                }, transition); 
-                currentIndex = index;
+                }, transition);  
                 $viewsList.get(currentIndex).animate({
                     'transform': `translateX(${currentIndex * -1 * 100}%)`
                 }, transition);
@@ -324,9 +330,9 @@ const ListSwipes = () => {
         
 
         for(let i = currentIndex + 1; i < $views.size(); i++) {
-            $viewsList.get(i).css({
+            $viewsList.get(i).animate({
                 'transform': `translateX(${(i - 1) * -1 * 100}%)`
-            }); 
+            }, transition); 
         }
         $viewsList.get(currentIndex).animate({
             'transform': `translateX(${(currentIndex - 1) * -1 * 100}%)`
@@ -342,6 +348,7 @@ const ListSwipes = () => {
         }
     }
     function setText() {
+        log(currentIndex)
         $listPage.value(`${currentIndex + 1}/${$views.size()}`);
     }
 
@@ -379,20 +386,23 @@ const ListSwipes = () => {
 
 document.addEventListener("DOMContentLoaded", () => { 
     areaItem =  JSON.parse(localStorage.getItem('areaItem'));
-    Settings();
     log(areaItem.rivers.length)
 
-    $js(`#introduction h2`).text(`${areaItem.name} in development...`);
-    $js(`#list h2`).text(`Rivers of ${areaItem.name}`);
+
+    ThemesObj.Start()
+    LanguagesObj.Start()
+    
+    
+    Settings();
+    
+    
     InfiniteScroll();
 
-
-    
-
+ 
 
     Significant();
-    List();
-    window.onresize = List; 
+    ListLayout();
+    $js([window]).onEvent('resize', ListLayout)
 });  
 
  

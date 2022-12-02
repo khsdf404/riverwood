@@ -267,7 +267,7 @@ class LanguagesObj {
             'Предмет: РКЧИР',
             'Преподаватель: Дешко И.П',
             'Дата: 12.12.2022',
-            'Свяжитесь со мной',
+            'Мои контакты',
             'Ваша-почта@пример.com',
             'Ваше имя',
             'Ваше важное сообщение'
@@ -286,7 +286,7 @@ class LanguagesObj {
             'Subject: Frontend',
             'Professor: Deshko I.P',
             'Date: 01.12.2022',
-            'Contact me',
+            'My contacts',
             'your-mail@example.com',
             'your name',
             'your important message'
@@ -305,7 +305,7 @@ class LanguagesObj {
             'Sujet: Frontend',
             'Professeur: Deshko I.P.',
             'Date: 01.12.2022',
-            'Contactez-moi',
+            'Mes contacts',
             'votre-email@exemple.com',
             'votre nom',
             'votre message important'
@@ -324,7 +324,7 @@ class LanguagesObj {
             'Tema: Frontend',
             'Сatedratico: Deshko I.P.',
             'Fecha: 01.12.2022',
-            'Pongase en contacto conmigo',
+            'Mis contactos',
             'su-email@ejemplo.com',
             'su nombre',
             'su mensaje importante'
