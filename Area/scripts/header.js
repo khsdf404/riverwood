@@ -251,16 +251,21 @@ class LanguagesObj {
     };
     static TEXT = {
         'ru': [
-            'Страна', 
-            'Регион', 
-            ['К Земле', 'См. в списке'], 
-            'Найти реку!'
+            
         ], 
         'en': [
-            'Country', 
-            'Region', 
-            ['To the Earth', 'See in list'], 
-            'Find river!'
+            'in development...',
+            `
+                If you see this description, it means that the page is under development and will soon be fixed to make the user experience of using the resource even better.
+                <br><br>
+                Please, if you have any ideas/suggestions on how to fix this page, let us know on the main page in the "Contacts" section, in an email or in any media available to you.
+                <br><br>
+                Native speakers of English, Spanish and French are also welcome for more correct translation of pages.
+                <br><br>
+                Thanks.
+            `,
+            'The most significant rivers',
+            'Read more'
         ],
         'fr': [
             'Country', 

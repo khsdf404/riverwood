@@ -237,6 +237,7 @@ const ListSwipes = () => {
     const $views = $js(`#listWrap div`);
     const $viewsList = $views.toJSF();
     const $listPage = $js(`#listPage`);
+    const transition = 'all 500ms ease-in-out';
     let currentIndex = 0; 
 
 
@@ -246,47 +247,99 @@ const ListSwipes = () => {
             'transform': `translateX(0%)`
         });
     }
+    // for cycle-effect
+    $viewsList.get($views.size() - 1).css({
+        'transform': `translateX(${$views.size() * -1 * 100}%)`
+    });
     $listPage.value(`1/${$views.size()}`);
 
 
     function scrollNext(index = null) {
         index = index != null ? index : (currentIndex + 1) % $views.size()
-        if (currentIndex == $views.size() - 1 && index == 0) return scrollPrev(0)
+        if (currentIndex == $views.size() - 1 && index == 0) {
+            $viewsList.get(0).css({
+                'transform': `translateX(${(1) * 100}%)`
+            });
+            setTimeout(() => {
+                $viewsList.get(currentIndex).animate({
+                    'transform': `translateX(${(currentIndex + 1) * -1 * 100}%)`
+                }, transition); 
+                currentIndex = index;
+                $viewsList.get(currentIndex).animate({
+                    'transform': `translateX(${currentIndex * -1 * 100}%)`
+                }, transition);
 
-        for(let i = currentIndex; i < index; i++) {
-            $viewsList.get(i).css({
-                'transform': `translateX(-${(i + 1) * 100}%)`
-            });
-        }
-        for (let i = index; i < $views.size(); i++) {
-            $viewsList.get(i).css({
-                'transform': `translateX(${(i - 1) * -1 * 100}%)`
-            });
-        }
-        currentIndex = index;
-        $viewsList.get(currentIndex).css({
-            'transform': `translateX(${currentIndex* -1 * 100}%)`
-        });
-        
-    }
-    function scrollPrev(index = null) {
-        index = index != null ? index : ($views.size() + currentIndex - 1) % $views.size()
-        if (currentIndex == 0 && index == $views.size() - 1) return scrollNext($views.size() - 1)
 
-        for(let i = currentIndex; i > index; i--) {
-            $viewsList.get(i).css({
-                'transform': `translateX(-${(i - 1) * 100}%)`
-            });
-        }
-        for (let i = index; i > 0; i--) {
+                for(let i = currentIndex + 1; i < $views.size() - 1; i++) {
+                    $viewsList.get(i).css({
+                        'transform': `translateX(${(i - 1) * -1 * 100}%)`
+                    }); 
+                } 
+            }, 1);
+            return;
+        } 
+
+        for(let i = 0; i < currentIndex; i++) {
             $viewsList.get(i).css({
                 'transform': `translateX(${(i + 1) * -1 * 100}%)`
             });
         }
+        $viewsList.get(currentIndex).animate({
+            'transform': `translateX(${(currentIndex + 1) * -1 * 100}%)`
+        }, transition); 
         currentIndex = index;
-        $viewsList.get(currentIndex).css({
-            'transform': `translateX(${currentIndex* -1 * 100}%)`
-        });
+        $viewsList.get(currentIndex).animate({
+            'transform': `translateX(${currentIndex * -1 * 100}%)`
+        }, transition);
+        for(let i = currentIndex + 1; i < $views.size(); i++) {
+            $viewsList.get(i).css({
+                'transform': `translateX(${(i - 1) * -1 * 100}%)`
+            }); 
+        } 
+    }
+    function scrollPrev(index = null) {
+        index = index != null ? index : ($views.size() + currentIndex - 1) % $views.size()
+        if (currentIndex == 0 && index == $views.size() - 1) {
+            $viewsList.get($views.size() - 1).css({
+                'transform': `translateX(${$views.size() * -1 * 100}%)`
+            });
+            setTimeout(() => {
+                $viewsList.get(currentIndex).animate({
+                    'transform': `translateX(100%)`
+                }, transition); 
+                currentIndex = index;
+                $viewsList.get(currentIndex).animate({
+                    'transform': `translateX(${currentIndex * -1 * 100}%)`
+                }, transition);
+
+                for(let i = 1; i < $views.size() - 1; i++) {
+                    $viewsList.get(i).css({
+                        'transform': `translateX(${(i + 1) * -1 * 100}%)`
+                    }); 
+                } 
+            }, 1);
+            return;
+        }
+
+        
+
+        for(let i = currentIndex + 1; i < $views.size(); i++) {
+            $viewsList.get(i).css({
+                'transform': `translateX(${(i - 1) * -1 * 100}%)`
+            }); 
+        }
+        $viewsList.get(currentIndex).animate({
+            'transform': `translateX(${(currentIndex - 1) * -1 * 100}%)`
+        }, transition); 
+        currentIndex = index;
+        $viewsList.get(currentIndex).animate({
+            'transform': `translateX(${currentIndex * -1 * 100}%)`
+        }, transition);
+        for(let i = 0; i < currentIndex; i++) {
+            $viewsList.get(i).css({
+                'transform': `translateX(${(i + 1) * -1 * 100}%)`
+            });
+        }
     }
     function setText() {
         $listPage.value(`${currentIndex + 1}/${$views.size()}`);
