@@ -2,7 +2,12 @@ let areaItem;
 const isPhone = () => {
     return /Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)
 }
-
+function RiverPage(riverItem) {
+    if (riverItem) {
+        localStorage.setItem('riverItem', JSON.stringify(riverItem));
+        window.location.href = '../River/river.html';
+    }
+}
 
 
 const Settings = () => { 
@@ -38,8 +43,7 @@ const Settings = () => {
         if (!isPhone()) return;
         HideSettings();
     });
-}
-
+} 
 const InfiniteScroll = () => {
     let scrollAllowed = true;
     let prevDelta = 0;
@@ -100,7 +104,7 @@ const InfiniteScroll = () => {
         if (!scrollAllowed && Math.abs(e.deltaY) > prevDelta)
             prevDelta = Math.abs(e.deltaY);
         if (Math.abs(e.deltaY) == 0) prevDelta = 0;
-        if (scrollAllowed && Math.abs(e.deltaY) > prevDelta) {
+        if (scrollAllowed && Math.abs(e.deltaY) >= prevDelta) {
             prevDelta = Math.abs(e.deltaY);
             scrollAllowed = false; 
             e.deltaY >= 0 ? scrollNext() : scrollPrev()
@@ -156,7 +160,7 @@ const Significant = () => {
         for(let i = 0; i < topRivers.length; i++) {
             let opacity = 1;
             let html = '';
-            let words = topRivers[i].info.split(' ');
+            let words = LanguagesObj.TranslateInfo(topRivers[i]).split(' ');
             for(let j = 0; j < step; j++) {
                 html += `<span style="opacity:${opacity}">${words[j]} </span>`;
                 opacity -= 1/step;
@@ -178,14 +182,14 @@ const Significant = () => {
 
     $js(`#significant section button`).onClick((e) => {
         let index = e.parent('div').parent(`div`).index()
-        window.location.href = topRivers[index].link;
+        RiverPage(topRivers[index]);
     })
     
 }
 
 const ListLayout = () => {
     function CreateItem(river, index) {
-        return `<span id="${index == 0 ? 'listTemplate' : ''}" style="width: ${cellRect.width}px; height: ${cellRect.height}px">${index + 1}. <a href="${river.link}">${river.name.replace(/\([\D\d^\)]+\)/g, '')}</a></span>`
+        return `<span id="${index == 0 ? 'listTemplate' : ''}" style="width: ${cellRect.width}px; height: ${cellRect.height}px">${index + 1}. <a>${river.name.replace(/\([\D\d^\)]+\)/g, '')}</a></span>`
     }
     function getCols() { 
         if (window.innerWidth < 700) return 2;
@@ -220,17 +224,18 @@ const ListLayout = () => {
         for (let i = 0; i < col && current < riversAmount; i++) {
             for (let j = 0; j < row && current < riversAmount; j++) {
                 current++;
-                pageHTML += CreateItem(areaItem.rivers[i * (row) + j + mod], i * (row) + j + mod);
-                // log(`${current}; ${i * col + j}`)
+                pageHTML += CreateItem(areaItem.rivers[i * (row) + j + mod], i * (row) + j + mod); 
             }
         }
-        mod = current;
-        // log(pageHTML)
+        mod = current; 
         newHTML += pageHTML + '</div>';
     }
 
 
     $list.ihtml(newHTML);
+    $list.find(`a`).onClick((e, event, index) => {
+        RiverPage(areaItem.rivers[index])
+    })
     ListSwipes(); 
 }
 const ListSwipes = () => { 
@@ -383,7 +388,6 @@ const ListSwipes = () => {
     })
 }
 
-
 document.addEventListener("DOMContentLoaded", () => { 
     areaItem =  JSON.parse(localStorage.getItem('areaItem'));
     log(areaItem.rivers.length)
@@ -393,9 +397,7 @@ document.addEventListener("DOMContentLoaded", () => {
     LanguagesObj.Start()
     
     
-    Settings();
-    
-    
+    Settings(); 
     InfiniteScroll();
 
  

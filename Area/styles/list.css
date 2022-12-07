@@ -80,6 +80,8 @@
 #list a {
     color: var(--list-linkColor);
     white-space: nowrap;
+    cursor: pointer;
+    text-decoration: underline;
 }
 
 

@@ -7,13 +7,117 @@ function AreaPage(areaItem) {
         window.location.href = 'Area/area.html';
     }
 }
+function RiverPage(riverItem) {
+    if (riverItem) {
+        localStorage.setItem('riverItem', JSON.stringify(riverItem));
+        window.location.href = 'River/river.html';
+    }
+}
 
 
+function toFloat(str) {
+    return str.replace(/[^0-9,.]+/g, '')
+}
 function removeDuplicates(array, key) {
     let lookup = new Set();
     return array.filter(obj => !lookup.has(obj[key]) && lookup.add(obj[key]));
 }
 
+function toRiversShort() {
+    let t = 'RIVERS = [';
+        RIVERS.forEach(river => {
+            let ru = river.name.replace('(река)', '').replace(/^\s+|\s+$/g, ''); 
+            let location = river.location.replace('" ', '').replace(' "', '').replace(/^\s+|\s+$/g, '')
+            delete river[`name`]
+            delete river[`length`]
+            delete river[`pool`]
+            delete river[`consumption`]
+            delete river[`link`]
+            delete river[`head`]
+            delete river[`estuary`]
+            delete river[`info`]
+            delete river[`image`]
+            delete river[`location`]
+
+            
+            river.ru = ru;
+            river.en = ru;
+            river.fr = ru;
+            river.sp = ru; 
+            river.location = location 
+
+            t += JSON.stringify(river, null, 2);
+            t += ',\n';
+        })
+        log(t + "]")
+}
+function toRivers() {
+    let t = 'RIVERS = [';
+        RIVERS.forEach(river => {
+            let ru = river.name.replace('(река)', '').replace(/^\s+|\s+$/g, '')
+            let length = toFloat(river.length);
+            let pool = toFloat(river.pool);
+            let consumption = toFloat(river.consumption);
+
+            let link = river.link.replace('https://ru.wikipedia.org/wiki/', '')
+            let head =  river.head.replace('" ', '').replace(' "', '').replace(/^\s+|\s+$/g, '')
+            let estuary = river.estuary.replace('" ', '').replace(' "', '').replace(/^\s+|\s+$/g, '')
+            let image = river.image.replace('https://upload.wikimedia.org/wikipedia/commons/thumb/', '')
+            let location = river.location.replace('" ', '').replace(' "', '').replace(/^\s+|\s+$/g, '')
+            delete river[`name`]
+            delete river[`length`]
+            delete river[`pool`]
+            delete river[`consumption`]
+            delete river[`link`]
+            delete river[`head`]
+            delete river[`estuary`]
+            delete river[`info`]
+            delete river[`image`]
+            delete river[`location`]
+
+            
+            river.ru = ru;
+            river.en = ru;
+            river.fr = ru;
+            river.sp = ru;
+            river.ruLink = link
+            river.enLink = link
+            river.frLink = link
+            river.spLink = link
+           
+ 
+
+            river.length = length
+            river.pool = pool
+            river.consumption = consumption
+ 
+            river.location = location
+
+
+            river.ruHead = head
+            river.enHead = head
+            river.frHead = head
+            river.spHead = head
+
+            river.ruEstuary = estuary
+            river.enEstuary = estuary
+            river.frEstuary = estuary
+            river.spEstuary = estuary
+  
+            river.image = image;
+
+            t += JSON.stringify(river, null, 2);
+            t += ',\n';
+        })
+        log(t + "]")
+}
+function LoadScript(src, async) {
+    var script = document.createElement('script');
+    script.src = src;
+    script.async = async;
+    document.head.appendChild(script);
+    return script;
+}
 
 class AsideObj { 
     static $list;
@@ -38,7 +142,7 @@ class AsideObj {
         let div = `<div>`;
         riversArr.forEach(el => {
             div += `
-                <a class="non-select" href="${el.link}" target="_blank" rel="noopener noreferrer">
+                <a class="non-select" target="_blank" rel="noopener noreferrer">
                     <span>➝</span>
                     <ins>${el.name}</ins>
                 </a>
@@ -70,6 +174,11 @@ class AsideObj {
             AreaPage(AreaObj.currentList[index]);
         })
         parent.addClass('sidebar-active-item');
+
+
+        parent.find(`a`).onClick((el) => {
+            RiverPage(AreaObj.currentList[index].rivers[el.index()])
+        })
     }
 
     static Recreate() {
@@ -79,6 +188,8 @@ class AsideObj {
             newHTML += AsideObj.CreateListElem(area.name, area.rivers.length);
         });
         $areaList.ihtml(newHTML);
+
+        
 
         AsideObj.$list = $js(`.list-title`);
         AsideObj.$list.onClick(AsideObj.ClickEvent)
@@ -515,18 +626,16 @@ const Search = () => {
 
 
 document.addEventListener("DOMContentLoaded", () => { 
-    var riversJSON = document.createElement('script');
-    riversJSON.src = 'src/rivers.json';
-    riversJSON.async = false;
-    document.head.appendChild(riversJSON);
+    let RiversLight = LoadScript(`src/RiversLight.js`, false); 
 
 
-    riversJSON.onload = () => {
+    RiversLight.onload = () => {
         for (let i = 0; i < AreaObj.COUNTRIES.length; i++) {
             let country = AreaObj.COUNTRIES[i];
             country.name = LanguagesObj.TranslateObj(country);
             let arr = [];
             for(let j = 0, l = RIVERS.length; j < l; j++) {
+                RIVERS[j].name = LanguagesObj.TranslateObj(RIVERS[j]);
                 if (RIVERS[j].location.indexOf(country.ru) > -1)
                     arr.push(RIVERS[j])
             }
@@ -558,8 +667,44 @@ document.addEventListener("DOMContentLoaded", () => {
 
         AsideObj.Recreate();
         About();
-        Search();
-    }
+        Search();  
+
+
+
+
+        let RiversFull = LoadScript(`src/Rivers.js`, true);
+        RiversFull.onload = () => {
+            log('loaded')
+            for (let i = 0; i < AreaObj.COUNTRIES.length; i++) {
+                let country = AreaObj.COUNTRIES[i];
+                country.name = LanguagesObj.TranslateObj(country);
+                let arr = [];
+                for(let j = 0, l = RIVERS.length; j < l; j++) {
+                    RIVERS[j].name = LanguagesObj.TranslateObj(RIVERS[j]);
+                    if (RIVERS[j].location.indexOf(country.ru) > -1)
+                        arr.push(RIVERS[j])
+                }
+                country.rivers = arr.sort((a, b) => { return a.name < b.name ? -1 : 1 });
+            } 
+            for (let i = 0; i < AreaObj.REGIONS.length; i++) {
+                let reg = AreaObj.REGIONS[i]
+                reg.name = LanguagesObj.TranslateObj(reg);
+                let regArr = [];
+                for(let j = 0, l = reg.obj.length; j < l; j++) {
+                    let country = reg.obj[j]
+                    country.name = LanguagesObj.TranslateObj(country); 
+                    for(let k = 0, L = RIVERS.length; k < L; k++) {
+                        if (RIVERS[k].location.indexOf(country.ru) > -1)
+                            regArr.push(RIVERS[k])
+                    }
+                } 
+                reg.rivers = removeDuplicates(regArr, 'name').sort((a,b) => a.name > b.name ? 1 : -1)
+            }
+        }
+    } 
 });  
 
 
+
+
+ 

@@ -120,8 +120,11 @@ class ThemesObj {
 
     static Light = {
         '--based-color': '#444',
-        '--revert-color': '#fff',
-        '--accent-color': '#8cb9f1', 
+        '--revert-color': '#fffc',
+        '--accent-color': '#8cb9f1',
+        '--light-color': '#fffc',
+        '--dark-color': '#444',
+        '--disabled-color': '#bbb',
 
         '--main-background': '#fef9f2', 
         '--main-background-size': 'initial',
@@ -135,12 +138,12 @@ class ThemesObj {
         '--controls-border': '1px solid #999',
         '--controls-disabledcolor': '#585858',
         '--controls-hoverBackground': '#e4e4e5',
-        '--settings-background': '#d7ddf3c2', // ffffffdf // #bec1e394 // linear-gradient(45deg, #a0beeb, white) // repeating-linear-gradient(138deg, #b5d3ff85, #94b9df6e 50px) // #f9ecdcc7 // linear-gradient(39deg, #ffe7bb, #ffffffad) // #d7ddf3c2
+        '--settings-background': '#d7ddf3c2',
         '--settings-filter': 'drop-shadow(6px 8px 19px #bbb)',
-        '--settingsBtn-background': '#e3dfdf', // #ddeaff // #ebebeb
+        '--settingsBtn-background': '#e3dfdf',
         '--settingsBtn-border': '1px solid #cfcfcf',
     
-        '--sd-background': '#f7f7f7', // #ffffff45
+        '--sd-background': '#f7f7f7',
         '--placeholder-color': '#a0a0a0',
         '--list-background': '#5050502e',
         '--list-headerColor': '#000',
@@ -150,11 +153,14 @@ class ThemesObj {
     static Dark = {
         '--based-color': '#fffc',
         '--revert-color': '#444',
-        '--accent-color': '#8cb9f1', 
+        '--accent-color': '#8cb9f1',
+        '--light-color': '#fffc',
+        '--dark-color': '#444',
+        '--disabled-color': '#555',
 
         '--main-background': 'linear-gradient(130deg, #484848, #15151e)',
         '--main-background-size': 'initial',
-        '--globe-background': 'linear-gradient(104deg, #007eff73, #00023ab3)', // linear-gradient(54deg, #00004c, #0000007a)
+        '--globe-background': 'linear-gradient(104deg, #007eff73, #00023ab3)',
         '--area-title-background': '#0000',
         '--about-background': '#232324',
         '--edge-shadow': '0px 1px 14px -7px #000', 
@@ -163,13 +169,13 @@ class ThemesObj {
         '--controls-border': '1px solid #676767',
         '--controls-disabledcolor': '#b9b9b9',
         '--controls-hoverBackground': '#5c5c5c',
-        '--settings-background': '#82828b94', // #82828b94  // linear-gradient(229deg, #6177b5, #2a2a2a)
+        '--settings-background': '#82828b94',
         '--settings-filter': 'drop-shadow(6px 8px 19px #000)',
         '--settingsBtn-background': '#59595f',
         '--settingsBtn-border': '1px solid #686868',
 
     
-        '--sd-background': '#232324', // #00000059
+        '--sd-background': '#232324',
         '--placeholder-color': '#a0a0a0',
         '--list-background': '#9d9d9d44',
         '--list-headerColor': '#fffc',
@@ -180,6 +186,9 @@ class ThemesObj {
         '--based-color': '#444',
         '--revert-color': '#fff',
         '--accent-color': '#8cb9f1', 
+        '--light-color': '#fffc',
+        '--dark-color': '#444',
+        '--disabled-color': '#bbb',
 
         '--main-background' : 'linear-gradient(135deg, #dcefff 0%,#79c1ff 20%, #46abf5 35%,#1879fb 45%, #4060ff 50%, #1d49ad 60%, #131c6e 70%, #040f46 80%,#000000 90%)',
         '--main-background-size': '250% 250%',
@@ -210,7 +219,10 @@ class ThemesObj {
         '--based-color': '#fffc',
         '--revert-color': '#444',
         '--accent-color': '#8cb9f1', 
-        
+        '--light-color': '#fffc',
+        '--dark-color': '#444',
+        '--disabled-color': '#555',
+
         '--main-background': 'linear-gradient(135deg, #b4dcff 0%,#79c1ff 20%, #46abf5 35%,#1879fb 45%, #4060ff 50%, #1d49ad 60%, #131c6e 70%, #040f46 80%,#000000 90%)', 
         '--main-background-size': '250% 250%',
         '--main-background-position': '75% 75%',
@@ -365,7 +377,8 @@ class LanguagesObj {
 
         localStorage.setItem('lang', JSON.stringify(LanguagesObj.current))
     }
-    static TranslatePage() { 
+    static TranslatePage() {
+        areaItem.name = LanguagesObj.TranslateObj(areaItem);
         $js(`#introduction h2`).text(`${areaItem.name} ${LanguagesObj.CONTENT[0]}`);
         $js(`#introduction p`).ihtml(LanguagesObj.CONTENT[1]);
         
@@ -383,6 +396,16 @@ class LanguagesObj {
             return obj.sp;
         else 
             return obj.ru;
+    } 
+    static TranslateInfo(obj) {
+        if (LanguagesObj.current == LanguagesObj.LANGTYPES.en)
+            return obj.enInfo;
+        else if (LanguagesObj.current == LanguagesObj.LANGTYPES.fr)
+            return obj.frInfo;
+        else if (LanguagesObj.current == LanguagesObj.LANGTYPES.sp)
+            return obj.spInfo;
+        else 
+            return obj.ruInfo;
     }
 }
 
