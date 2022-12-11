@@ -189,7 +189,8 @@ const Significant = () => {
 
 const ListLayout = () => {
     function CreateItem(river, index) {
-        return `<span id="${index == 0 ? 'listTemplate' : ''}" style="width: ${cellRect.width}px; height: ${cellRect.height}px">${index + 1}. <a>${river.name.replace(/\([\D\d^\)]+\)/g, '')}</a></span>`
+        // - 4 in width cuz of 320px reso, in height cuz of margin: 2px 0;
+        return `<span id="${index == 0 ? 'listTemplate' : ''}" style="width: ${cellRect.width - 4}px; height: ${cellRect.height-4}px">${index + 1}. <a>${river.name.replace(/\([\D\d^\)]+\)/g, '')}</a></span>`
     }
     function getCols() { 
         if (window.innerWidth < 700) return 2;
@@ -202,7 +203,7 @@ const ListLayout = () => {
     let cellRect = $js(`#nextBtn`).rect();
     cellRect = {
         width: Math.floor(Math.max(105, rect.width / getCols())),
-        height: $js(`#listTemplate`).rect().height + 4
+        height: $js(`#listTemplate`).rect().height + 8
     }
     log(cellRect)
     

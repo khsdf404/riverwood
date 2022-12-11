@@ -1,0 +1,44 @@
+:root {
+    --mainFont: 'Neris';
+    --addFont: 'Glametrix';
+    --logoFont: 'Philosopher';
+}
+
+html, body {
+    position: relative;
+
+    width: 100%;
+    min-height: 100%;
+    height: 100%;
+
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+ 
+}
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    display: flex;
+    flex-direction: column; 
+    justify-content: flex-start;
+    align-items: center;
+    background: var(--main-background);
+    background-size: var(--main-background-size);
+    background-position: var(--main-background-position);
+    color: var(--based-color);
+    flex: 1; 
+    overflow: auto;
+}
+ 
+main p {
+    font-size: 50px;
+    font-family: 'Glametrix';
+    font-weight: 100;  
+    padding: 50px;
+    width: 70%;
+}
+ 

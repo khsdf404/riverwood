@@ -45,38 +45,14 @@
     border-radius: 4px;
  
     color: var(--based-color);
+    margin: 2px 0;
 
-
-    font-weight: 900;
+    font-weight: var(--list-fontWeight);
     font-size: 16px;
     font-family: 'Neris'; 
     z-index: 1;
+    overflow: hidden;
 }
-#listControls button { 
-    border: none;
-    margin: 0px 4px;
-    flex: 1;
-    background: none;
-
-    font-family: 'Aetherius';
-    color: #444;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 20px;
-} 
-#listControls {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-    border-radius: 4px;
-
-    border: 1px dotted #444; 
-    height: 35px;
-}
-
-
 #list a {
     color: var(--list-linkColor);
     white-space: nowrap;
@@ -85,15 +61,44 @@
 }
 
 
-#list input  {
+
+#listControls {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    border-radius: 4px;
+
+    border: 1px dotted var(--based-color); 
+    height: 35px;
+    opacity: .7;
+}
+#listControls button { 
+    border: none;
+    margin: 0px 4px;
+    flex: 1;
+    background: none;
+
+    font-family: 'Aetherius';
+    color: var(--based-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+} 
+#listControls input  {
     background: none;
     outline: none;
     border: none;
     width: 34px;
     font-size: 16px;
-    font-family: 'Neris';
-    font-weight: 900;
+    font-family: 'Neris'; 
     margin: 0px 0px;
+    color: var(--based-color);
 
     text-align: center;
 }
+
+
+
+
