@@ -189,7 +189,7 @@ const Significant = () => {
 
 const ListLayout = () => {
     function CreateItem(river, index) {
-        // - 4 in width cuz of 320px reso, in height cuz of margin: 2px 0;
+        // - 4 in width cuz of 320px reso, in height cuz of margin: 2px 0
         return `<span id="${index == 0 ? 'listTemplate' : ''}" style="width: ${cellRect.width - 4}px; height: ${cellRect.height-4}px">${index + 1}. <a>${river.name.replace(/\([\D\d^\)]+\)/g, '')}</a></span>`
     }
     function getCols() { 

@@ -34,17 +34,15 @@ section.list-wrap::-webkit-scrollbar {
 }
 section.list-wrap::-webkit-scrollbar-thumb { 
     background: var(--based-color); 
-}
-
-
+} 
 
 
 aside ul {
     position: absolute;
-    width: -webkit-fill-available; 
     
-    padding: 0;  
-    padding-right: 4px;
+    width: calc(100% - 6px);
+
+    padding: 0;   
 
     list-style: none;
 

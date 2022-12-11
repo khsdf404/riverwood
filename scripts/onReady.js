@@ -5,7 +5,7 @@ function isPhone() {
 
 function AreaPage(areaItem) {
     if (areaItem) {
-        if (areaItem.rivers.length < 3) {
+        if (areaItem.rivers.length == 0) {
             window.location.href = `/NotFound/notfound.html`
             return
         }
@@ -503,11 +503,8 @@ const Search = () => {
                     newHTML += `${text.slice(indexOf + val.length, text.length)}`;
                 newHTML += '</a>'
             }
-            else {
-                
-                newHTML += `<a href="${RIVERS[i].link}" target="_blank" rel="noopener noreferrer">${text}`
-                newHTML += '</a>'
-            }
+            else
+                newHTML += `<a href="${RIVERS[i].link}" target="_blank" rel="noopener noreferrer">${text}</a>`
             newHTML += '</li>'
         
         }); 
@@ -550,7 +547,6 @@ const Search = () => {
 document.addEventListener("DOMContentLoaded", () => { 
     let RiversLight = LoadScript(`src/RiversLight.js`, false); 
 
-
     RiversLight.onload = () => {
         for (let i = 0; i < AreaObj.COUNTRIES.length; i++) {
             let country = AreaObj.COUNTRIES[i];
@@ -579,19 +575,14 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         log(RIVERS.length)
 
-
      
-        
         Phone();
         EarthReady();
-
 
 
         AsideObj.Recreate();
         About();
         Search();
-
-
 
 
         let RiversFull = LoadScript(`src/Rivers.js`, true);
@@ -623,7 +614,5 @@ document.addEventListener("DOMContentLoaded", () => {
                 reg.rivers = removeDuplicates(regArr, 'name').sort((a,b) => a.name > b.name ? 1 : -1)
             }
         }
-    }
-
-    
+    } 
 });
