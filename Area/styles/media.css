@@ -117,7 +117,7 @@
     div.header-other {
         margin-top: 20px;
     }
-    div.header-other button#scrollBtn  {
+    div.header-other button#backSign  {
         display: flex;
     }
     div.header-other button#aboutBtn {
@@ -138,11 +138,7 @@
     }
     div.header-theme button { 
         width: calc( var(--btnOneWidth) * (10/3) );
-    }
-    div.header-mobile-scroll button {
-        width: calc( var(--btnOneWidth) * (10/1) );
-    }
-
+    } 
 
     div.header-controls button:hover {
         background-color: none;

@@ -5,7 +5,7 @@ button#settingsBtn {
     display: none;
 } 
 
-
+ 
 header {
     display: flex;
     justify-content: flex-start;
@@ -182,15 +182,12 @@ div.header-language button {
 div.header-theme button { 
     width: calc( var(--btnOneWidth) * (10/3) );
 }
-div.header-other button#scrollBtn {
+div.header-other button#backSign {
     display: none;
     width: calc( var(--btnOneWidth) * (3 * 10/4) );
-}
-div.header-other button#aboutBtn {
-    width: calc( var(--btnOneWidth) * (11/5) );
     font-size: 24px;
-}
-
+    font-weight: var(--list-fontWeight);
+}  
  
 
 
@@ -219,7 +216,7 @@ div.header-language button.active-btn::after {
     background-color: var(--h-background);
     opacity: 1;
 }
-div.header-other button#scrollBtn::after {
+div.header-other button#backSign::after {
     content: '';
     position: absolute;
     height: 60%;

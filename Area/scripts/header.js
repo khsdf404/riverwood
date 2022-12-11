@@ -275,7 +275,9 @@ class LanguagesObj {
             `,
             'Самые значимые реки',
             'Подробнее',
-            'Реки в регионе'
+            'Реки в регионе',
+
+            'Вернуться'
         ], 
         'en': [
             'in development...',
@@ -290,7 +292,9 @@ class LanguagesObj {
             `,
             'The most significant rivers',
             'Read more',
-            'Rivers of'
+            'Rivers of',
+
+            'Return'
         ],
         'fr': [
             'en developpement...',
@@ -305,7 +309,9 @@ class LanguagesObj {
             `,
             'Les rivieres les plus importantes',
             'Lire plus',
-            'Rivieres dans la region'
+            'Rivieres dans la region',
+
+            'Revenir'
         ],
         'sp': [
             'en desarrollo...',
@@ -320,7 +326,9 @@ class LanguagesObj {
             `,
             'Los rios mas significativos',
             'Leer mas',
-            'Rios en la region'
+            'Rios en la region',
+
+            'Regresar'
         ]
     }
 
@@ -386,6 +394,8 @@ class LanguagesObj {
         $js(`#significant button`).text(LanguagesObj.CONTENT[3]);
 
         $js(`#list h2`).ihtml(`${LanguagesObj.CONTENT[4]} <i>«</i>${areaItem.name}<i>»</i>`);
+        
+        $js(`#backSign span`).text(LanguagesObj.CONTENT[5])
     }
     static TranslateObj(obj) {
         if (LanguagesObj.current == LanguagesObj.LANGTYPES.en)

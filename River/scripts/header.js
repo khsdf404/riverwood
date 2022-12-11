@@ -403,10 +403,10 @@ class LanguagesObj {
             ${LanguagesObj.CONTENT[6]}: ${riverItem.ruEstuary ?
                 LanguagesObj.TranslateEstuary(riverItem) : 
                 LanguagesObj.CONTENT[0]}
-        `)
+        `) 
         $js(`#wikiLink`).text(LanguagesObj.CONTENT[7])
 
-        $js(`#backSign span`).ihtml(LanguagesObj.CONTENT[8])
+        $js(`#backSign span`).text(LanguagesObj.CONTENT[8])
 
 
         $js(`h2`).ihtml(LanguagesObj.TranslateObj(riverItem)) 

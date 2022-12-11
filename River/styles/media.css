@@ -153,4 +153,11 @@
         font-size: 24px;
         letter-spacing: 4px;
     } 
+    main h2 {
+        font-size: 24px;
+        width: 70%;
+    }
+    main ul {
+        font-size: 22px;
+    }
 }
