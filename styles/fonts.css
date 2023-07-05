@@ -1,11 +1,12 @@
 @font-face {
-font-family: 'Poppins';
-src: url('Fonts/Poppins/Poppins-Regular.ttf');
-font-weight: normal;
-font-style: normal; }
+    font-family: 'Aetherius';
+    src: url('Fonts/Aetherius.ttf'); }
 @font-face {
-font-family: 'Neris';
-src: url('Fonts/Neris/Neris-Thin.ttf'); }
+    font-family: 'Glametrix';
+    src: url('Fonts/Glametrix.ttf'); }
 @font-face {
-font-family: 'Certege';
-src: url('Fonts/Certege/10648.ttf'); }
+    font-family: 'Neris';
+    src: url('Fonts/Neris.ttf'); }
+@font-face {
+    font-family: 'Philosopher';
+    src: url('Fonts/Philosopher.ttf'); }

@@ -1,0 +1,391 @@
+:root {
+    --title-fs: 50px;
+    --slogan-fs: 20px;
+    --about-big-fs: 30px;
+    --about-small-fs: 26px;
+}
+
+
+#aboutWrap {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: var(--about-background);
+
+    opacity: 0;
+    transform: translateX(100%);
+    transition: 0s all;
+
+    overflow: auto;
+    z-index: 100;
+}
+
+
+
+#aboutWrap::before,
+#aboutWrap::after {
+    content: '';
+    position: absolute;
+
+    top: 20px;
+    left: 20px;
+
+    background: var(--based-color);
+}
+#aboutWrap::before { 
+    width: 35%;
+    max-width: 400px;
+    height: 1px;
+}
+#aboutWrap::after {
+    width: 1px;
+    height: 35%;
+}
+#aboutClose {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: var(--title-fs);
+    width: var(--title-fs);
+
+    top: 25px;
+    left: 25px;
+
+    color: var(--based-color);
+    font-family: none;
+    font-size: var(--title-fs); 
+    font-weight: 900;
+
+    cursor: pointer;
+}
+
+
+
+
+.about-title {
+    margin-bottom: 15px;
+
+    
+    font-family: 'Glametrix';
+    font-weight: 900;
+    font-size: var(--about-big-fs);
+    font-family: 'Glametrix';
+    letter-spacing: 1px;
+
+    background: var(--based-color);
+    color: var(--revert-color);
+    padding: 4px 14px;
+    border-radius: 4px;
+}
+
+
+
+#aboutWrap > section { 
+    margin-left: 20%;
+    margin-right: 20%;
+}
+
+
+
+
+#aboutWrap .about-project { 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: auto;
+    margin-bottom: auto;
+    color: var(--based-color)
+}
+.about-project-name {
+    text-align: center;
+    font-size: var(--title-fs);
+    letter-spacing: 2px;
+    font-family: 'Philosopher';
+    max-width: 70%;
+}
+.about-project-slogan {
+    font-size: var(--slogan-fs);
+    font-family: 'Glametrix';
+    text-align: end;
+}
+.about-project-description { 
+    font-size: var(--about-big-fs);
+    font-family: 'Glametrix';
+}
+.about-project-description a {
+    color: #87a6fd;
+}
+
+
+
+
+
+
+
+
+.about-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
+    margin-top: auto;
+    color: var(--based-color);
+}
+section.about-info ul {
+    margin: 0;
+    padding-left: 20px;
+    border-left: 3px solid var(--based-color);
+    list-style: none;
+}
+section.about-info ul > li {
+    max-width: 300px;
+    margin: 6px 0;
+
+    font-family: 'Glametrix';
+    font-weight: 100;
+    font-size: var(--about-small-fs);
+}
+section.about-info ul > li:first-child {
+    margin: 0 0 6px 0;
+}
+section.about-info ul > li:last-child {
+    margin: 6px 0 0 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.contactsWrap {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-end;
+
+    align-self: flex-end;
+ 
+    width: 400px;
+    max-width: 400px;
+     
+    margin-bottom: auto;
+}
+
+
+
+
+
+
+.contacts {
+    position: relative;
+    display: flex;
+    flex-direction: row;        
+    justify-content: flex-end;
+   
+    width: calc(100% + 44px);
+    margin-right: -44px;
+}
+
+
+
+
+.email-inputs {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-end;
+
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    padding: 0 10px;
+
+    border-right: 3px solid var(--based-color);
+}
+/* .email-inputs::before {
+    content: '';
+    position: absolute;
+
+    width: 25%;
+    height: 0%; 
+    
+    left: 0;
+    top: 0;
+
+    border-left: 1px solid #fff6;
+    border-top: 1px solid #fff6;
+} 
+
+
+
+.email-inputs::after {
+    content: '';
+    position: absolute;
+
+    width: 50%;
+    height: 30%; 
+    
+    left: 0;
+    bottom: 0;
+
+    border-left: 1px solid #fff6;
+    border-bottom: 1px solid #fff6;
+} */
+
+#emailAddress, #emailName {
+    background: none;
+    border: none; 
+
+    width: 100%;
+    height: 34px;   
+    min-height: 34px;
+    padding: 0;
+ 
+
+
+    color: #444;
+    font-family: 'Glametrix';
+    font-weight: 100;
+    font-size: var(--about-small-fs);
+
+    text-align: right;
+}
+
+
+#emailAddress:focus, #emailName:focus {
+    outline: none;
+}
+#emailAddress::placeholder, #emailName::placeholder {
+    font-weight: 900;
+}
+
+ 
+
+
+#emailLetter { 
+    color: var(--based-color);  
+    width: 100%; 
+    height: 100%; 
+
+    padding: 0; 
+
+    background: none;
+    border: none;
+    outline: none;
+
+    font-size: var(--about-small-fs);
+    font-family: 'GLAMETRIX'; 
+    overflow: hidden;
+    resize: none;
+    text-align: right;
+
+    white-space: nowrap;
+}
+#emailLetter:focus {
+    outline: none;
+    border: none;
+} 
+#emailLetter::placeholder {
+    font-weight: 900;
+}
+#emailLetter.align-left {
+    text-align: left;
+    white-space: break-spaces;
+}
+
+
+
+
+.contacts-links {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+.contacts-links a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin: 0 6px;
+    padding: 4px;
+
+    border-radius: 100%;
+    color: var(--based-color);
+
+    overflow: hidden;
+    transition: .15s all;
+}
+#vkLink:hover {
+    color: #0077FF;  
+} 
+#tgLink:hover {
+    color: #4bcff0; 
+} 
+#waLink:hover {
+    color: #5FFC7B; 
+}
+#gitLink:hover {
+    color: #0077FF;
+}  
+
+
+
+
+#sendEmail {
+    transition: .25s all;
+}
+#sendEmail.btn-active:hover {
+    color: var(--based-color);
+    background: var(--accent-color);
+}
+
+
+
+
+
+#aboutError { 
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    
+    width: 100%;
+    min-height: 26px;
+    bottom: 0;
+    left: 0;
+
+    color: var(--based-color);
+    font-family: 'Glametrix';
+    font-size: var(--about-small-fs);
+    font-weight: 900;
+
+    opacity: 0;
+} 
+
+
+
+
+
+ 
+

@@ -1,0 +1,203 @@
+@media (max-width: 920px) {
+    section.header-logo h1 {
+        font-size: 26px;
+        letter-spacing: 6px;
+    }
+
+    section.header-settings {
+        padding: 0;
+    }
+    div.header-controls button {
+        font-size: 16px;
+    }
+
+
+    div.header-language button { 
+        width: calc( var(--btnOneWidth) * (10/4 * 14/16)  );
+    }
+    div.header-choosetype button { 
+        width: calc( var(--btnOneWidth) * (10/2 * 14/16) );
+    }
+    div.header-theme button { 
+        width: calc( var(--btnOneWidth) * (10/3 * 14/16) );
+    }
+
+
+}
+
+@media (max-width: 768px) {
+    header {
+        min-height: 65px;
+    }
+
+
+
+    section.header-logo {
+        justify-content: flex-start; 
+
+        width: 100%;
+        max-width: 100%;
+        min-width: 0px;
+    }
+    section.header-logo img { 
+        height: 36px;
+    }
+    
+
+
+
+    button#settingsBtn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        width: 35px;
+        height: 22px;
+        
+        margin: 0 10px 0 auto;
+        padding: 0; 
+
+        background: none;
+        border-radius: 2px;
+        border: var(--settingsBtn-border); 
+
+        transition: .3s;
+    } 
+    button#settingsBtn.active-btn {
+        background-color: var(--settingsBtn-background);
+        border: none;
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+    button#settingsBtn span {
+        display: flex;
+        
+        width: 3px;
+        height: 3px;
+        margin: 0 2px;
+
+        background: var(--based-color);
+        border-radius: 10px;
+    }
+
+
+
+
+    section.header-settings {
+        position: fixed;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        
+        top: 46px;
+        right: 10px;
+        transform: translateX(260px);
+
+        width: auto;
+        min-width: 0;
+
+        padding: 15px 30px;
+        
+        background: var(--settings-background);
+        filter: var(--settings-filter); 
+        border-radius: 4px;
+        color: #fff;
+
+        overflow: hidden;
+        z-index: 10; 
+    }
+    div.header-language,
+    div.header-choosetype,
+    div.header-theme,
+    div.header-other {
+        margin: 2px 0;
+        border: none;
+    } 
+    div.header-other {
+        margin-top: 20px;
+    }
+    div.header-other button#backSign  {
+        display: flex;
+    }
+    div.header-other button#aboutBtn {
+        width: calc( var(--btnOneWidth) * (10/4) );
+    }
+    
+    
+
+
+
+
+    div.header-language button { 
+        width: calc( var(--btnOneWidth) * (10/4)  );
+        font-size: 15px;
+    }
+    div.header-choosetype button { 
+        width: calc( var(--btnOneWidth) * (10/2) );
+    }
+    div.header-theme button { 
+        width: calc( var(--btnOneWidth) * (10/3) );
+    } 
+
+    div.header-controls button:hover {
+        background-color: none;
+    }
+
+
+
+
+
+
+    
+
+
+    #significant section {
+        flex-direction: column;
+        flex-wrap: wrap;
+    }
+    #significant section div.significant-background {
+        width: 100%;
+        height: 32%;  
+    }
+    #significant section div.significant-content {
+        transform: translateY(45%);
+    }
+    #significant section div.significant-content p {
+        display: none;
+    }
+    #significant section div.significant-content button {
+        margin: 0;
+    }
+}
+
+
+
+
+@media (max-width: 600px) {
+    
+
+
+
+    section.header-logo h1 {
+        font-size: 24px;
+        letter-spacing: 4px;
+    }
+
+
+
+    #introduction h2 {
+        font-size: 30px;
+        margin-bottom: 50px;
+    }
+    #introduction p {
+        font-size: 16px;
+    }
+    #listControls {
+        width: 100%;
+    }
+
+    #list span { 
+        font-size: 14px; 
+    }
+}
