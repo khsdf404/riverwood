@@ -20,7 +20,7 @@ const About = () => {
  
 
     $js(`#aboutClose`).onClick(() => {
-         window.location.href = '../index.html'
+         window.location.href = '/Index/index.html'
          return;
         $aboutWrap.animate({
             'transform': 'translateX(100%)'

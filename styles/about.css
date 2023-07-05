@@ -18,8 +18,7 @@
     left: 0;
     background: var(--about-background);
 
-    opacity: 0;
-    transform: translateX(100%);
+   
     transition: 0s all;
 
     overflow: auto;
@@ -137,7 +136,7 @@
     flex-direction: column;
     justify-content: flex-end;
     align-items: flex-start;
-    margin-top: auto;
+    margin: auto 0;
     color: var(--based-color);
 }
 section.about-info ul {
