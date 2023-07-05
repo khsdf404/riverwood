@@ -26,8 +26,6 @@ class ThemesObj {
 
 
         $js(`.header-theme button`).onEvent('click', (e) => { 
-            log(e)
-            log('bebroid    ')
             if (e.hasClass(`active-btn`)) return;
             
             e.parent()

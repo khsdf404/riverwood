@@ -46,7 +46,6 @@ const ClickEffect = (e) => {
 
 document.addEventListener("DOMContentLoaded", () => { 
     riverItem =  JSON.parse(localStorage.getItem('riverItem'));
-    log(riverItem) 
 
     ThemesObj.Start()
     LanguagesObj.Start()

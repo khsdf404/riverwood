@@ -204,16 +204,10 @@ const ListLayout = () => {
         width: Math.floor(Math.max(105, rect.width / getCols())),
         height: $js(`#listTemplate`).rect().height + 4
     }
-    log(cellRect)
     
 
     let col = getCols()
     let row = Math.floor(rect.height / (cellRect.height))
-
-    log(`wrap: ${rect.width}, ${rect.height}`)
-    log(`cell: ${cellRect.width}, ${cellRect.height}`)
-    log(`table: ${col}x${row}`)
-
 
     let newHTML = '';
     let current = 0;
@@ -353,7 +347,6 @@ const ListSwipes = () => {
         }
     }
     function setText() {
-        log(currentIndex)
         $listPage.value(`${currentIndex + 1}/${$views.size()}`);
     }
 
@@ -374,7 +367,6 @@ const ListSwipes = () => {
         e.value('');
     })
     $listPage.onEvent('keydown', (e, event) => {
-        log(event)
         if (event.keyCode == 13) {
             let num = parseInt(e.value()) - 1
             if (num > $views.size() || num < 0 || num == currentIndex)
@@ -390,7 +382,6 @@ const ListSwipes = () => {
 
 document.addEventListener("DOMContentLoaded", () => { 
     areaItem =  JSON.parse(localStorage.getItem('areaItem'));
-    log(areaItem.rivers.length)
 
 
     ThemesObj.Start()
