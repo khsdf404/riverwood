@@ -177,7 +177,7 @@ function setName(name = '') {
 class D3 {
     static QueueData() {
         d3.queue()
-            .defer(d3.json, "/src/countriesInfo.json")
+            .defer(d3.json, "src/countriesInfo.json")
             .await(D3.LoadData);
     }
     static LoadData = (error, world) => {
